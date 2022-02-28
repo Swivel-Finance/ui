@@ -1,0 +1,74 @@
+/**
+ * scroll-table relies on the browser's table layout algorithm to get the correct table cell sizing for free:
+ * - we let the browser layout the table (by using default table styles to begin with)
+ * - once the scoll-table behavior has grabbed the column widths, it will set the column widths explicitly
+ *   and add the `scroll-table` class to indicate the table was processed
+ * - with the `scroll-table` class applied, the table styles are upgraded to make the tbody scrollable
+ *   (practically disconnecting the tbody from the table layout), allow for the thead to be scroll-synced
+ *   and add various improvements (e.g. fade out header cells towards the borders, compensate for tbody scrollbars, etc)
+ *
+ * because we use the default browser table layout to begin with, we need to wrap the table in a responsive
+ * flex container with overflow, so the table doesn't destroy the parent component's layout upon initialization
+ */
+
+/* scroll table area */
+
+.ui-scroll-table-area {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  /* we need `overflow: auto;` to include scrollbar dimensions in the `clientHeight/clientWidth` calculations */
+  overflow: auto;
+}
+
+/* table */
+
+table.ui-scroll-table {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  /* limit the table to its container size to force the tbody to overflow */
+  max-width: 100%;
+  max-height: 100%;
+}
+
+/* table head */
+
+table.ui-scroll-table thead {
+  display: block;
+  flex: 0 0 auto;
+  overflow: hidden;
+}
+
+/* add additional table header cell to compensate for the width of the vertical scrollbar on the tbody */
+table.ui-scroll-table.ui-vertical thead tr::after {
+  content: '';
+  display: table-cell;
+  min-width: var(--scrollbar-width);
+  max-width: var(--scrollbar-width);
+}
+
+/* table body */
+
+table.ui-scroll-table tbody {
+  display: block;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+table.ui-scroll-table.ui-vertical tbody {
+  overflow-y: auto;
+}
+
+table.ui-scroll-table.ui-horizontal tbody {
+  overflow-x: auto;
+}
+
+/* table cells */
+
+/* set the box-sizing of the table cells to border-box to ensure
+the calculated min-/max-width styles include the padding */
+table.ui-scroll-table th,
+table.ui-scroll-table td {
+  box-sizing: border-box;
+}

@@ -1,0 +1,20 @@
+{
+  "root": true,
+  "extends": [
+    "@swivel-finance"
+  ],
+  "ignorePatterns": [
+    "./dist",
+    "*.js"
+  ],
+  "rules": {
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": [
+          "\\.js$"
+        ]
+      }
+    ]
+  }
+}

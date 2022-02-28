@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel-ui/behaviors/focus</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel-ui/behaviors/focus</h1>
+
+  <h2>FocusMonitor</h2>
+  <div class="focus-monitor">
+    <div class="panel left" tabindex="0" id="left">
+      <p>Left</p>
+      <div class="panel" tabindex="0" id="left-child">
+        <p>Left Child</p>
+        <div class="panel" tabindex="0" id="left-leaf">
+          <p>Left Leaf</p>
+        </div>
+      </div>
+    </div>
+    <div class="panel right" tabindex="0" id="right">
+      <p>Right</p>
+      <div class="panel" tabindex="0" id="right-child">
+        <p>Right Child</p>
+        <div class="panel" tabindex="0" id="right-leaf">
+          <p>Right Leaf</p>
+        </div>
+      </div>
+    </div>
+    <pre class="output"></pre>
+  </div>
+
+  <h2>FocusTrap</h2>
+  <div class="focus-trap">
+    <h3>Empty FocusTrap</h3>
+    <button type="button" class="attach-focus-trap left">Toggle FocusTrap</button>
+    <div class="panel left" tabindex="0" id="left"></div>
+    <h3>Non-Empty FocusTrap</h3>
+    <button type="button" class="attach-focus-trap right">Toggle FocusTrap</button>
+    <div class="panel right" tabindex="0" id="right">
+      <a href="#">Link</a>
+      <button type="button">Button</button>
+      <button type="button" disabled>Disabled Button</button>
+      <button type="button" hidden>Hidden Button</button>
+      <input type="text" placeholder="Input">
+      <select><option>Select</option></select>
+      <textarea>Textarea</textarea>
+      <p>Paragraph</p>
+      <p tabindex="-1">Focusable Paragraph</p>
+      <p tabindex="0">Tabbable Paragraph</p>
+    </div>
+  </div>
+
+  <script src="/dist/demo/behaviors/focus/main.js" type="module"></script>
+</body>
+
+</html>

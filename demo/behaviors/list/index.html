@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel-ui/behavior/list</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>@swivel-ui/behavior/list</h1>
+  </header>
+
+  <aside class="config">
+
+    <h2>Configuration</h2>
+
+    <ul>
+      <li>
+        <label><code>role</code></label>
+        <code>listbox</code>,
+        <code>menu</code>,
+        <code>tablist</code>
+      </li>
+      <li>
+        <label><code>itemRole</code></label>
+        <code>option</code>,
+        <code>menuitem</code>,
+        <code>menuitemcheckbox</code>,
+        <code>menuitemradio</code>,
+        <code>tab</code>
+      </li>
+      <li>
+        <label><code>orientation</code></label>
+        <code>vertical</code>,
+        <code>horizontal</code>,
+        <code>undefined</code>
+      </li>
+    </ul>
+
+  </aside>
+
+  <main>
+
+    <noscript>
+      <h1>JavaScript disabled</h1>
+      <p>You need to enable JavaScript in order to run this web application.</p>
+    </noscript>
+
+    <h3>ListBehavior</h3>
+
+    <div class="filter">
+      <input type="text" placeholder="Search Items..." role="combobox" aria-autocomplete="list" aria-controls="listbox"
+        aria-expanded="true">
+      <ul id="listbox">
+        <li>
+          Option One
+        </li>
+        <li>
+          Option Two
+        </li>
+        <li>
+          Option Three
+        </li>
+        <li>
+          Option Four
+        </li>
+        <li aria-disabled="true">
+          Option Five
+        </li>
+        <li>
+          Option Six
+        </li>
+        <li>
+          Option Seven
+        </li>
+      </ul>
+    </div>
+
+    <h3>FocusListBehavior</h3>
+
+    <div class="menu">
+      <ul id="menu">
+        <li>
+          Option One
+        </li>
+        <li>
+          Option Two
+        </li>
+        <li>
+          Option Three
+        </li>
+        <li>
+          Option Four
+        </li>
+        <li aria-disabled="true">
+          Option Five
+        </li>
+        <li>
+          Option Six
+        </li>
+        <li>
+          Option Seven
+        </li>
+      </ul>
+    </div>
+
+  </main>
+
+  <script src="/dist/demo/behaviors/list/main.js" type="module"></script>
+</body>
+
+</html>

@@ -1,0 +1,53 @@
+@import '../../theme.css';
+@import '../../reset.css';
+@import '../../layout.css';
+
+
+/* demo */
+
+.ui-active {
+  color: var(--color-fg-active);
+  background-color: var(--color-bg-active);
+}
+
+.ui-selected {
+  color: var(--color-fg-selected);
+  background-color: var(--color-bg-selected);
+}
+
+[aria-disabled=true] {
+  color: var(--color-fg-disabled);
+  background-color: var(--color-bg-disabled);
+}
+
+.filter, .menu {
+  margin-block-start: var(--line-height);
+  padding: var(--line-height);
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-size);
+  border: var(--border);
+  max-height: calc(var(--line-height) * 10);
+}
+
+.filter > input {
+  flex: 0 0 auto;
+}
+
+.filter ul, .menu ul {
+  flex: 1 1 auto;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.filter li, .menu li {
+  flex: 0 0 auto;
+  padding: var(--grid-size);
+}
+
+.filter li:not([aria-disabled=true]):not([aria-selected=true]):hover,
+.menu li:not([aria-disabled=true]):not([aria-selected=true]):hover {
+  color: var(--color-fg-active);
+  background-color: var(--color-bg-active);
+}

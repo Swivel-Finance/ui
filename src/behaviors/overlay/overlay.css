@@ -1,0 +1,16 @@
+.ui-overlay {
+  position: absolute;
+  overflow: auto;
+  contain: content;
+  will-change: top, left;
+}
+
+.ui-invisible {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.ui-visible {
+  opacity: 1;
+  pointer-events: all;
+}

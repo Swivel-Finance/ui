@@ -1,0 +1,65 @@
+:root {
+  --rem-ratio: 1;
+  --grid-ratio: 0.5;
+  --font-ratio: 1;
+  --line-ratio: 1.5;
+
+  --grid-size: calc(1rem * var(--grid-ratio));
+  --grid-size-s: calc(var(--grid-size) / 2);
+  --grid-size-xs: calc(var(--grid-size-s) / 2);
+  --grid-size-l: calc(var(--grid-size) * 2);
+  --grid-size-xl: calc(var(--grid-size-l) * 2);
+  --font-size: calc(1rem * var(--font-ratio));
+  --font-size-s: calc(var(--font-size) - var(--grid-size-s));
+  --font-size-xs: calc(var(--font-size-s) - var(--grid-size-xs));
+  --font-size-l: calc(var(--font-size) + var(--grid-size-xs));
+  --font-size-xl: calc(var(--font-size) + var(--grid-size));
+  --font-size-xxl: calc(var(--font-size) + var(--grid-size-l));
+  --font-size-xxxl: calc(var(--font-size-xxl) + var(--grid-size));
+  --line-height: calc(1rem * var(--line-ratio));
+  --line-height-s: var(--line-height);
+  --line-height-xs: var(--line-height);
+  --line-height-l: var(--line-height);
+  --line-height-xl: calc(var(--line-height) + var(--grid-size));
+  --line-height-xxl: calc(var(--line-height) + var(--grid-size) * 2);
+  --line-height-xxxl: calc(var(--line-height) + var(--grid-size) * 3);
+
+  --font-family: Helvetica, Arial, sans-serif;
+  --font-family-mono: monospace, monospace;
+  --font-weight: normal;
+  --font-weight-bold: bold;
+
+  --color-bg-lvl0: #fff;
+  --color-fg-lvl0-hc: #000;
+  --color-fg-lvl0-mc: #444;
+  --color-fg-lvl0-lc: #888;
+
+  --color-bg-lvl1: #eee;
+  --color-fg-lvl1-hc: #000;
+  --color-fg-lvl1-mc: #333;
+  --color-fg-lvl1-lc: #666;
+
+  --color-bg: var(--color-bg-lvl0);
+  --color-fg: var(--color-fg-lvl0-mc);
+  --color-brd: #ddd;
+  --color-bd: #000;
+
+  --color-bg-active: skyblue;
+  --color-fg-active: var(--color-fg);
+
+  --color-bg-selected: dodgerblue;
+  --color-fg-selected: var(--color-bg);
+
+  --color-bg-disabled: var(--color-bg);
+  --color-fg-disabled: #aaa;
+
+  --scrollbar-width: 1rem;
+  --border-width: 1px;
+  --border-radius: var(--grid-size-s);
+
+  --border: var(--border-width) solid var(--color-brd);
+  --shadow: 0 var(--grid-size-s) var(--grid-size) 0 rgba(0, 0, 0, .1);
+
+  --transition-duration: .3s;
+  --transition-timing: ease;
+}

@@ -1,0 +1,79 @@
+@import '../../theme.css';
+@import '../../reset.css';
+@import '../../../src/behaviors/overlay/overlay.css';
+
+body {
+  overflow: auto;
+}
+
+.container {
+  position: relative;
+  overflow: scroll;
+  height: calc(50 * var(--grid-size));
+  width: calc(100 * var(--grid-size));
+  border: var(--border);
+}
+
+.pane {
+  display: grid;
+  justify-items: center;
+  gap: var(--line-height);
+  padding-block: var(--line-height);
+  padding-inline: var(--line-height);
+  width: 200vw;
+}
+
+.spacer {
+  height: calc(60 * var(--grid-size));
+}
+
+ui-backdrop {
+  background-color: var(--color-bd);
+  transition: opacity var(--transition-duration) var(--transition-timing);
+}
+ui-backdrop.ui-visible {
+  opacity: .5;
+}
+
+.ui-overlay {
+  padding-block: var(--line-height);
+  padding-inline: var(--line-height);
+  background-color: var(--color-bg);
+  border: var(--border);
+  box-shadow: var(--shadow);
+}
+
+.overlay {
+  max-width: calc(100vw - var(--line-height) * 2);
+  max-height: calc(100vh - var(--line-height) * 2);
+}
+
+.overlay.ui-invisible {
+  /* the !important is there when used with the centered-position-strategy */
+  transform: translateY(-50vw) !important;
+}
+
+.overlay.ui-animate-in,
+.overlay.ui-animate-out {
+  transition-property: opacity, transform;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}
+
+.tooltip {
+  max-width: calc(var(--grid-size) * 40);
+  padding-block: var(--grid-size);
+  padding-inline: var(--grid-size);
+}
+
+.tooltip.ui-invisible {
+  transform: translateY(var(--line-height)) !important;
+}
+
+.tooltip.ui-animate-in,
+.tooltip.ui-animate-out {
+  pointer-events: none;
+  transition-property: opacity, transform;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}

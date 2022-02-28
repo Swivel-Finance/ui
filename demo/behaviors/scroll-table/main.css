@@ -1,0 +1,97 @@
+@import '../../../src/behaviors/scroll-table/scroll-table.css';
+
+:root {
+  --line-height: 1.5rem;
+  --scrollbar-width: 1rem;
+  --border-width: 1px;
+  --border-color: #ddd;
+  --header-bg-color: #eee;
+}
+
+html {
+  font-size: 100%;
+}
+
+body {
+  font: 1rem/1.5rem sans-serif;
+}
+
+/* default table styles */
+
+table {
+  border-spacing: 0;
+  border-collapse: separate;
+}
+
+th, td {
+  padding: 0.5rem;
+  text-align: left;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+th,
+table.ui-scroll-table.ui-vertical thead tr::after {
+  padding-bottom: calc(0.5rem - var(--border-width));
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+.ui-scroll-table-area {
+  margin-block-start: 1.5rem;
+  width: 50rem;
+  height: calc(2.5rem * 4);
+}
+
+/* border table styles */
+
+.ui-scroll-table-area.borders {
+  /* compensate for table area border */
+  height: calc(2.5rem * 4 - var(--border-width) * 2);
+  border: var(--border-width) solid var(--border-color);
+}
+
+.ui-scroll-table-area.borders table {
+  border-collapse: separate;
+  /* this is only necessary if we want the fade-in/out overlays on the header */
+  position: relative;
+}
+
+.ui-scroll-table-area.borders th,
+.ui-scroll-table-area.borders td {
+  padding: 0.5rem 1rem;
+}
+
+.ui-scroll-table-area.borders th,
+.ui-scroll-table-area.borders table.ui-scroll-table.ui-vertical thead tr::after {
+  background-color: var(--header-bg-color);
+}
+
+.ui-scroll-table-area.borders th:not(:last-child),
+.ui-scroll-table-area.borders td:not(:last-child) {
+  border-right: var(--border-width) solid var(--border-color);
+}
+
+.ui-scroll-table-area.borders th,
+.ui-scroll-table-area.borders tr:not(:last-child) td {
+  padding-bottom: calc(0.5rem - var(--border-width));
+  border-bottom: var(--border-width) solid var(--border-color);
+}
+
+/* table header fade-in/out */
+
+.ui-scroll-table-area.borders table.ui-scroll-table thead::before,
+.ui-scroll-table-area.borders table.ui-scroll-table thead::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1rem;
+  height: calc(var(--line-height) + 1rem - var(--border-width));
+  background-image: linear-gradient(to right, var(--header-bg-color), transparent);
+}
+
+.ui-scroll-table-area.borders table.ui-scroll-table thead::after {
+  left: auto;
+  right: 0;
+  background-image: linear-gradient(to left, var(--header-bg-color), transparent);
+}

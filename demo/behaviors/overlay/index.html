@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel-ui/behaviors/overlay</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+
+  <header>
+    <h1>@swivel-ui/behaviors/overlay</h1>
+  </header>
+
+  <aside class="config">
+
+    <h2>Configuration</h2>
+
+    <form id="config">
+      <ul>
+        <li>
+          <label for="position">Position Behavior</label>
+          <select id="position">
+            <option value="connected">Connected</option>
+            <option value="centered">Centered</option>
+            <option value="fullscreen">Fullscreen</option>
+          </select>
+        </li>
+        <li>
+          <label for="zone">Safe Zone</label>
+          <select id="zone">
+            <option value="line">Line Height [var(--line-height)]</option>
+            <option value="viewport">Viewport [0]</option>
+            <option value="none">None</option>
+          </select>
+        </li>
+        <li>
+          <label for="offset">Offset</label>
+          <select id="offset">
+            <option value="none">None</option>
+            <option value="line">Line Height [var(--line-height)]</option>
+          </select>
+        </li>
+        <li>
+          <label for="width">Width</label>
+          <select id="width">
+            <option value="none">None</option>
+            <option value="viewport">Half Viewport [50vw]</option>
+            <option value="origin">Origin [Trigger Width]</option>
+          </select>
+        </li>
+        <li>
+          <label for="focustrap">Trap Focus</label>
+          <input type="checkbox" id="focustrap">
+        </li>
+        <li>
+          <label for="backdrop">Backdrop</label>
+          <input type="checkbox" id="backdrop">
+        </li>
+        <li>
+          <label for="animated">Animated</label>
+          <input type="checkbox" id="animated">
+        </li>
+      </ul>
+    </form>
+
+  </aside>
+
+  <main>
+
+    <noscript>
+      <h1>JavaScript disabled</h1>
+      <p>You need to enable JavaScript in order to run this web application.</p>
+    </noscript>
+
+    <div class="container">
+
+      <div class="pane">
+
+        <div class="spacer"></div>
+
+        <button id="overlay-trigger">Toggle Overlay</button>
+
+        <button id="overlay-detach">Detach Overlay</button>
+
+        <p>I have a <a href="#">tooltip</a>.</p>
+
+        <button id="pointer-toggle">Toggle Pointer Tip</button>
+
+        <div class="spacer"></div>
+
+        <div id="overlay" class="overlay" tabindex="-1" hidden>
+          <header>
+            <h2>Overlay Title</h2>
+          </header>
+          <section>
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, id? Tenetur, dolorem corporis?
+              Fugiat repudiandae officia, hic quae quam architecto?</p>
+
+            <button id="nested-overlay-trigger" type="button">Nested Overlay</button>
+
+            <button id="nested-overlay-2-trigger" type="button">Another Nested Overlay</button>
+
+            <div id="nested-overlay" class="overlay" hidden>
+              <header>
+                <h2>Nested Overlay Title</h2>
+              </header>
+              <section>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, id? Tenetur, dolorem corporis?
+                  Fugiat repudiandae officia, hic quae quam architecto?</p>
+                <button id="nested-nested-overlay-trigger" type="button">Nested Overlay</button>
+                <div id="nested-nested-overlay" class="overlay" hidden>
+                  <header>
+                    <h2>Nested Nested Overlay Title</h2>
+                  </header>
+                  <section>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, id? Tenetur, dolorem corporis?
+                      Fugiat repudiandae officia, hic quae quam architecto?</p>
+                  </section>
+                </div>
+              </section>
+              <footer>
+                <button type="button">Done</button>
+              </footer>
+            </div>
+
+            <div id="nested-overlay-2" class="overlay" hidden>
+              <header>
+                <h2>Nested Overlay 2 Title</h2>
+              </header>
+              <section>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, id? Tenetur, dolorem corporis?
+                  Fugiat repudiandae officia, hic quae quam architecto?</p>
+                <button id="nested-nested-overlay-2-trigger" type="button">Nested Overlay</button>
+                <div id="nested-nested-overlay-2" class="overlay" hidden>
+                  <header>
+                    <h2>Nested Nested Overlay 2 Title</h2>
+                  </header>
+                  <section>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Voluptatem, id? Tenetur, dolorem corporis?
+                      Fugiat repudiandae officia, hic quae quam architecto?</p>
+                  </section>
+                </div>
+              </section>
+              <footer>
+                <button type="button">Done</button>
+              </footer>
+            </div>
+
+          </section>
+          <footer>
+            <button type="button">Done</button>
+          </footer>
+        </div>
+
+        <div class="tooltip" hidden>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </div>
+
+        <div class="tooltip pointer" hidden>
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <script src="/dist/demo/behaviors/overlay/main.js" type="module"></script>
+</body>
+
+</html>
