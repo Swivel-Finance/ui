@@ -49,7 +49,7 @@ export class ScrollTableBehavior extends Behavior {
         return true;
     }
 
-    detach () {
+    detach (): boolean {
 
         if (!this.hasAttached) return false;
 
@@ -62,13 +62,13 @@ export class ScrollTableBehavior extends Behavior {
         return super.detach();
     }
 
-    update () {
+    update (): void {
 
         this.syncLayout();
         this.syncScroll();
     }
 
-    protected addListeners () {
+    protected addListeners (): void {
 
         if (this.body) {
 
@@ -78,12 +78,12 @@ export class ScrollTableBehavior extends Behavior {
         this.eventManager.listen(window, 'resize', debounce(this.handleResize.bind(this)));
     }
 
-    protected removeListeners () {
+    protected removeListeners (): void {
 
         this.eventManager.unlistenAll();
     }
 
-    protected syncLayout () {
+    protected syncLayout (): void {
 
         // we first reset the layout, so the browser can auto-layout the table
         this.resetLayout();
@@ -126,7 +126,7 @@ export class ScrollTableBehavior extends Behavior {
         this.element?.classList.add(this.config.class);
     }
 
-    protected resetLayout () {
+    protected resetLayout (): void {
 
         if (!this.head || !this.body) return;
 
@@ -146,19 +146,19 @@ export class ScrollTableBehavior extends Behavior {
         });
     }
 
-    protected syncScroll () {
+    protected syncScroll (): void {
 
         if (!this.head) return;
 
         this.head.scrollLeft = this.body?.scrollLeft ?? 0;
     }
 
-    protected handleScroll () {
+    protected handleScroll (): void {
 
         this.syncScroll();
     }
 
-    protected handleResize () {
+    protected handleResize (): void {
 
         void this.syncLayout();
     }

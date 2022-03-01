@@ -105,14 +105,14 @@ export class PositionBehavior extends Behavior {
         return this.updateTask.done;
     }
 
-    update (origin?: Origin, size?: Size) {
+    update (origin?: Origin, size?: Size): void {
 
         const styles = this.updatePosition(origin, size);
 
         this.updateStyles(styles);
     }
 
-    protected initialize () {
+    protected initialize (): void {
 
         const { zone, offset } = this.initializeOffsets();
 
@@ -131,17 +131,17 @@ export class PositionBehavior extends Behavior {
         };
     }
 
-    protected addAttributes () {
+    protected addAttributes (): void {
 
         this.attributeManager?.set('style', styleAttribute(this.styles));
     }
 
-    protected removeAttributes () {
+    protected removeAttributes (): void {
 
         this.attributeManager?.restoreAll();
     }
 
-    protected addListeners () {
+    protected addListeners (): void {
 
         if (!this.element) return;
 
@@ -150,13 +150,13 @@ export class PositionBehavior extends Behavior {
         this.mutationObserver.observe(this.element, { childList: true, subtree: true });
     }
 
-    protected removeListeners () {
+    protected removeListeners (): void {
 
         this.eventManager.unlistenAll();
         this.mutationObserver.disconnect();
     }
 
-    protected handleScroll (event: Event) {
+    protected handleScroll (event: Event): void {
 
         if (!this.element || !this.hasAttached) return;
 
@@ -167,7 +167,7 @@ export class PositionBehavior extends Behavior {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected handleResize (event: Event) {
+    protected handleResize (event: Event): void {
 
         if (!this.element || !this.hasAttached) return;
 
@@ -175,7 +175,7 @@ export class PositionBehavior extends Behavior {
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected handleMutation (mutations: MutationRecord[], observer: MutationObserver) {
+    protected handleMutation (mutations: MutationRecord[], observer: MutationObserver): void {
 
         if (!this.element || !this.hasAttached) return;
 
@@ -287,7 +287,7 @@ export class PositionBehavior extends Behavior {
         }
     }
 
-    protected updateStyles (styles: PositionStyles = {}) {
+    protected updateStyles (styles: PositionStyles = {}): void {
 
         if (!this.element || !this.hasAttached) return;
 

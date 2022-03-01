@@ -83,7 +83,7 @@ export class OverlayStack {
      * @param show - `true` if the overlay is shown, `false` otherwise
      * @param detaching - `true` if the overlay is being detached
      */
-    update (overlay: OverlayBehavior, show: boolean, detaching = false) {
+    update (overlay: OverlayBehavior, show: boolean, detaching = false): void {
 
         // reverse the stack: the last overlay in the stack is the top-most and current overlay
         const stack = [...this.stack].reverse();

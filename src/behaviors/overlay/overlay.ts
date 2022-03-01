@@ -224,14 +224,14 @@ export class OverlayBehavior extends Behavior {
             : await this.hide(interactive);
     }
 
-    async update () {
+    async update (): Promise<void> {
 
         if (this.hidden || !this.element) return;
 
         await this.config.positionBehavior?.requestUpdate();
     }
 
-    protected addAttributes () {
+    protected addAttributes (): void {
 
         if (!this.element) return;
 
@@ -241,14 +241,14 @@ export class OverlayBehavior extends Behavior {
         this.attributeManager?.set('aria-modal', this.config.modal);
     }
 
-    protected removeAttributes () {
+    protected removeAttributes (): void {
 
         if (!this.element) return;
 
         this.attributeManager?.restoreAll();
     }
 
-    protected addListeners () {
+    protected addListeners (): void {
 
         if (!this.element) return;
 
@@ -256,33 +256,33 @@ export class OverlayBehavior extends Behavior {
         this.eventManager.listen(this.element, 'ui-focus-changed', event => this.handleFocusChange(event as FocusChangeEvent));
     }
 
-    protected removeListeners () {
+    protected removeListeners (): void {
 
         this.eventManager.unlistenAll();
     }
 
-    protected updateStack (detaching = false) {
+    protected updateStack (detaching = false): void {
 
         if (!this.config.stacked) return;
 
         this.static.stack.update(this, !this.hidden, detaching);
     }
 
-    protected showBackdrop () {
+    protected showBackdrop (): void {
 
         if (!this.config.backdrop || !this.element) return;
 
         void this.static.backdrop.show(this.element);
     }
 
-    protected hideBackdrop () {
+    protected hideBackdrop (): void {
 
         if (!this.config.backdrop || !this.element) return;
 
         void this.static.backdrop.hide(this.element);
     }
 
-    protected moveToRoot () {
+    protected moveToRoot (): void {
 
         if (!this.element || this.element.parentNode === this.root) return;
 
@@ -295,7 +295,7 @@ export class OverlayBehavior extends Behavior {
         this._moving = false;
     }
 
-    protected moveFromRoot () {
+    protected moveFromRoot (): void {
 
         if (!this.element || this.element.parentNode !== this.root) return;
 
@@ -306,7 +306,7 @@ export class OverlayBehavior extends Behavior {
         this._moving = false;
     }
 
-    protected handleKeyDown (event: KeyboardEvent) {
+    protected handleKeyDown (event: KeyboardEvent): void {
 
         switch (event.key) {
 
@@ -321,7 +321,7 @@ export class OverlayBehavior extends Behavior {
         }
     }
 
-    protected handleFocusChange (event: FocusChangeEvent) {
+    protected handleFocusChange (event: FocusChangeEvent): void {
 
         // only handle FocusChangeEvents which are dispatched on this overlay's element
         if (event.target !== this.element) return;

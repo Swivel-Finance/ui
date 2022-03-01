@@ -18,7 +18,7 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
         this.config = { ...OVERLAY_TRIGGER_CONFIG_TOOLTIP, ...config };
     }
 
-    protected show () {
+    protected show (): void {
 
         this.willShow = delay(() => {
 
@@ -34,7 +34,7 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
         });
     }
 
-    protected hide () {
+    protected hide (): void {
 
         if (this.willShow) {
 
@@ -47,14 +47,14 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
         }
     }
 
-    protected addAttributes () {
+    protected addAttributes (): void {
 
         this.attributeManager?.set('id', this.element?.id || this.id);
         this.attributeManager?.set('tabindex', 0);
         this.attributeManager?.set('aria-describedby', this.overlay?.element?.id ?? '');
     }
 
-    protected addListeners () {
+    protected addListeners (): void {
 
         if (!this.element || !this.overlay?.element) return;
 

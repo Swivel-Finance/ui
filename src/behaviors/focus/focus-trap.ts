@@ -138,7 +138,7 @@ export class FocusTrap extends FocusMonitor {
         return super.detach();
     }
 
-    focusInitial () {
+    focusInitial (): void {
 
         if (this.config.initialFocus) {
 
@@ -159,21 +159,21 @@ export class FocusTrap extends FocusMonitor {
         }
     }
 
-    focusFirst () {
+    focusFirst (): void {
 
         if (!this.element) return;
 
         this.focus(this.start ?? this.element);
     }
 
-    focusLast () {
+    focusLast (): void {
 
         if (!this.element) return;
 
         this.focus(this.end ?? this.element);
     }
 
-    update () {
+    update (): void {
 
         if (!this.hasAttached) return;
 
@@ -191,7 +191,7 @@ export class FocusTrap extends FocusMonitor {
         }
     }
 
-    protected addAttributes () {
+    protected addAttributes (): void {
 
         if (!this.element) return;
 
@@ -200,14 +200,14 @@ export class FocusTrap extends FocusMonitor {
         setAttribute(this.element, 'tabindex', this.tabindex ?? 0);
     }
 
-    protected removeAttributes () {
+    protected removeAttributes (): void {
 
         if (!this.element) return;
 
         setAttribute(this.element, 'tabindex', this.tabindex);
     }
 
-    protected storeFocus (element?: HTMLElement) {
+    protected storeFocus (element?: HTMLElement): void {
 
         if (!this.previous) {
 
@@ -215,7 +215,7 @@ export class FocusTrap extends FocusMonitor {
         }
     }
 
-    protected restoreFocus () {
+    protected restoreFocus (): void {
 
         if (this.previous) {
 
@@ -225,12 +225,12 @@ export class FocusTrap extends FocusMonitor {
         }
     }
 
-    protected focus (element: HTMLElement) {
+    protected focus (element: HTMLElement): void {
 
         element.focus(this.config.focusOptions);
     }
 
-    protected handleKeyDown (event: KeyboardEvent) {
+    protected handleKeyDown (event: KeyboardEvent): void {
 
         switch (event.key) {
 
@@ -253,7 +253,7 @@ export class FocusTrap extends FocusMonitor {
         }
     }
 
-    protected handleFocusIn (event: FocusEvent) {
+    protected handleFocusIn (event: FocusEvent): void {
 
         super.handleFocusIn(event);
 

@@ -19,7 +19,7 @@
     "prebuild": "npm run clean",
     "build": "tsc",
     "build:watch": "npm run build -- --watch",
-    "lint": "eslint \"./src/**\" \"./test/**\"",
+    "lint": "eslint \"./src/**/*.ts\"",
     "lint:fix": "npm run lint -- --fix",
     "test": "web-test-runner \"./dist/test/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch",

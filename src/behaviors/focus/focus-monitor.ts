@@ -48,7 +48,7 @@ export class FocusMonitor extends Behavior {
         return true;
     }
 
-    detach () {
+    detach (): boolean {
 
         if (!this.hasAttached) return false;
 
@@ -61,7 +61,7 @@ export class FocusMonitor extends Behavior {
         return super.detach();
     }
 
-    protected handleFocusIn (event: FocusEvent) {
+    protected handleFocusIn (event: FocusEvent): void {
 
         if (!this.hasFocus) {
 
@@ -78,7 +78,7 @@ export class FocusMonitor extends Behavior {
         cancel(event);
     }
 
-    protected handleFocusOut (event: FocusEvent) {
+    protected handleFocusOut (event: FocusEvent): void {
 
         if (this.hasFocus) {
 
@@ -95,7 +95,7 @@ export class FocusMonitor extends Behavior {
         cancel(event);
     }
 
-    protected notifyFocusChange (event: FocusEvent) {
+    protected notifyFocusChange (event: FocusEvent): void {
 
         if (!this.hasAttached) return;
 

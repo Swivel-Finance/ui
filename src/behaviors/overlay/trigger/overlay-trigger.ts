@@ -65,26 +65,26 @@ export class OverlayTriggerBehavior extends Behavior {
         return super.detach();
     }
 
-    update () {
+    update (): void {
 
         if (!this.element) return;
 
         setAttribute(this.element, 'aria-expanded', !!this.overlay && !this.overlay.hidden);
     }
 
-    protected addAttributes () {
+    protected addAttributes (): void {
 
         this.attributeManager?.set('id', this.element?.id || this.id);
         this.attributeManager?.set('aria-haspopup', this.config.role);
         this.attributeManager?.set('aria-expanded', !!this.overlay && !this.overlay.hidden);
     }
 
-    protected removeAttributes () {
+    protected removeAttributes (): void {
 
         this.attributeManager?.restoreAll();
     }
 
-    protected addListeners () {
+    protected addListeners (): void {
 
         if (!this.element || !this.overlay?.element) return;
 
@@ -95,7 +95,7 @@ export class OverlayTriggerBehavior extends Behavior {
         this.eventManager.listen(this.overlay.element, 'ui-open-changed', event => this.handleOpenChange(event as OpenChangeEvent));
     }
 
-    protected removeListeners () {
+    protected removeListeners (): void {
 
         this.eventManager.unlistenAll();
     }
@@ -108,14 +108,14 @@ export class OverlayTriggerBehavior extends Behavior {
      * This means we are able to handle the `mousedown` before the overlay potentially closes due
      * to focus loss and prevent a 'close'-click from reopening the overlay.
      */
-    protected handleMouseDown (event: MouseEvent) {
+    protected handleMouseDown (event: MouseEvent): void {
 
         this.clickMode = (this.overlay && !this.overlay.hidden)
             ? 'hide'
             : 'show';
     }
 
-    protected handleClick (event: MouseEvent) {
+    protected handleClick (event: MouseEvent): void {
 
         if (!this.overlay) return;
 
@@ -127,7 +127,7 @@ export class OverlayTriggerBehavior extends Behavior {
         this.clickMode = 'show';
     }
 
-    protected handleKeyDown (event: KeyboardEvent) {
+    protected handleKeyDown (event: KeyboardEvent): void {
 
         if (!this.overlay || event.target !== this.element) return;
 
@@ -151,7 +151,7 @@ export class OverlayTriggerBehavior extends Behavior {
         }
     }
 
-    protected handleOpenChange (event: OpenChangeEvent) {
+    protected handleOpenChange (event: OpenChangeEvent): void {
 
         // only handle OpenChangeEvents which are dispatched on this trigger's overlay element
         if (event.detail.target !== this.overlay?.element) return;

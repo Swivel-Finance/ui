@@ -14,7 +14,7 @@ export class BackdropElement extends HTMLElement {
         this.config = { ...BACKDROP_CONFIG_DEFAULT, ...config };
     }
 
-    connectedCallback () {
+    connectedCallback (): void {
 
         this.initialize();
     }
@@ -29,7 +29,7 @@ export class BackdropElement extends HTMLElement {
         await toggleVisibility(this, false, this.config.animated, this.config.classes);
     }
 
-    protected initialize () {
+    protected initialize (): void {
 
         if (this.initialized) return;
 

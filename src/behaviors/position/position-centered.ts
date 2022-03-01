@@ -13,7 +13,7 @@ export class CenteredPositionBehavior extends PositionBehavior {
         super({ ...POSITION_CONFIG_CENTERED, ...config });
     }
 
-    protected addListeners () {
+    protected addListeners (): void {
 
         // we don't need any listeners for this responsive position behavior
     }
@@ -26,7 +26,7 @@ export class CenteredPositionBehavior extends PositionBehavior {
         };
     }
 
-    protected updateStyles (styles: Partial<PositionStyles> = {}) {
+    protected updateStyles (styles: Partial<PositionStyles> = {}): void {
 
         if (!this.element || !this.hasAttached) return;
 

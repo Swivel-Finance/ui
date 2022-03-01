@@ -5,7 +5,7 @@ export class FocusListBehavior<T extends ListItem = ListItem> extends ListBehavi
 
     protected focusing = false;
 
-    protected addListeners () {
+    protected addListeners (): void {
 
         if (!this.element) return;
 
@@ -14,7 +14,7 @@ export class FocusListBehavior<T extends ListItem = ListItem> extends ListBehavi
         this.eventManager.listen(this.element, 'focusin', event => this.handleFocus(event as FocusEvent));
     }
 
-    protected markActive (item: T | undefined, interactive = false) {
+    protected markActive (item: T | undefined, interactive = false): void {
 
         super.markActive(item, interactive);
 
@@ -23,14 +23,14 @@ export class FocusListBehavior<T extends ListItem = ListItem> extends ListBehavi
         if (interactive) this.setFocus('active');
     }
 
-    protected markInactive (item: T | undefined, interactive = false) {
+    protected markInactive (item: T | undefined, interactive = false): void {
 
         super.markInactive(item, interactive);
 
         item?.setAttribute('tabindex', '-1');
     }
 
-    protected markSelected (item: T | undefined, interactive?: boolean) {
+    protected markSelected (item: T | undefined, interactive?: boolean): void {
 
         super.markSelected(item, interactive);
 
@@ -38,12 +38,12 @@ export class FocusListBehavior<T extends ListItem = ListItem> extends ListBehavi
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected scrollIntoView (item: T | undefined) {
+    protected scrollIntoView (item: T | undefined): void {
 
         // we don't need to manually scroll if focus is set
     }
 
-    protected handleFocus (event: FocusEvent) {
+    protected handleFocus (event: FocusEvent): void {
 
         // don't handle focus events when `focusing` is true
         // it means focus is being set internally
@@ -61,7 +61,7 @@ export class FocusListBehavior<T extends ListItem = ListItem> extends ListBehavi
      *
      * @param state - the state of the entry to focus
      */
-    protected setFocus (state: ListEntryState) {
+    protected setFocus (state: ListEntryState): void {
 
         this.focusing = true;
 

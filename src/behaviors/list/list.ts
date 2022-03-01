@@ -75,7 +75,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         return true;
     }
 
-    detach () {
+    detach (): boolean {
 
         if (!this.hasAttached) return false;
 
@@ -89,7 +89,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         return super.detach();
     }
 
-    setActive (item: number | T | ListEntry<T> | ListEntryLocator | undefined, interactive = false) {
+    setActive (item: number | T | ListEntry<T> | ListEntryLocator | undefined, interactive = false): void {
 
         const previous = this.active;
         const entry = (typeof item === 'string')
@@ -109,7 +109,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         if (interactive) this.notifyActivation(previous);
     }
 
-    setSelected (item: number | T | ListEntry<T> | ListEntryLocator | undefined, interactive = false) {
+    setSelected (item: number | T | ListEntry<T> | ListEntryLocator | undefined, interactive = false): void {
 
         const previous = this.selected;
         const entry = (typeof item === 'string')
@@ -128,7 +128,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         if (interactive) this.notifySelection(previous);
     }
 
-    scrollTo (item: number | T | ListEntry<T> | ListEntryLocator | ListEntryState | undefined) {
+    scrollTo (item: number | T | ListEntry<T> | ListEntryLocator | ListEntryState | undefined): void {
 
         const entry = (typeof item === 'string')
             ? (item === 'active' || item === 'selected')
@@ -139,7 +139,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         this.scrollIntoView(entry?.item);
     }
 
-    protected addAttributes () {
+    protected addAttributes (): void {
 
         if (!this.element) return;
 
@@ -168,12 +168,12 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         });
     }
 
-    protected removeAttributes () {
+    protected removeAttributes (): void {
 
         this.attributeManager?.restoreAll();
     }
 
-    protected addListeners () {
+    protected addListeners (): void {
 
         if (!this.element) return;
 
@@ -182,38 +182,38 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         this.eventManager.listen(this.element, 'keydown', event => this.handleKeydown(event as KeyboardEvent));
     }
 
-    protected removeListeners () {
+    protected removeListeners (): void {
 
         this.eventManager.unlistenAll();
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected markActive (item: T | undefined, interactive = false) {
+    protected markActive (item: T | undefined, interactive = false): void {
 
         item?.classList.add(this.config.classes.active);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected markInactive (item: T | undefined, interactive = false) {
+    protected markInactive (item: T | undefined, interactive = false): void {
 
         item?.classList.remove(this.config.classes.active);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected markSelected (item: T | undefined, interactive = false) {
+    protected markSelected (item: T | undefined, interactive = false): void {
 
         item?.setAttribute(selectionAttribute(item), 'true');
         item?.classList.add(this.config.classes.selected);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected markUnselected (item: T | undefined, interactive = false) {
+    protected markUnselected (item: T | undefined, interactive = false): void {
 
         item?.setAttribute(selectionAttribute(item), 'false');
         item?.classList.remove(this.config.classes.selected);
     }
 
-    protected scrollIntoView (item: T | undefined) {
+    protected scrollIntoView (item: T | undefined): void {
 
         if (!this.element) return;
 
@@ -230,7 +230,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         }
     }
 
-    protected handleKeydown (event: KeyboardEvent) {
+    protected handleKeydown (event: KeyboardEvent): void {
 
         switch (event.key) {
 
@@ -271,7 +271,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         }
     }
 
-    protected handleMousedown (event: MouseEvent) {
+    protected handleMousedown (event: MouseEvent): void {
 
         const entry = this.entry(event.target as HTMLElement);
 
@@ -281,7 +281,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         }
     }
 
-    protected handleClick (event: MouseEvent) {
+    protected handleClick (event: MouseEvent): void {
 
         const entry = this.entry(event.target as HTMLElement);
 
@@ -296,7 +296,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
      *
      * @param previousEntry - the previous active list entry
      */
-    protected notifyActivation (previousEntry?: ListEntry<T>) {
+    protected notifyActivation (previousEntry?: ListEntry<T>): void {
 
         if (!this.element) return;
 
@@ -313,7 +313,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
      *
      * @param previousEnty - the previous selected list entry
      */
-    protected notifySelection (previousEnty?: ListEntry<T>) {
+    protected notifySelection (previousEnty?: ListEntry<T>): void {
 
         if (!this.element) return;
 
