@@ -1,0 +1,68 @@
+button {
+  --color-fg: var(--theme-fg);
+  --color-bg: var(--theme-tint-hc);
+  --color-focus: var(--theme-focus);
+  display: inline-flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--grid-size);
+  padding: var(--grid-size) var(--line-height);
+  text-align: center;
+  font-weight: var(--font-weight-bold);
+  color: var(--color-fg);
+  cursor: pointer;
+  border: none;
+  border-radius: var(--border-radius-s);
+  background-color: var(--color-bg);
+  box-shadow: var(--border-shadow) transparent;
+}
+
+button:hover,
+button:focus {
+  --color-fg: var(--theme-fg-btn);
+  --color-bg: var(--theme-active);
+  outline: none;
+  box-shadow: var(--border-shadow) var(--color-focus);
+}
+
+button.primary {
+  --color-fg: var(--theme-fg-btn);
+  --color-bg: var(--theme-bg-btn);
+}
+
+button.primary:hover,
+button.primary:focus {
+  --color-bg: var(--theme-active);
+}
+
+button.initiate,
+button.initiate:not([disabled]):hover,
+button.initiate:not([disabled]):focus {
+  --color-fg: var(--theme-fg-btn);
+  --color-bg: var(--theme-initiate);
+}
+
+button.exit,
+button.exit:not([disabled]):hover,
+button.exit:not([disabled]):focus {
+  --color-fg: var(--theme-fg-btn);
+  --color-bg: var(--theme-exit);
+  --color-focus: var(--palette-secondary-lighter);
+}
+
+button[disabled],
+button[disabled]:hover,
+button[disabled]:focus {
+  --color-fg: var(--theme-fg-lc);
+  --color-bg: var(--theme-tint);
+  cursor: not-allowed;
+  outline: none;
+  box-shadow: none;
+}
+
+button.button-small {
+  padding: calc(var(--grid-size) / 2) var(--grid-size);
+  font-size: var(--font-size-s);
+  border-radius: var(--border-radius-s);
+}

@@ -1,0 +1,12 @@
+.message-box {
+  --color-bg: var(--theme-tint);
+  --color-fg: var(--theme-fg-lc);
+  padding: var(--grid-size) var(--line-height);
+  color: var(--color-fg);
+  border-radius: var(--border-radius-s);
+  background-color: var(--color-bg);
+}
+
+.message-box.error {
+  --color-fg: var(--theme-error);
+}

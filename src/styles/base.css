@@ -1,0 +1,10 @@
+@import './theme.css';
+@import './reset.css';
+@import './focus.css';
+@import './scrollbars.css';
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: geometricPrecision;
+}

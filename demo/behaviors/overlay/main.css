@@ -1,9 +1,32 @@
-@import '../../theme.css';
-@import '../../reset.css';
+@import '../../main.css';
 @import '../../../src/behaviors/overlay/overlay.css';
 
 body {
   overflow: auto;
+}
+
+select, input[type=checkbox] {
+  accent-color: var(--theme-active);
+  border-color: var(--theme-fg-lc);
+  border-radius: var(--border-radius-s);
+  background-color: var(--color-bg);
+}
+
+main {
+  margin-block-start: var(--line-height);
+}
+
+aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--line-height);
+  margin-block-start: var(--line-height);
+}
+
+aside ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-size);
 }
 
 .container {
@@ -12,6 +35,8 @@ body {
   height: calc(50 * var(--grid-size));
   width: calc(100 * var(--grid-size));
   border: var(--border);
+  border-color: var(--theme-bg-l);
+  border-radius: var(--border-radius);
 }
 
 .pane {
@@ -36,14 +61,18 @@ ui-backdrop.ui-visible {
 }
 
 .ui-overlay {
+  --color-bg: var(--theme-bg-l);
   padding-block: var(--line-height);
   padding-inline: var(--line-height);
   background-color: var(--color-bg);
-  border: var(--border);
-  box-shadow: var(--shadow);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-l);
 }
 
 .overlay {
+  display: flex;
+  flex-direction: column;
+  gap: var(--line-height);
   max-width: calc(100vw - var(--line-height) * 2);
   max-height: calc(100vh - var(--line-height) * 2);
 }

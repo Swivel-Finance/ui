@@ -1,0 +1,148 @@
+:root {
+  --palette-primary: hsl(215, 80%, 45%);
+  --palette-primary-lighter: hsl(215, 80%, 55%);
+  --palette-primary-darker: hsl(215, 90%, 40%);
+  --palette-primary-extralight: hsl(215, 80%, 85%);
+
+  --palette-secondary: hsl(345, 80%, 60%);
+  --palette-secondary-lighter: hsl(345, 80%, 70%);
+
+  --palette-tertiary: hsl(155, 60%, 46%);
+  --palette-tertiary-lighter: hsl(155, 60%, 50%);
+
+  --palette-secondary-25: hsl(250, 80%, 70%);
+  --palette-secondary-50: hsl(300, 80%, 60%);
+  --palette-secondary-75: hsl(335, 80%, 60%);
+
+  --palette-tertiary-25: hsl(200, 100%, 40%);
+  --palette-tertiary-25-lighter: hsl(200, 80%, 60%);
+  --palette-tertiary-25-darker: hsl(200, 90%, 32%);
+
+  --palette-tertiary-50: hsl(180, 100%, 30%);
+
+  --palette-tertiary-75: hsl(165, 90%, 35%);
+  --palette-tertiary-75-lighter: hsl(165, 70%, 45%);
+  --palette-tertiary-75-darker: hsl(165, 70%, 30%);
+
+  --palette-shade-0: hsl(215, 20%, 10%);
+  --palette-shade-05: hsl(215, 20%, 12%);
+  --palette-shade-1: hsl(215, 20%, 15%);
+  --palette-shade-2: hsl(215, 20%, 20%);
+  --palette-shade-3: hsl(215, 15%, 25%);
+  --palette-shade-4: hsl(215, 12%, 45%);
+  --palette-shade-5: hsl(215, 25%, 70%);
+  --palette-shade-6: hsl(215, 70%, 90%);
+}
+
+:root {
+  --theme-bd: #000;
+  --theme-bd-opct: 0.5;
+  --theme-shade: var(--palette-shade-0);
+  --theme-tint: var(--palette-shade-2);
+  --theme-tint-lc: var(--palette-shade-1);
+  --theme-tint-hc: var(--palette-shade-3);
+  --theme-bg: var(--palette-shade-0);
+  --theme-bg-l1: var(--palette-shade-05);
+  --theme-bg-l: var(--palette-shade-1);
+  --theme-bg-hc: var(--palette-shade-2);
+  --theme-bg-btn: var(--palette-primary-darker);
+  --theme-fg: var(--palette-shade-5);
+  --theme-fg-hc: var(--palette-shade-6);
+  --theme-fg-lc: var(--palette-shade-4);
+  --theme-fg-dsbl: var(--palette-shade-3);
+  --theme-fg-btn: var(--palette-shade-6);
+  --theme-active: var(--palette-primary);
+  --theme-focus: var(--palette-primary-lighter);
+  --theme-success: var(--palette-tertiary);
+  --theme-error: var(--palette-secondary);
+  --theme-warning: #C89022;
+  --theme-announce-success: var(--palette-tertiary-50);
+  --theme-announce-error: var(--palette-secondary-75);
+  --theme-buy: var(--theme-success);
+  --theme-sell: var(--theme-error);
+  --theme-initiate: var(--theme-active);
+  --theme-exit: var(--theme-error);
+  --theme-scrollbar: var(--palette-shade-3);
+}
+
+:root {
+  /* we set up some ratios to derive relative sizes that can scale with the browser default font size */
+  /* the rem-ratio is used to set the rem size based on the browser default: 16px at 100% */
+  /* if we want our rem to equal 14px we can set the rem-ratio to 0.875 (16px * 0.875 = 14px) */
+  --rem-ratio: 1;
+  /* the grid-ratio defines the size of one grid relative to the rem size */
+  /* with 1rem being 16px our grid-size becomes 8px with a grid-ratio of 0.5 */
+  --grid-ratio: 0.5;
+  /* the font-ratio defines the font size relative to the rem size */
+  --font-ratio: 0.875;
+  /* the line-ratio defines the line height relative to the rem size */
+  --line-ratio: 1;
+
+  --grid-size: calc(1rem * var(--grid-ratio));
+  --grid-size-s: calc(var(--grid-size) / 2);
+  --grid-size-xs: calc(var(--grid-size-s) / 2);
+  --grid-size-l: calc(var(--grid-size) * 2);
+  --grid-size-xl: calc(var(--grid-size-l) * 2);
+  --font-size: calc(1rem * var(--font-ratio));
+  --font-size-s: calc(var(--font-size) - var(--grid-size-xs));
+  --font-size-xs: calc(var(--font-size-s) - var(--grid-size-xs));
+  --font-size-l: calc(var(--font-size) + var(--grid-size-xs));
+  --font-size-xl: calc(var(--font-size) + var(--grid-size));
+  --font-size-xxl: calc(var(--font-size) + var(--grid-size-l));
+  --font-size-xxxl: calc(var(--font-size-xxl) + var(--grid-size));
+  --line-height: calc(1rem * var(--line-ratio));
+  --line-height-s: var(--line-height);
+  --line-height-xs: var(--line-height);
+  --line-height-l: var(--line-height);
+  --line-height-xl: calc(var(--line-height) + var(--grid-size));
+  --line-height-xxl: calc(var(--line-height) + var(--grid-size) * 2);
+  --line-height-xxxl: calc(var(--line-height) + var(--grid-size) * 3);
+
+  --font-family: 'Inter', sans-serif;
+  --font-family-mono: 'Roboto Mono', monospace, monospace;
+  --font-weight-light: 200;
+  --font-weight-regular: 400;
+  --font-weight-bold: 600;
+  --font-weight-boldest: 800;
+  --transition-duration: 0.2s;
+  --transition-timing: ease-in-out;
+  --transition-delay: 0;
+
+  /* colors */
+  --color-bd: var(--theme-bd);
+  --color-bg: var(--theme-bg);
+  --color-fg: var(--theme-fg);
+  --color-brd: var(--theme-bg);
+  --color-focus: var(--theme-focus);
+
+  --color-bg-active: var(--theme-bg-l);
+  --color-fg-active: var(--theme-fg);
+
+  --color-bg-selected: var(--theme-active);
+  --color-fg-selected: var(--theme-fg-hc);
+
+  --color-bg-disabled: var(--color-bg);
+  --color-fg-disabled: var(--theme-fg-dsbl);
+
+  /* border */
+  --border: var(--border-width) var(--border-style) var(--color-brd);
+  --border-width: calc(var(--grid-size) / 4);
+  --border-style: solid;
+  --border-radius: var(--grid-size);
+  --border-radius-s: calc(var(--grid-size) / 2);
+  --border-shadow: inset 0 0 0 var(--border-width);
+
+  /* opacities */
+  --opacity-bd: var(--theme-bd-opct);
+
+  /* shadow */
+  --shadow: 0 0 var(--grid-size) 0 rgba(0, 0, 0, .25);
+  --shadow-l: 0 0 var(--line-height) 0 rgba(0, 0, 0, .5);
+
+  /* filters */
+  --blur: blur(2px);
+
+  /* limits */
+  --max-width: calc(var(--line-height) * 100);
+  --max-height: calc(var(--line-height) * 56);
+}

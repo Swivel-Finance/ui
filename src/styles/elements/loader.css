@@ -1,0 +1,41 @@
+.loader {
+  --color-fg: var(--theme-fg-lc);
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--grid-size);
+  width: 100%;
+  height: 100%;
+  padding: var(--line-height);
+  color: var(--color-fg);
+}
+
+.loader .spinner {
+  width: var(--line-height);
+  height: var(--line-height);
+  overflow: visible;
+  animation: loader-turn .5s linear infinite;
+}
+
+.loader .spinner .circle {
+  animation: loader-stroke 1s linear infinite;
+  fill: none;
+  stroke: currentColor;
+  stroke-dasharray: 51;
+  stroke-dashoffset: 0;
+  stroke-linecap: round;
+  stroke-width: 4;
+}
+
+@keyframes loader-turn {
+  50% { transform: rotate(180deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes loader-stroke {
+  0% { stroke-dashoffset: 8; }
+  50% { stroke-dashoffset: 47; }
+  100% { stroke-dashoffset: 8; }
+}

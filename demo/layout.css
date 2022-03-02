@@ -2,6 +2,20 @@ body {
   padding: var(--line-height);
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-weight: var(--font-weight-bold);
+}
+
+h1:not(:first-child),
+h2:not(:first-child),
+h3:not(:first-child),
+h4:not(:first-child),
+h5:not(:first-child),
+h6:not(:first-child),
+p:not(:first-child) {
+  margin-block-start: var(--line-height);
+}
+
 h1 {
   font-size: var(--font-size-xxxl);
   line-height: var(--line-height-xxxl);

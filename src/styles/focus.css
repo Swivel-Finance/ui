@@ -1,0 +1,26 @@
+*:focus {
+  outline: none;
+  box-shadow: var(--border-shadow) var(--color-focus);
+}
+
+a:hover,
+a:focus {
+  outline: none;
+  box-shadow: none;
+  color: var(--color-focus);
+}
+
+*::-moz-focus-inner {
+  outline: none;
+  box-shadow: none;
+}
+
+*::-moz-focus-outer {
+  outline: none;
+  box-shadow: none;
+}
+
+*:-moz-focusring {
+  outline: none;
+  box-shadow: none;
+}

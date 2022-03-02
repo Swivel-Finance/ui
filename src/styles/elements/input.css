@@ -1,0 +1,53 @@
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+::placeholder {
+  color: var(--theme-fg-dsbl);
+}
+
+input[type=text],
+textarea {
+  --color-fg: var(--theme-fg);
+  --color-bg: var(--theme-shade);
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  appearance: none;
+  resize: none;
+  padding: var(--grid-size);
+  font-family: var(--font-family-mono);
+  color: var(--color-fg);
+  border: none;
+  border-radius: var(--border-radius-s);
+  background-color: var(--color-bg);
+  box-shadow: var(--border-shadow) var(--theme-shade);
+  transition: box-shadow var(--transition-duration) var(--transition-timing);
+}
+
+input[type=text]:hover,
+textarea:hover,
+input[type=text]:focus,
+textarea:focus {
+  --color-fg: var(--theme-fg-hc);
+  outline: none;
+  box-shadow: var(--border-shadow) var(--theme-focus);
+}
+
+input[aria-invalid=true],
+textarea[aria-invalid=true],
+input[aria-invalid=true]:hover,
+textarea[aria-invalid=true]:hover,
+input[aria-invalid=true]:focus,
+textarea[aria-invalid=true]:focus {
+  box-shadow: var(--border-shadow) var(--theme-error);
+}
+
+input[type=text][disabled],
+textarea[disabled] {
+  --color-fg: var(--theme-fg-dsbl);
+  cursor: not-allowed;
+  outline: none;
+  box-shadow: none;
+}

@@ -44,8 +44,8 @@ table.ui-scroll-table thead {
 table.ui-scroll-table.ui-vertical thead tr::after {
   content: '';
   display: table-cell;
-  min-width: var(--scrollbar-width);
-  max-width: var(--scrollbar-width);
+  min-width: var(--scrollbar-width, 1rem);
+  max-width: var(--scrollbar-width, 1rem);
 }
 
 /* table body */

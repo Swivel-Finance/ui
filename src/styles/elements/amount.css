@@ -1,0 +1,42 @@
+.amount {
+  flex: 0 1 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--grid-size-s);
+  max-width: 100%;
+}
+
+.unit {
+  flex: 0 0 auto;
+  padding: 0 var(--grid-size-s);
+  font-family: var(--font-family-mono);
+  font-weight: normal;
+  color: var(--color-bg);
+  background-color: var(--color-fg);
+  border-radius: var(--border-radius-s);
+}
+
+.amount > .label,
+.amount > .value {
+  flex: 0 1 auto;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.amount > .value {
+  font-family: var(--font-family-mono);
+}
+
+.token-balance,
+.token-price {
+  flex: 0 1 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--grid-size-s);
+  max-width: 100%;
+}
+
+.token-image {
+  flex: 0 0 auto;
+}

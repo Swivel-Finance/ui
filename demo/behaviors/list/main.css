@@ -1,7 +1,17 @@
-@import '../../theme.css';
-@import '../../reset.css';
-@import '../../layout.css';
+@import '../../main.css';
 
+aside {
+  display: flex;
+  flex-direction: column;
+  gap: var(--line-height);
+  margin-block-start: var(--line-height);
+}
+
+aside ul {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-size);
+}
 
 /* demo */
 
@@ -17,17 +27,20 @@
 
 [aria-disabled=true] {
   color: var(--color-fg-disabled);
-  background-color: var(--color-bg-disabled);
+  background-color: var(--color-bg);
 }
 
 .filter, .menu {
+  --color-bg: var(--theme-bg-l);
+  --color-bg-active: var(--theme-bg-hc);
   margin-block-start: var(--line-height);
   padding: var(--line-height);
   display: flex;
   flex-direction: column;
   gap: var(--grid-size);
-  border: var(--border);
-  max-height: calc(var(--line-height) * 10);
+  max-height: calc(var(--line-height) * 12);
+  background-color: var(--color-bg);
+  border-radius: var(--border-radius);
 }
 
 .filter > input {
@@ -47,7 +60,14 @@
 }
 
 .filter li:not([aria-disabled=true]):not([aria-selected=true]):hover,
-.menu li:not([aria-disabled=true]):not([aria-selected=true]):hover {
+.menu li:not([aria-disabled=true]):not([aria-checked=true]):hover {
   color: var(--color-fg-active);
   background-color: var(--color-bg-active);
+}
+
+.menu:focus-within {
+  box-shadow: var(--border-shadow) var(--color-focus);
+}
+.menu li:focus {
+  box-shadow: none;
 }
