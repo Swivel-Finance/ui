@@ -22,7 +22,19 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
 
         this.willShow = delay(() => {
 
-            if (this.hasAttached) void this.overlay?.show();
+            if (this.hasAttached && this.overlay) {
+
+                const positionBehavior = this.overlay.config.positionBehavior;
+
+                if (positionBehavior && this.element) {
+
+                    // tooltips can have multiple triggers, so we set the position behavior's origin
+                    // to this trigger's element (position behavior configs can be live-updated)
+                    positionBehavior.config.origin = this.element;
+                }
+
+                void this.overlay?.show();
+            }
 
             this.willShow = undefined;
 

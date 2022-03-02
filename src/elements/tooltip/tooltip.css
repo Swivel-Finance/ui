@@ -1,0 +1,42 @@
+sw-tooltip:not(:defined) {
+  display: none;
+}
+
+sw-tooltip {
+  --color-fg: var(--theme-fg-hc);
+  --color-bg: var(--theme-bg-hc);
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-size);
+  position: absolute;
+  z-index: 1000;
+  /* TODO: revert to 30 grid after 1st reward cycle */
+  max-width: calc(var(--grid-size) * 32);
+  padding: var(--grid-size) var(--line-height);
+  font-size: var(--font-size-s);
+  font-weight: normal;
+  white-space: normal;
+  color: var(--color-fg);
+  text-align: left;
+  border-radius: var(--border-radius);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow-l);
+}
+
+sw-tooltip * {
+  margin: 0;
+}
+
+/* optional animations */
+
+sw-tooltip.ui-invisible {
+  transform: translateY(var(--line-height)) !important;
+}
+
+sw-tooltip.ui-animate-in,
+sw-tooltip.ui-animate-out {
+  pointer-events: none;
+  transition-property: opacity, transform;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}

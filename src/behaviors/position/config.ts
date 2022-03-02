@@ -37,6 +37,20 @@ export const POSITION_CONFIG_CONNECTED: PositionConfig = {
     },
 };
 
+export const POSITION_CONFIG_TOOLTIP: PositionConfig = {
+    ...POSITION_CONFIG_DEFAULT,
+    alignment: {
+        origin: {
+            horizontal: 'center',
+            vertical: 'start',
+        },
+        target: {
+            horizontal: 'center',
+            vertical: 'end',
+        },
+    },
+};
+
 export function hasPositionConfigChanged (positionConfig?: Partial<PositionConfig>, other?: Partial<PositionConfig>): boolean {
 
     if (positionConfig && other) {

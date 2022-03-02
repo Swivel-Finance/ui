@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel/ui/elements/tooltip</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel/ui/elements/tooltip</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <p>I have a <a href="#" aria-describedby="tooltip-1">tooltip</a>. It won't fit above centered, so the position behavior will move it.</p>
+
+    <p>I have the same <a href="#" aria-labelledby="tooltip-1">tooltip</a>. It will fit above, but not centered, so the position behavior will move it to the right.</p>
+
+    <p>In this last example I still have the same <a href="#" aria-labelledby="tooltip-1">tooltip</a>. This time it will fit above centered.</p>
+
+    <sw-tooltip id="tooltip-1">
+      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    </sw-tooltip>
+
+  </div>
+
+  <script src="/dist/demo/elements/tooltip/main.js" type="module"></script>
+</body>
+
+</html>
