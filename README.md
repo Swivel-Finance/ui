@@ -155,6 +155,8 @@ To release a new version of this library run:
 npm run release
 ```
 
+> Before running a release, ensure you have merged your PR to **main** and only run the release script on the **main** branch.
+
 This will first clean the `dist` directory, lint the code and do a production build of the library and the styles. If successful `standard-version` is going to determine the next semantic version number for the release based on the commit history. It will automatically update the `package.json` and `CHANGELOG.md` and create a new commit and a matching tag on your local branch.
 
 You can check the changelog and the results from the local release and if you're happy, run:
