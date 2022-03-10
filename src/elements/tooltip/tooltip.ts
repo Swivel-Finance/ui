@@ -1,7 +1,7 @@
 import { LitElement } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { OverlayBehavior, OVERLAY_CONFIG_TOOLTIP, OVERLAY_TRIGGER_CONFIG_TOOLTIP, TooltipTriggerBehavior } from '../../behaviors/overlay/index.js';
-import { PositionBehavior } from '../../behaviors/position/position.js';
+import { PositionBehavior } from '../../behaviors/position/index.js';
 import { POSITION_CONFIG_TOOLTIP } from '../constants/index.js';
 
 @customElement('sw-tooltip')

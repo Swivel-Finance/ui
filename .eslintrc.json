@@ -4,7 +4,11 @@
     "@swivel-finance"
   ],
   "ignorePatterns": [
-    "./dist",
+    "demo/elements/dialog",
+    "src/elements/dialog",
+    "node_modules/",
+    "coverage/",
+    "dist/",
     "*.js"
   ],
   "rules": {

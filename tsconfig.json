@@ -110,6 +110,5 @@
     "node_modules",
     "src/elements/dialog",
     "demo/elements/dialog",
-    "demo/elements/market-selector"
   ]
 }

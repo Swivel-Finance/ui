@@ -16,6 +16,9 @@ yarn-error.log*
 # VSCode settings
 .vscode
 
+# Optional npm authToken
+.npmrc
+
 # Build and test output
 node_modules/
 coverage/
@@ -24,4 +27,3 @@ temp/
 
 src/elements/dialog
 demo/elements/dialog
-demo/elements/market-selector

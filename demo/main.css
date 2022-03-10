@@ -1,5 +1,5 @@
-@import '../src/styles/base.css';
-@import '../src/styles/elements/button.css';
-@import '../src/styles/elements/input.css';
+@import '../src/assets/css/base.css';
+@import '../src/assets/css/elements/button.css';
+@import '../src/assets/css/elements/input.css';
 
 @import './layout.css';

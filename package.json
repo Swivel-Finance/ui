@@ -1,41 +1,71 @@
 {
   "name": "@swivel-finance/ui",
-  "description": "UI behaviors and components for Swivel frontends.",
+  "description": "UI behaviors and custom elements for Swivel frontends.",
   "version": "0.0.1",
-  "main": "dist/index.js",
   "type": "module",
+  "main": "index.js",
+  "module": "index.js",
+  "types": "index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Swivel-Finance/ui.git"
   },
   "author": "Alexander Wende",
-  "license": "BSD-3-Clause",
   "bugs": {
     "url": "https://github.com/Swivel-Finance/ui/issues"
   },
   "homepage": "https://github.com/Swivel-Finance/ui#readme",
   "scripts": {
-    "clean": "rimraf ./dist ./coverage",
+    "start": "npm-run-all clean build --parallel \"build:watch -- --preserveWatchOutput\" css:watch serve",
+    "clean": "shx rm -rf ./dist ./coverage",
+    "commit": "cz",
     "prebuild": "npm run clean",
     "build": "tsc",
     "build:watch": "npm run build -- --watch",
-    "lint": "eslint \"./src/**/*.ts\"",
+    "css": "postcss ./src/**/*.css --base ./src --dir ./dist/src",
+    "css:prod": "postcss ./src/**/*.css --base ./src --use postcss-import cssnano --no-map --dir ./dist/src",
+    "css:watch": "npm run css -- --watch",
+    "lint": "eslint src/ demo/",
     "lint:fix": "npm run lint -- --fix",
     "test": "web-test-runner \"./dist/test/**/*.spec.js\"",
     "test:watch": "npm run test -- --watch",
     "test:coverage": "npm run test -- --coverage",
-    "serve": "web-dev-server --open \"./demo/index.html\""
+    "serve": "web-dev-server --open \"./demo/index.html\"",
+    "prerelease": "npm-run-all clean lint build css:prod",
+    "release": "standard-version",
+    "release:minor": "npm run release -- --release-as minor",
+    "release:major": "npm run release -- --release-as major",
+    "release:dry": "npm run release -- --dry-run",
+    "release:publish": "git push --follow-tags origin main && npm run pub",
+    "pub": "npm publish ./dist/src --access public",
+    "prepub": "shx cp ./package.json ./README.md ./dist/src",
+    "postpub": "shx rm ./dist/src/package.json ./dist/src/README.md",
+    "pack": "npm run prepub && npm pack ./dist/src && npm run postpub"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.1.1",
     "@swivel-finance/eslint-config": "^0.1.0",
     "@web/dev-server": "^0.1.30",
     "@web/test-runner": "^0.13.27",
+    "cssnano": "^5.1.1",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.32.0",
     "eslint-plugin-import": "^2.25.4",
+    "lit": "^2.2.0",
+    "npm-run-all": "^4.1.5",
+    "postcss": "^8.4.8",
+    "postcss-cli": "^9.1.0",
+    "postcss-import": "^14.0.2",
+    "shx": "^0.3.4",
+    "standard-version": "^9.3.2",
     "typescript": "^4.5.5"
   },
-  "dependencies": {
+  "peerDependencies": {
     "lit": "^2.2.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
