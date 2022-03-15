@@ -5,7 +5,7 @@ import { cancel, EventManager } from '../../utils/events/index.js';
 import { ESCAPE } from '../../utils/index.js';
 import { Behavior } from '../behavior.js';
 import { FocusChangeEvent } from '../focus/index.js';
-import { MarkerElement } from '../marker/index.js';
+import { MarkerElement, MarkerRemovedEvent } from '../marker/index.js';
 import { toggleVisibility } from '../utils/index.js';
 import { OverlayBackdrop } from './backdrop/index.js';
 import { OverlayConfig, OVERLAY_CONFIG_DEFAULT } from './config.js';
@@ -254,6 +254,7 @@ export class OverlayBehavior extends Behavior {
 
         this.eventManager.listen(this.element, 'keydown', event => this.handleKeyDown(event as KeyboardEvent));
         this.eventManager.listen(this.element, 'ui-focus-changed', event => this.handleFocusChange(event as FocusChangeEvent));
+        this.eventManager.listen(this.marker, 'ui-marker-removed', event => this.handleMarkerRemoved(event as MarkerRemovedEvent));
     }
 
     protected removeListeners (): void {
@@ -343,5 +344,26 @@ export class OverlayBehavior extends Behavior {
         // if we have a parent overlay, we dispatch the focus loss event on the parent
         // to let it know about the descendant overlay's focus loss
         if (parent) microtask(() => parent.dispatch(event));
+    }
+
+    /**
+     * Handle the marker being removed
+     *
+     * @remarks
+     * If the marker element is being removed while the overlay is open (it's not been
+     * set to hidden or the marker isn't being moved by the overlay behavior) we have
+     * to assume, that some parent component was removed while the overlay was still
+     * open. In that case, we want to close and detach the overlay behavior and remove
+     * the overlay behavior's element from the DOM.
+     */
+    protected handleMarkerRemoved (event: MarkerRemovedEvent): void {
+
+        if (this.moving || this.hidden) return;
+
+        const element = this.element;
+
+        this.detach();
+
+        element?.remove();
     }
 }
