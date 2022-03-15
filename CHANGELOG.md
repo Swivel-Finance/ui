@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://github.com/Swivel-Finance/ui/compare/v0.0.1...v0.0.2) (2022-03-15)
+
+
+### Bug Fixes
+
+* **overlay:** handle `MarkerRemovedEvent`s ([cda97d9](https://github.com/Swivel-Finance/ui/commit/cda97d9cff63a172d934511dda54bc0bd0020184))
+
 ### 0.0.1 (2022-03-10)
 
 
