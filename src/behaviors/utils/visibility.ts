@@ -1,4 +1,4 @@
-import { animationsDone } from '../../utils/dom/animations.js';
+import { animationsDone, AnimationsDoneOptions } from '../../utils/dom/animations.js';
 import { ClassNames, CLASS_MAP } from './class-map.js';
 
 interface VisibilityTarget extends HTMLElement {
@@ -10,6 +10,7 @@ export const toggleVisibility = async (
     visible: boolean,
     animated = true,
     classes: Partial<Record<ClassNames, string>> = {},
+    animationOptions?: Partial<AnimationsDoneOptions>,
 ): Promise<void> => {
 
     // store the current visibility target on the element in order to check at a later point if it was changed
@@ -34,7 +35,7 @@ export const toggleVisibility = async (
 
         element.classList.add(visible ? classMap.animateIn : classMap.animateOut);
 
-        await animationsDone(element);
+        await animationsDone(element, animationOptions);
 
         element.classList.remove(visible ? classMap.animateIn : classMap.animateOut);
 
