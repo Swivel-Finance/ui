@@ -1,3 +1,4 @@
+import type { AnimationsDoneOptions } from '../../utils/dom/index.js';
 import type { FocusMonitor } from '../focus/index.js';
 import type { PositionBehavior } from '../position/index.js';
 import { ClassNames, CLASS_MAP } from '../utils/index.js';
@@ -8,6 +9,7 @@ export interface OverlayConfig {
     role: string;
     modal: boolean;
     animated: boolean;
+    animationOptions?: Partial<AnimationsDoneOptions>;
     stacked: boolean;
     backdrop: boolean;
     closeOnEscape: boolean;
