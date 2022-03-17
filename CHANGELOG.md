@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/Swivel-Finance/ui/compare/v0.0.2...v0.0.3) (2022-03-17)
+
+
+### Features
+
+* **utils/dom/animations:** allow excluding animations from being awaited ([a262d8c](https://github.com/Swivel-Finance/ui/commit/a262d8cc9015c48ef7ebe41f9c704d9782e1d3e9))
+
 ### [0.0.2](https://github.com/Swivel-Finance/ui/compare/v0.0.1...v0.0.2) (2022-03-15)
 
 
