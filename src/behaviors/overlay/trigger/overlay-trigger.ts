@@ -125,6 +125,8 @@ export class OverlayTriggerBehavior extends Behavior {
 
         // reset the click-mode
         this.clickMode = 'show';
+
+        this.update();
     }
 
     protected handleKeyDown (event: KeyboardEvent): void {
@@ -138,6 +140,7 @@ export class OverlayTriggerBehavior extends Behavior {
 
                 cancel(event);
                 void this.overlay.toggle(true);
+                this.update();
                 break;
 
             case ESCAPE:
@@ -147,6 +150,7 @@ export class OverlayTriggerBehavior extends Behavior {
 
                 cancel(event);
                 void this.overlay.hide(true);
+                this.update();
                 break;
         }
     }
