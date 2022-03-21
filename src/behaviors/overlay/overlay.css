@@ -14,3 +14,7 @@
   opacity: 1;
   pointer-events: all;
 }
+
+.ui-overlay[hidden] {
+  display: none;
+}
