@@ -185,10 +185,6 @@ export class MarketSelector extends LitElement {
 
         if (event.detail.open) {
 
-            // TODO: the PositionBehavior should set max-width and max-height for safeZones regardless of the spill
-            // this way, animations which change the dimensions won't run over the safeZone
-            void this.overlayBehavior?.update();
-
             const list = this.listRef.value as HTMLElement;
             const items = list.querySelectorAll('li');
 

@@ -324,13 +324,12 @@ export class PositionBehavior extends Behavior {
         // we can't do any fitting if the element is not set
         if (!this.element) return { ...targetBox, ...targetPosition };
 
-        const viewportMax = (orientation === 'horizontal') ? window.innerWidth : window.innerHeight;
-        const spaceStart = ((orientation === 'horizontal') ? originBox.x : originBox.y) - zone[orientation];
-        const spaceEnd = viewportMax - zone[orientation] - ((orientation === 'horizontal') ? originBox.x + originBox.width : originBox.y + originBox.height);
+        let spaceStart = this.space(originBox, alignment, zone, orientation, 'start');
+        let spaceEnd = this.space(originBox, alignment, zone, orientation, 'end');
 
         // how much does overlay reach into the safe zone
-        let spillStart = this.spillStart({ ...targetBox, ...targetPosition }, zone, orientation);
-        let spillEnd = this.spillEnd({ ...targetBox, ...targetPosition }, zone, orientation);
+        const spillStart = this.spillStart({ ...targetBox, ...targetPosition }, zone, orientation);
+        const spillEnd = this.spillEnd({ ...targetBox, ...targetPosition }, zone, orientation);
 
         if (spillStart > 0) {
 
@@ -347,17 +346,17 @@ export class PositionBehavior extends Behavior {
                     alignment.target[orientation] = 'start';
                 }
 
+                // recalculate aligned position after alignment change
                 targetPosition = getAlignedPosition(originBox, targetBox, alignment);
-                spillEnd = this.spillEnd({ ...targetBox, ...targetPosition }, zone, orientation);
-
-                if (spillEnd > 0) {
-
-                    this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style((orientation === 'horizontal' ? targetBox.width : targetBox.height) - spillEnd);
-                }
+                // recalculate space after alignment change
+                spaceEnd = this.space(originBox, alignment, zone, orientation, 'end');
+                // limit the maximum size along the orientation axis to the available space
+                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceEnd);
 
             } else {
 
-                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style((orientation === 'horizontal' ? targetBox.width : targetBox.height) - spillStart);
+                // limit the maximum size along the orientation axis to the available space
+                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceStart);
             }
 
             targetBox = getBoundingBox(this.element);
@@ -378,26 +377,65 @@ export class PositionBehavior extends Behavior {
                     alignment.target[orientation] = 'end';
                 }
 
+                // recalculate aligned position after alignment change
                 targetPosition = getAlignedPosition(originBox, targetBox, alignment);
-                spillStart = this.spillStart({ ...targetBox, ...targetPosition }, zone, orientation);
-
-                if (spillStart > 0) {
-
-                    this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style((orientation === 'horizontal' ? targetBox.width : targetBox.height) - spillStart);
-                }
+                // recalculate space after alignment change
+                spaceStart = this.space(originBox, alignment, zone, orientation, 'start');
+                // limit the maximum size along the orientation axis to the available space
+                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceStart);
 
             } else {
 
-                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style((orientation === 'horizontal' ? targetBox.width : targetBox.height) - spillEnd);
+                // limit the maximum size along the orientation axis to the available space
+                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceEnd);
             }
 
             targetBox = getBoundingBox(this.element);
             targetPosition = getAlignedPosition(originBox, targetBox, alignment);
+
+        } else {
+
+            // if the element fits (no spill) we still want to apply a maximum size in order
+            // to prevent any css animations from exceeding the available space
+            // we do this only if no maxWidth/maxHeight has been set through the position config
+            let max = this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'];
+
+            if (!max) {
+
+                max = (alignment.target[orientation] === 'start')
+                    ? style(spaceEnd)
+                    : (alignment.target[orientation] === 'end')
+                        ? style(spaceStart)
+                        : max;
+            }
+
+            this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = max;
         }
 
         return { ...targetBox, ...targetPosition };
     }
 
+    /**
+     * Calculates the available space before/after a position origin based on the alignment, safeZone and orientation.
+     */
+    protected space (originBox: BoundingBox, alignment: AlignmentPair, safeZone: Offset<number>, orientation: 'horizontal' | 'vertical', at: 'start' | 'end'): number {
+
+        const viewport = (orientation === 'horizontal') ? window.innerWidth : window.innerHeight;
+        const start = (orientation === 'horizontal') ? originBox.x : originBox.y;
+        const self = (orientation === 'horizontal') ? originBox.width : originBox.height;
+
+        const space = alignment.origin[orientation] === 'start'
+            ? start
+            : alignment.origin[orientation] === 'end'
+                ? start + self
+                : start + self / 2;
+
+        return (at === 'start' ? space : viewport - space) - safeZone[orientation] - alignment.offset[orientation];
+    }
+
+    /**
+     * Calculates the amount that a position target's start coordinates 'spill` over the safe zone.
+     */
     protected spillStart (targetBox: BoundingBox, safeZone: Offset<number>, orientation: 'horizontal' | 'vertical'): number {
 
         const zone = safeZone[orientation] ?? 0;
@@ -406,6 +444,9 @@ export class PositionBehavior extends Behavior {
         return zone - start;
     }
 
+    /**
+     * Calculates the amount that a position target's end coordinates 'spill` over the safe zone.
+     */
     protected spillEnd (targetBox: BoundingBox, safeZone: Offset<number>, orientation: 'horizontal' | 'vertical'): number {
 
         const zone = safeZone[orientation] ?? 0;
