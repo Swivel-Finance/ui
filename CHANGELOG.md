@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/Swivel-Finance/ui/compare/v0.0.3...v0.0.4) (2022-03-22)
+
+
+### Bug Fixes
+
+* **overlay-trigger:** ensure `aria-expanded` is updated when overlay animation starts ([2a180f1](https://github.com/Swivel-Finance/ui/commit/2a180f157217fed22c3e817621daed9bac972c6c))
+* **overlay:** ensure hidden overlays are set to `display: none;` ([3ebd3e3](https://github.com/Swivel-Finance/ui/commit/3ebd3e34600ecb4cf258c96d5d9cbdf5490afaf9))
+* **position:** ensure positioning always sets max sizes for positioned elements ([d7ee453](https://github.com/Swivel-Finance/ui/commit/d7ee453a241f2b77e2822a7dc3e166784db8eb4f))
+
 ### [0.0.3](https://github.com/Swivel-Finance/ui/compare/v0.0.2...v0.0.3) (2022-03-17)
 
 
