@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel/ui/elements/listbox</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel/ui/elements/listbox</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <h2>Listbox</h2>
+
+    <p>The <code>ui-listbox</code> element creates a fully accessible list of options which allows users to select one
+      of the options. Each option in a listbox is declared using a <code>ui-listitem</code> element.</p>
+
+    <p>Similar to regular <code>input</code> elements, the <code>ui-listbox</code> element: </p>
+
+    <ul>
+      <li>
+        has a <code>value</code> property, which supports arbitrary types of values,
+      </li>
+      <li>
+        and dispatches a <code>ui-value-changed</code> event when its value is changed through user interaction
+      </li>
+    </ul>
+
+    <p>Similar to regular <code>option</code> elements, the <code>ui-listitem</code> element: </p>
+
+    <ul>
+      <li>
+        has a <code>value</code> property, which supports arbitrary types of values,
+      </li>
+      <li>
+        supports different roles, like <code>option</code>, <code>menuitem</code>, <code>menuitemcheckbox</code> or
+        <code>menuitemradio</code>
+      </li>
+      <li>
+        additionally supports custom templates and styling
+      </li>
+    </ul>
+
+    <h2>Plain HTML Example</h2>
+
+    <p>This example shows a listbox using plain HTML and no data-binding or templating. The value for each item is set
+      using the <code>data-value</code> attribute.
+    </p>
+
+    <div class="container horizontal half">
+
+      <ui-listbox>
+        <ui-listitem data-value="One">Item One</ui-listitem>
+        <ui-listitem data-value="Two">Item Two</ui-listitem>
+        <ui-listitem data-value="Three">Item Three</ui-listitem>
+        <ui-listitem data-value="Four">Item Four</ui-listitem>
+      </ui-listbox>
+
+      <dl class="vertical">
+        <dt><code>ValueChangeEvent</code></dt>
+        <dd><pre id="listbox-event-output"></pre></dd>
+      </dl>
+
+    </div>
+
+    <h2>Component Example</h2>
+
+    <demo-listbox></demo-listbox>
+
+  </div>
+
+  <script>
+
+    const listbox = document.querySelector('ui-listbox');
+
+    listbox.addEventListener('ui-value-changed', event => {
+
+      const target = event.detail.target;
+
+      const output = {
+        type: event.type,
+        detail: {
+          ...event.detail,
+          target: `${ target.localName }${ target.id ? `#${ target.id }` : '' }`
+        },
+      };
+
+      document.getElementById('listbox-event-output').innerHTML = JSON.stringify(output, undefined, 2);
+    });
+
+  </script>
+  <script src="/dist/demo/elements/listbox/main.js" type="module"></script>
+</body>
+
+</html>

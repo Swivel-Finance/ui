@@ -1,0 +1,15 @@
+ui-listitem {
+  flex: 0 0 auto;
+  display: flex;
+  gap: var(--grid-size);
+  padding: calc(var(--grid-size) * 1.5) calc(var(--grid-size) * 2);
+  cursor: pointer;
+}
+
+ui-listitem:hover:not(.ui-selected):not([disabled]):not([aria-disabled=true]),
+ui-listitem:focus:not(.ui-selected):not([disabled]):not([aria-disabled=true]) {
+  --color-fg: var(--color-fg-active);
+  --color-bg: var(--color-bg-active);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}

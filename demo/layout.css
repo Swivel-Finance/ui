@@ -43,7 +43,31 @@ ul {
 code {
   display: inline-block;
   padding-inline: var(--grid-size-s);
-  color: var(--color-fg-lvl1-mc);
-  background-color: var(--color-bg-lvl1);
-  border-radius: var(--border-radius);
+  background-color: var(--theme-tint-lc);
+  border-radius: var(--border-radius-s);
+}
+
+.container {
+  margin-block-start: var(--line-height);
+}
+
+.horizontal {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--line-height);
+  align-items: flex-start;
+}
+
+.vertical {
+  display: flex;
+  flex-flow: column;
+  gap: var(--line-height);
+}
+
+.half > * {
+  flex-basis: 50%;
+}
+
+.third > * {
+  flex-basis: 33.333%;
 }
