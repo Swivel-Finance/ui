@@ -180,17 +180,30 @@ export class FocusTrap extends FocusMonitor {
 
                 if (forward || backward) {
 
-                    event.preventDefault();
-
                     if (!this.config.trapFocus) {
 
                         // if `trapFocus` is turned off, ensure the correct tab order when tabbing out of the focus trap
+                        // get all tabbables (ordered according to the natural tab sequence)
                         const tabbables = getTabbables(document.body);
+
+                        // the next tabbable would be a tabbable sibling of the focus trap's `previous`
                         const next = this.previous && tabbables[tabbables.indexOf(this.previous) + (forward ? 1 : -1)] || null;
 
-                        this.focus(!this.element?.contains(next) ? next : undefined);
+                        // if the focus trap element is a sibling of the trap's `previous`, we don't need to
+                        // do anything and can let the browser handle the tab sequence naturally
+                        // if the focus trap element isn't a sibling of the trap's `previous`, the trap element
+                        // is somewhere else in the DOM (e.g. an overlay in the `body`) and we need to handle the
+                        // tab sequence
+                        if (!this.element?.contains(next)) {
+
+                            event.preventDefault();
+
+                            this.focus(next);
+                        }
 
                     } else if (this.config.wrapFocus) {
+
+                        event.preventDefault();
 
                         // if `wrapFocus` is turned on, wrap the focus to the first/last tabbable in the trap
                         forward ? this.focusFirst() : this.focusLast();
