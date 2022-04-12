@@ -1,0 +1,118 @@
+/* hide the overlay inside the ui-select - it becomes visible when moved to the body */
+
+ui-select [data-part=overlay] {
+  display: none;
+}
+
+ui-select {
+  display: inline-flex;
+}
+
+/* select trigger */
+
+ui-select .ui-select-trigger {
+  flex: 1 1 auto;
+  opacity: 1;
+  text-align: start;
+}
+
+ui-select .ui-select-trigger[aria-expanded=true] {
+  opacity: 0;
+  border-radius: var(--border-radius);
+}
+
+ui-select .ui-select-trigger>.ui-select-trigger-label {
+  flex: 1 1 auto;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+ui-select .ui-select-trigger>ui-icon {
+  transform: rotate(90deg);
+}
+
+ui-select .ui-select-trigger[aria-expanded=true]>ui-icon {
+  transform: rotate(-90deg);
+}
+
+/* select overlay */
+
+.ui-select-overlay {
+  --color-bg: var(--theme-bg-hc);
+  --color-bg-active: var(--theme-tint-hc);
+  --color-fg-active: var(--theme-fg-hc);
+  --color-fg-disabled: var(--theme-fg-lc);
+  --item-height: calc(var(--line-height) + var(--grid-size) * 3);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-l), var(--shadow);
+}
+
+.ui-select-overlay>ui-listitem {
+  height: var(--item-height);
+  opacity: 1;
+  font-weight: var(--font-weight-bold);
+}
+
+.ui-select-overlay>ui-listitem.ui-active {
+  box-shadow: none;
+}
+
+.ui-select-overlay.ui-invisible>ui-listitem:not(.ui-selected) {
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+/* animations */
+
+ui-select .ui-select-trigger.ui-animate-in {
+  transition:
+    border-radius var(--transition-duration) var(--transition-timing),
+    opacity 0s var(--transition-timing) var(--transition-duration);
+}
+
+ui-select .ui-select-trigger.ui-animate-out[aria-expanded=true] {
+  border-radius: var(--border-radius-s);
+  opacity: 1;
+  transition:
+    border-radius var(--transition-duration) var(--transition-timing) var(--transition-duration),
+    opacity 0s var(--transition-timing) var(--transition-duration);
+}
+
+ui-select .ui-select-trigger.ui-animate-in>ui-icon,
+ui-select .ui-select-trigger.ui-animate-out>ui-icon {
+  transition-property: transform;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}
+
+ui-select .ui-select-trigger.ui-animate-out[aria-expanded=true]>ui-icon {
+  transform: rotate(90deg);
+  transition-delay: var(--transition-duration);
+}
+
+.ui-select-overlay.ui-animate-in,
+.ui-select-overlay.ui-animate-out {
+  transition-property: opacity, box-shadow;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}
+
+.ui-select-overlay.ui-animate-out {
+  transition-delay: var(--transition-duration);
+}
+
+.ui-select-overlay.ui-animate-in>ui-listitem,
+.ui-select-overlay.ui-animate-out>ui-listitem {
+  transition-property: opacity, height, padding, transform;
+  transition-duration: var(--transition-duration);
+  transition-delay: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}
+
+.ui-select-overlay.ui-animate-out>ui-listitem {
+  transition-delay: 0s;
+}
