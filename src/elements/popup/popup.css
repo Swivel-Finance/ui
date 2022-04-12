@@ -1,0 +1,33 @@
+/* hide the overlay inside the ui-popup - it becomes visible when moved to the body */
+ui-popup [data-part=overlay] {
+  display: none;
+}
+
+ui-popup {
+  display: inline-flex;
+}
+
+/* popup overlay */
+
+.ui-popup-overlay {
+  --color-bg: var(--theme-bg-hc);
+  --color-bg-active: var(--theme-tint-hc);
+  --color-fg-active: var(--theme-fg-hc);
+  --color-fg-disabled: var(--theme-fg-lc);
+  padding: var(--line-height);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-l), var(--shadow);
+}
+
+.ui-popup-overlay.ui-invisible {
+  transform: translateY(calc(var(--line-height) * -1)) !important;
+}
+
+/* optional animations */
+
+.ui-popup-overlay.ui-animate-in,
+.ui-popup-overlay.ui-animate-out {
+  transition-property: opacity, box-shadow, transform;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}

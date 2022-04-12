@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel/ui/elements/popup</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel/ui/elements/popup</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <h2>Popup</h2>
+
+    <p>The <code>ui-popup</code> element creates a fully accessible popup with a configurable trigger and overlay
+      element. Both the trigger and overlay have to be added as child elements to the <code>ui-popup</code> element
+      and marked using the <code>data-part="trigger"</code>/<code>data-part="overlay"</code> attribute respectively.
+      This is similar to using the <code>slot</code> attribute, however without depending on shadow DOM:</p>
+
+    <pre><xmp>
+    <ui-popup>
+      <button type="button" data-part="trigger">Open Popup</button>
+      <div data-part="overlay">
+        <p>This is some arbitrary popup content.</p>
+        <button class="primary">Ok</button>
+      </div>
+    </ui-popup>
+    </xmp></pre>
+
+    <p>The <code>ui-popup</code> element will create and manage the required behaviors for the popup functionality:</p>
+
+    <ul>
+      <li><code><a href="../../behaviors/focus/">FocusBehavior</a></code> for managing the popup overlay focus</li>
+      <li><code><a href="../../behaviors/position/">PositionBehavior</a></code> for managing the popup overlay position</li>
+      <li><code><a href="../../behaviors/overlay/">OverlayBehavior</a></code> and <code>OverlayTriggerBehavior</code>
+        for managing the interaction between the overlay and trigger</li>
+    </ul>
+
+    <p>The <code>ui-popup</code> element has the following properties / configuration options:</p>
+
+    <ul>
+      <li><code>overlayClasses</code>: an array of custom class names to be added to the overlay</li>
+      <li><code>triggerClasses</code>: an array of custom class names to be added to the trigger</li>
+      <li><code>config</code>: an object which allows to override the configurations of the popup's behavior instances</li>
+    </ul>
+
+    <p>The <code>ui-popup</code> element does <strong>NOT</strong> trap the focus in the overlay by default. This is in
+      line with the expected focus behavior of menu popups, listbox popups and similar ui elements, which capture the
+      focus (set the focus to an initial element inside the popup) but allow a user to tab out of the popup and move on
+      to the next element in the tab sequence. However, this behavior can be customized through the <code>config</code>
+      property.</p>
+
+    <h2>Plain HTML Example</h2>
+
+    <p>This example shows a popup using plain HTML and no data-binding or templating.</p>
+
+    <div class="container">
+
+      <ui-popup>
+        <button type="button" data-part="trigger">Open Popup</button>
+        <div data-part="overlay">
+          <p>This is some arbitrary popup content.</p>
+          <div class="container horizontal" style="justify-content:end;gap:var(--grid-size);">
+            <button class="primary">Ok</button><button>Cancel</button>
+          </div>
+        </div>
+      </ui-popup>
+
+    </div>
+
+    <h2>Component Example</h2>
+
+    <demo-popup></demo-popup>
+
+  </div>
+
+  <script src="/dist/demo/elements/popup/main.js" type="module"></script>
+</body>
+
+</html>
