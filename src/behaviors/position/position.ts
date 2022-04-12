@@ -3,7 +3,11 @@ import { AttributeManager } from '../../utils/dom/index.js';
 import { EventManager } from '../../utils/events/index.js';
 import { Behavior } from '../behavior.js';
 import { PositionConfig, POSITION_CONFIG_DEFAULT } from './config.js';
-import { AlignmentPair, BoundingBox, getAlignedPosition, getBoundingBox, Offset, Origin, PositionStyles, Size, style, styleAttribute } from './utils/index.js';
+import { Alignment, AlignmentPair, BoundingBox, getAlignedPosition, getBoundingBox, Offset, Origin, PositionStyles, Size, style, styleAttribute } from './utils/index.js';
+
+type AlignedBoundingBox = BoundingBox & Partial<Alignment>;
+
+const NOT_ATTACHED = () => new Error('The PositionBehavior is not attached.');
 
 export class PositionBehavior extends Behavior {
 
@@ -22,6 +26,10 @@ export class PositionBehavior extends Behavior {
     protected offset!: Offset<number>;
 
     protected styles!: PositionStyles;
+
+    protected targetBox!: BoundingBox;
+
+    protected firstUpdate = true;
 
     protected currentOrigin?: Origin;
 
@@ -54,9 +62,9 @@ export class PositionBehavior extends Behavior {
 
         if (!super.attach(element)) return false;
 
-        this.initialize();
-
         this.attributeManager = new AttributeManager(element);
+
+        this.initialize();
 
         this.addAttributes();
         this.addListeners();
@@ -110,9 +118,13 @@ export class PositionBehavior extends Behavior {
         const styles = this.updatePosition(origin, size);
 
         this.updateStyles(styles);
+
+        this.firstUpdate = false;
     }
 
     protected initialize (): void {
+
+        this.firstUpdate = true;
 
         const { zone, offset } = this.initializeOffsets();
 
@@ -129,6 +141,8 @@ export class PositionBehavior extends Behavior {
             minWidth: this.config.minWidth,
             minHeight: this.config.minHeight,
         };
+
+        this.targetBox = this.initializeTargetBox(this.styles);
     }
 
     protected addAttributes (): void {
@@ -237,14 +251,59 @@ export class PositionBehavior extends Behavior {
 
         return {
             zone: {
-                vertical: measures.top,
-                horizontal: measures.left,
+                vertical: window.scrollY + measures.top,
+                horizontal: window.scrollX + measures.left,
             },
             offset: {
                 vertical: measures.height,
                 horizontal: measures.width,
             },
         };
+    }
+
+    /**
+     * Calculate the initial target box.
+     *
+     * @remarks
+     * If a target box is animated, its dimensions can change during the animation and mislead the
+     * fitting algorithm in determining said dimensions. To mitigate this, we calculate the dimensions
+     * of the target box when the position behavior is attached - before any call `update` is made.
+     * In addition we use a special class name which shouldn't interfere with any CSS transitions or
+     * animations in order to visually hide the target during calculation but still get its unaltered
+     * dimensions.
+     */
+    protected initializeTargetBox (styles?: PositionStyles): BoundingBox {
+
+        if (!this.element) throw NOT_ATTACHED();
+
+        // backup any inline styles
+        const style = this.element.getAttribute('style');
+        // backup the hidden attribute
+        const hidden = this.element.hidden;
+        // backup the visibility class
+        const visibility = this.element.classList.contains(this.config.classes.visible) && this.config.classes.visible
+            || this.element.classList.contains(this.config.classes.invisible) && this.config.classes.invisible;
+
+        // setup the target for measuring
+        // add the layout check class name to visually hide the target
+        this.element.classList.add(this.config.classes.checkLayout);
+        // clear any inline styles (or use the ones provided)
+        this.element.setAttribute('style', styleAttribute(styles ?? {}));
+        // remove any visibility class
+        if (visibility) this.element.classList.remove(visibility);
+        // ensure the target is not hidden
+        if (hidden) this.element.hidden = false;
+
+        // measure the target
+        const targetBox = getBoundingBox(this.element);
+
+        // restore the target to its previous state
+        if (hidden) this.element.hidden = true;
+        if (visibility) this.element.classList.add(visibility);
+        this.element.setAttribute('style', style ?? '');
+        this.element.classList.remove(this.config.classes.checkLayout);
+
+        return targetBox;
     }
 
     protected updatePosition (origin?: Origin, size?: Size): PositionStyles | undefined {
@@ -260,7 +319,10 @@ export class PositionBehavior extends Behavior {
 
         this.updateStyles(styles);
 
-        const targetBox = getBoundingBox(this.element);
+        // on the first update use the initialized target box to prevent interference from animations
+        const targetBox = this.firstUpdate && !origin && !size
+            ? this.targetBox
+            : getBoundingBox(this.element);
 
         const alignment = {
             origin: { ...this.config.alignment.origin },
@@ -268,23 +330,20 @@ export class PositionBehavior extends Behavior {
             offset: { ...this.offset },
         };
 
-        if (this.config.safeZone) {
+        const position = this.config.safeZone
+            // if we have a safe zone, we need to fit the target into the zone
+            ? this.fitPosition(originBox, targetBox, alignment, this.zone)
+            // otherwise, we just need to calculate its aligned position
+            : this.fixPosition({
+                ...targetBox,
+                ...alignment.target,
+                ...getAlignedPosition(originBox, targetBox, alignment),
+            });
 
-            return {
-                ...styles,
-                ...this.fitPosition(originBox, targetBox, alignment, this.zone),
-            };
-
-        } else {
-
-            const targetPosition = getAlignedPosition(originBox, targetBox, alignment);
-
-            return {
-                ...styles,
-                top: `${ targetPosition.y + window.scrollY }px`,
-                left: `${ targetPosition.x + window.scrollX }px`,
-            };
-        }
+        return {
+            ...styles,
+            ...position,
+        };
     }
 
     protected updateStyles (styles: PositionStyles = {}): void {
@@ -301,22 +360,24 @@ export class PositionBehavior extends Behavior {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
 
-        targetBox = this.fitAxis(originBox, targetBox, alignment, zone, 'horizontal');
-        targetBox = this.fitAxis(originBox, targetBox, alignment, zone, 'vertical');
+        // run the fitting algorithm for the horizontal and vertical alignment axis
+        let alignedTargetBox = this.fitAxis(originBox, targetBox, alignment, zone, 'horizontal');
+        alignedTargetBox = this.fitAxis(originBox, alignedTargetBox, alignment, zone, 'vertical');
 
-        // limit the overlay's x position to the safe zone (the origin might be scrolled out of the safe zone)
-        targetBox.x = Math.min(Math.max(targetBox.x, zone.horizontal), Math.max(viewportWidth - zone.horizontal - targetBox.width, zone.horizontal));
-        targetBox.y = Math.min(Math.max(targetBox.y, zone.vertical), Math.max(viewportHeight - zone.vertical - targetBox.height, zone.vertical));
+        // limit the overlay's position to the safe zone (the origin might be scrolled out of the safe zone)
+        alignedTargetBox.x = Math.min(Math.max(alignedTargetBox.x, zone.horizontal), Math.max(viewportWidth - zone.horizontal - alignedTargetBox.width, zone.horizontal));
+        alignedTargetBox.y = Math.min(Math.max(alignedTargetBox.y, zone.vertical), Math.max(viewportHeight - zone.vertical - alignedTargetBox.height, zone.vertical));
+
+        const position = this.fixPosition(alignedTargetBox);
 
         return {
-            top: `${ targetBox.y + window.scrollY }px`,
-            left: `${ targetBox.x + window.scrollX }px`,
+            ...position,
             maxWidth: this.element.style.maxWidth,
             maxHeight: this.element.style.maxHeight,
         };
     }
 
-    protected fitAxis (originBox: BoundingBox, targetBox: BoundingBox, alignment: AlignmentPair, zone: Offset<number>, orientation: 'horizontal' | 'vertical'): BoundingBox {
+    protected fitAxis (originBox: BoundingBox, targetBox: AlignedBoundingBox, alignment: AlignmentPair, zone: Offset<number>, orientation: 'horizontal' | 'vertical'): AlignedBoundingBox {
 
         // get the initial aligned position
         let targetPosition = getAlignedPosition(originBox, targetBox, alignment);
@@ -359,7 +420,7 @@ export class PositionBehavior extends Behavior {
                 this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceStart);
             }
 
-            targetBox = getBoundingBox(this.element);
+            targetBox = { ...targetBox, ...getBoundingBox(this.element) };
             targetPosition = getAlignedPosition(originBox, targetBox, alignment);
 
         } else if (spillEnd > 0) {
@@ -390,7 +451,7 @@ export class PositionBehavior extends Behavior {
                 this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceEnd);
             }
 
-            targetBox = getBoundingBox(this.element);
+            targetBox = { ...targetBox, ...getBoundingBox(this.element) };
             targetPosition = getAlignedPosition(originBox, targetBox, alignment);
 
         } else {
@@ -412,7 +473,7 @@ export class PositionBehavior extends Behavior {
             this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = max;
         }
 
-        return { ...targetBox, ...targetPosition };
+        return { ...targetBox, ...targetPosition, [orientation]: alignment.target[orientation] };
     }
 
     /**
@@ -424,11 +485,14 @@ export class PositionBehavior extends Behavior {
         const start = (orientation === 'horizontal') ? originBox.x : originBox.y;
         const self = (orientation === 'horizontal') ? originBox.width : originBox.height;
 
-        const space = alignment.origin[orientation] === 'start'
+        let space = alignment.origin[orientation] === 'start'
             ? start
             : alignment.origin[orientation] === 'end'
                 ? start + self
                 : start + self / 2;
+
+        // clamp the space in the safe zone (the origin can be scrolled off the viewport)
+        space = Math.min(Math.max(safeZone[orientation], space), viewport - safeZone[orientation]);
 
         return (at === 'start' ? space : viewport - space) - safeZone[orientation] - alignment.offset[orientation];
     }
@@ -454,5 +518,45 @@ export class PositionBehavior extends Behavior {
         const max = (orientation === 'horizontal') ? window.innerWidth : window.innerHeight;
 
         return end - max + zone;
+    }
+
+    /**
+     * Creates {@link PositionStyles} for an {@link AlignedBoundingBox}.
+     *
+     * @remarks
+     * Positioning calculations are done based on the viewport origin being top left. This
+     * method adjusts the viewport origin to bottom right if the alignment of the bounding
+     * box is 'end'. This sets the correct positioning origin for animations when a target
+     * is 'end' aligned.
+     */
+    protected fixPosition (alignedTargetBox: AlignedBoundingBox): Partial<PositionStyles> {
+
+        const position: Partial<PositionStyles> = {};
+
+        if (alignedTargetBox.horizontal === 'end') {
+
+            const clientWidth = document.body.clientWidth;
+            position.left = 'unset';
+            position.right = `${ clientWidth - window.scrollX - alignedTargetBox.width - alignedTargetBox.x }px`;
+
+        } else {
+
+            position.left = `${ window.scrollX + alignedTargetBox.x }px`;
+            position.right = 'unset';
+        }
+
+        if (alignedTargetBox.vertical === 'end') {
+
+            const clientHeight = document.body.clientHeight;
+            position.top = 'unset';
+            position.bottom = `${ clientHeight - window.scrollY - alignedTargetBox.height - alignedTargetBox.y }px`;
+
+        } else {
+
+            position.top = `${ window.scrollY + alignedTargetBox.y }px`;
+            position.bottom = 'unset';
+        }
+
+        return position;
     }
 }

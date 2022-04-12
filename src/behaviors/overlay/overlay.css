@@ -2,7 +2,13 @@
   position: absolute;
   overflow: auto;
   contain: content;
-  will-change: top, left;
+  will-change: top, left, right, bottom;
+  background-color: var(--color-bg);
+}
+
+.ui-check-layout {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .ui-invisible {

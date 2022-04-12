@@ -10,4 +10,5 @@ export const CLASS_MAP = {
     horizontal: 'ui-horizontal',
     vertical: 'ui-vertical',
     overlay: 'ui-overlay',
+    checkLayout: 'ui-check-layout',
 };
