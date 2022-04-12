@@ -168,9 +168,9 @@ export class OverlayBehavior extends Behavior {
 
         this.showBackdrop();
 
-        const isVisible = toggleVisibility(element, true, this.config.animated, this.config.classes, this.config.animationOptions);
-
         this.config.positionBehavior?.attach(element);
+
+        const isVisible = toggleVisibility(element, true, this.trigger?.element, this.config.animated, this.config.classes, this.config.animationOptions);
 
         await isVisible;
 
@@ -200,7 +200,7 @@ export class OverlayBehavior extends Behavior {
 
         this.config.focusBehavior?.detach();
 
-        const isVisible = toggleVisibility(element, false, this.config.animated && !detaching, this.config.classes, this.config.animationOptions);
+        const isVisible = toggleVisibility(element, false, this.trigger?.element, this.config.animated && !detaching, this.config.classes, this.config.animationOptions);
 
         await isVisible;
 
