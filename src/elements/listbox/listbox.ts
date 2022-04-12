@@ -1,12 +1,13 @@
+import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { FocusChangeEvent, FocusMonitor } from '../../behaviors/focus/index.js';
 import { FocusListBehavior, ListBehavior, ListConfig, LIST_CONFIG_DEFAULT, SelectEvent } from '../../behaviors/list/index.js';
 import { EventManager } from '../../utils/events/index.js';
-import { InputElement } from '../input/index.js';
+import { MixinInput } from '../input/index.js';
 import { ListItemElement } from '../listitem/index.js';
 
 @customElement('ui-listbox')
-export class ListBoxElement extends InputElement {
+export class ListBoxElement extends MixinInput(LitElement) {
 
     protected eventManager = new EventManager();
 
