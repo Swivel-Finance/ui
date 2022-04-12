@@ -412,12 +412,14 @@ export class PositionBehavior extends Behavior {
                 // recalculate space after alignment change
                 spaceEnd = this.space(originBox, alignment, zone, orientation, 'end');
                 // limit the maximum size along the orientation axis to the available space
-                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceEnd);
+                // this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceEnd);
+                this.limitSize(this.element, style(spaceEnd), orientation);
 
             } else {
 
                 // limit the maximum size along the orientation axis to the available space
-                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceStart);
+                // this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceStart);
+                this.limitSize(this.element, style(spaceStart), orientation);
             }
 
             targetBox = { ...targetBox, ...getBoundingBox(this.element) };
@@ -443,12 +445,14 @@ export class PositionBehavior extends Behavior {
                 // recalculate space after alignment change
                 spaceStart = this.space(originBox, alignment, zone, orientation, 'start');
                 // limit the maximum size along the orientation axis to the available space
-                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceStart);
+                // this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceStart);
+                this.limitSize(this.element, style(spaceStart), orientation);
 
             } else {
 
                 // limit the maximum size along the orientation axis to the available space
-                this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceEnd);
+                // this.element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = style(spaceEnd);
+                this.limitSize(this.element, style(spaceEnd), orientation);
             }
 
             targetBox = { ...targetBox, ...getBoundingBox(this.element) };
@@ -558,5 +562,16 @@ export class PositionBehavior extends Behavior {
         }
 
         return position;
+    }
+
+    /**
+     * Limit the size of an element using CSS min function to respect configured default sizes.
+     */
+    protected limitSize (element: HTMLElement, size: string, orientation: 'horizontal' | 'vertical'): void {
+
+        const defaultSize = element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight']
+            || (orientation === 'horizontal' ? '100vw' : '100vh');
+
+        element.style[orientation === 'horizontal' ? 'maxWidth' : 'maxHeight'] = `min(${ size },${ defaultSize })`;
     }
 }
