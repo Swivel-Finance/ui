@@ -33,3 +33,19 @@ export const LIST_CONFIG_DEFAULT: ListConfig = {
     orientation: 'vertical',
     wrap: true,
 };
+
+export const LIST_CONFIG_MENU: ListConfig = {
+    classes: CLASS_MAP,
+    role: 'menu',
+    itemRole: 'menuitem',
+    orientation: 'vertical',
+    wrap: true,
+};
+
+export const LIST_CONFIG_MENU_RADIO: ListConfig = {
+    classes: CLASS_MAP,
+    role: 'menu',
+    itemRole: 'menuitemradio',
+    orientation: 'vertical',
+    wrap: true,
+};

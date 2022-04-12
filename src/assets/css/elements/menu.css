@@ -8,16 +8,14 @@
 [role=menuitem]:not(button),
 [role=menuitemradio]:not(button),
 [role=menuitemcheckbox]:not(button) {
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  gap: var(--grid-size);
   font-weight: var(--font-weight-bold);
 }
 
 [role=menuitemradio]:not(button)::before {
   content: '';
-  display: block;
+  display: inline-block;
+  vertical-align: top;
+  margin-inline-end: var(--grid-size);
   flex: 0 0 auto;
   width: var(--line-height);
   height: var(--line-height);

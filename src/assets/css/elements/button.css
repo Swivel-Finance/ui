@@ -7,7 +7,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: var(--grid-size);
-  padding: var(--grid-size) var(--line-height);
+  padding: calc(var(--grid-size) * 1.5) calc(var(--grid-size) * 2);
   text-align: center;
   font-weight: var(--font-weight-bold);
   color: var(--color-fg);

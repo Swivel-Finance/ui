@@ -26,7 +26,16 @@
     <h2>Listbox</h2>
 
     <p>The <code>ui-listbox</code> element creates a fully accessible list of options which allows users to select one
-      of the options. Each option in a listbox is declared using a <code>ui-listitem</code> element.</p>
+      of the options. Each option in a listbox is declared using a <code>ui-listitem</code> element:</p>
+
+    <pre><xmp>
+    <ui-listbox>
+      <ui-listitem data-value="One">Item One</ui-listitem>
+      <ui-listitem data-value="Two">Item Two</ui-listitem>
+      <ui-listitem data-value="Three">Item Three</ui-listitem>
+      <ui-listitem data-value="Four">Item Four</ui-listitem>
+    </ui-listbox>
+    </xmp></pre>
 
     <p>Similar to regular <code>input</code> elements, the <code>ui-listbox</code> element: </p>
 
@@ -48,6 +57,12 @@
       <li>
         supports different roles, like <code>option</code>, <code>menuitem</code>, <code>menuitemcheckbox</code> or
         <code>menuitemradio</code>
+      </li>
+      <li>
+        can be preselected by setting the <code>aria-selected</code> or <code>aria-checked</code> attribute
+      </li>
+      <li>
+        can be disabled by setting the <code>aria-disabled</code> attribute
       </li>
       <li>
         additionally supports custom templates and styling

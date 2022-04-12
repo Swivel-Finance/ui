@@ -28,8 +28,7 @@
   font-family: var(--font-family-mono);
 }
 
-.token-balance,
-.token-price {
+.token-amount {
   flex: 0 1 auto;
   display: inline-flex;
   align-items: center;

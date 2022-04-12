@@ -49,6 +49,18 @@ code {
 
 .container {
   margin-block-start: var(--line-height);
+  max-width: calc(var(--line-height) * 50);
+}
+
+.container > p,
+.container > ul {
+  line-height: calc(var(--font-size) * 1.5);
+}
+
+.container > ul {
+  list-style: initial;
+  margin-block-start: var(--line-height);
+  padding-inline-start: calc(var(--line-height) * 2);
 }
 
 .horizontal {

@@ -1,7 +1,7 @@
 import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { ListConfig } from '../../../src/behaviors/list/index.js';
+import { ListConfig, LIST_CONFIG_MENU, LIST_CONFIG_MENU_RADIO } from '../../../src/behaviors/list/index.js';
 import { ValueChangeEvent } from '../../../src/elements/input/events.js';
 import { ListBoxElement } from '../../../src/elements/listbox/index.js';
 import '../../../src/elements/icon/icon.js';
@@ -127,13 +127,11 @@ export class ListboxDemoElement extends LitElement {
     ];
 
     protected menuConfig: Partial<ListConfig> = {
-        role: 'menu',
-        itemRole: 'menuitemradio',
+        ...LIST_CONFIG_MENU_RADIO,
     };
 
     protected buttonsConfig: Partial<ListConfig> = {
-        role: 'menu',
-        itemRole: 'menuitem',
+        ...LIST_CONFIG_MENU,
         orientation: 'horizontal',
     };
 

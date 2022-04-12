@@ -21,6 +21,10 @@ demo-listbox {
   margin-block-start: var(--line-height);
 }
 
+ui-listitem > ui-icon:first-child {
+  margin-inline-end: var(--grid-size);
+}
+
 .button-menus {
   padding: var(--line-height);
   background-color: var(--theme-bg-hc);
