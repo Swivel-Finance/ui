@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/Swivel-Finance/ui/compare/v0.0.4...v0.0.5) (2022-04-13)
+
+
+### Features
+
+* **behaviors/focus:** add option to tab out of focus traps ([0d360f3](https://github.com/Swivel-Finance/ui/commit/0d360f3631b9608927f42f8b88a26a59f46825d9))
+* **behaviors/list:** add support for wrapping keyboard navigation ([8b2b54e](https://github.com/Swivel-Finance/ui/commit/8b2b54e907701a02d0b466c2d1f10c1a60aeb3d2))
+* **behaviors/overlay:** add mirror option to `toggleVisibility` ([d4d0000](https://github.com/Swivel-Finance/ui/commit/d4d000050ff667844c84561aa095d9b5fbfd29f5))
+* **elements/icon:** add icon element ([dd951d2](https://github.com/Swivel-Finance/ui/commit/dd951d27b28565d7a299ceac4b9fcf4560f82b37))
+* **elements/input:** add input element base class ([1d72d4c](https://github.com/Swivel-Finance/ui/commit/1d72d4c8db9640b5e7372c0cbebd75c0effb069c))
+* **elements/listbox:** add listbox element ([8ad72dd](https://github.com/Swivel-Finance/ui/commit/8ad72ddb10fd0894b3f92d0cec71b7ade712b167))
+* **elements/popup:** add popup element ([3b04d0c](https://github.com/Swivel-Finance/ui/commit/3b04d0cc0922843ade3e7b45ba9d551de3984cad))
+* **elements/select:** add select element ([f6a0bdb](https://github.com/Swivel-Finance/ui/commit/f6a0bdb0c6a7ebb1f0ae5c7c7bf08bf91ae4951d))
+
+
+### Bug Fixes
+
+* **behaviors/focus:** improve `trapFocus` handling ([db64622](https://github.com/Swivel-Finance/ui/commit/db646225ab6d5c94299d41bd53eaee0f19f18452))
+* **behaviors/overlay:** add backdrop styles ([00c29e2](https://github.com/Swivel-Finance/ui/commit/00c29e271112f54fa515d62bb1d00c7697f32b9f))
+* **behaviors/position:** `maxWidth` config option ([df3500b](https://github.com/Swivel-Finance/ui/commit/df3500b1717e5afbc91840c936bf5e1f0dae40fe))
+* **behaviors/position:** adjust the css position of 'end'-aligned elements ([3d630ee](https://github.com/Swivel-Finance/ui/commit/3d630eef7985e0f10619d69d32a04ac6a370eb6b))
+* **behavors/trigger:** add `aria-controls` attribute to overlay trigger ([79f7c5f](https://github.com/Swivel-Finance/ui/commit/79f7c5feaeffa732f542732ba1cb3ea9a5f6b9ab))
+* **elements/listitem:** ensure text-overflow on listitem and menu items ([680a4e5](https://github.com/Swivel-Finance/ui/commit/680a4e52d70b283bbaed94f08857563a3a1ffcf1))
+* **elements/tooltip:** use consistent `ui`-prefix for elements ([f6f7b42](https://github.com/Swivel-Finance/ui/commit/f6f7b42bc3c9529113364197bf64a2dbc1ea22e8))
+
 ### [0.0.4](https://github.com/Swivel-Finance/ui/compare/v0.0.3...v0.0.4) (2022-03-22)
 
 
