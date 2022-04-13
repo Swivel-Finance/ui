@@ -1,4 +1,5 @@
 @import '../../main.css';
+@import '../../../src/behaviors/overlay/backdrop/backdrop.css';
 @import '../../../src/behaviors/overlay/overlay.css';
 
 body {

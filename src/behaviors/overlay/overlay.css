@@ -4,6 +4,7 @@
   contain: content;
   will-change: top, left, right, bottom;
   background-color: var(--color-bg);
+  z-index: 1000;
 }
 
 .ui-check-layout {

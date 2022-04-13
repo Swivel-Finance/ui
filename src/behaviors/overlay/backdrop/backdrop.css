@@ -1,0 +1,19 @@
+ui-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  background-color: var(--color-bd);
+  z-index: 1000;
+}
+
+ui-backdrop.ui-visible {
+  opacity: var(--opacity-bd);
+}
+
+ui-backdrop.ui-animate-in,
+ui-backdrop.ui-animate-out {
+  transition: opacity var(--transition-duration) var(--transition-timing);
+}
