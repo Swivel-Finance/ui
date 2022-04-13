@@ -372,7 +372,8 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
             ? this.active
             : this.selected;
 
-        let from: number,
+        let start: number,
+            from: number,
             next: ListEntry<T> | undefined,
             previous: ListEntry<T> | undefined;
 
@@ -384,19 +385,44 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
 
             case 'next':
 
-                from = i ?? current?.index ?? -1;
-                next = this.entry((from = this.next(from)));
+                start = i ?? current?.index ?? -1;
+                from = start;
+                next = this.entry(this.next(from));
 
-                while (this.disabled(next) || this.hidden(next)) next = this.entry((from = this.next(from)));
+                // stop looking when:
+                // - next is undefined (there is no next item)
+                // - next is the same item as from (there is no next item)
+                // - next is the same item as start (we cycled once through all items)
+                // - next is neither disabled nor hidden (we have a valid next item)
+                while (next && next.index !== from && next.index !== start && (this.disabled(next) || this.hidden(next))) {
+
+                    from = next.index;
+                    next = this.entry(this.next(from));
+
+                    // if we started at -1 we need to correct it to 0 after the first pass
+                    // when cycling through items, we'll never actually hit the index -1 but 0
+                    // this is a special case as we define `find('first')` as `find('next', -1)`
+                    if (start === -1) start = 0;
+                }
 
                 return next ?? current;
 
             case 'previous':
 
-                from = i ?? current?.index ?? 0;
-                previous = this.entry((from = this.previous(from)));
+                start = i ?? current?.index ?? 0;
+                from = start;
+                previous = this.entry(this.previous(from));
 
-                while (this.disabled(previous) || this.hidden(previous)) previous = this.entry((from = this.previous(from)));
+                // stop looking when:
+                // - previous is undefined (there is no previous item)
+                // - previous is the same item as from (there is no previous item)
+                // - previous is the same item as start (we cycled once through all items)
+                // - previous is neither disabled nor hidden (we have a valid previous item)
+                while (previous && previous.index !== from && previous.index !== start && (this.disabled(previous) || this.hidden(previous))) {
+
+                    from = previous.index;
+                    previous = this.entry(this.previous(from));
+                }
 
                 return previous ?? current;
 
