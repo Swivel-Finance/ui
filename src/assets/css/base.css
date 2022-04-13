@@ -2,9 +2,19 @@
 @import './reset.css';
 @import './focus.css';
 @import './scrollbars.css';
+@import './state.css';
 
 body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: geometricPrecision;
+}
+
+/* disable animations for reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    --transition-duration: 0s;
+    --transition-delay: 0s;
+  }
 }

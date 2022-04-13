@@ -7,5 +7,8 @@ export const CLASS_MAP = {
     invisible: 'ui-invisible',
     animateIn: 'ui-animate-in',
     animateOut: 'ui-animate-out',
+    horizontal: 'ui-horizontal',
+    vertical: 'ui-vertical',
     overlay: 'ui-overlay',
+    checkLayout: 'ui-check-layout',
 };

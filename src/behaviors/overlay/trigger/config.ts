@@ -1,5 +1,5 @@
 export interface OverlayTriggerConfig {
-    role: 'alertdialog' | 'dialog' | 'menu' | 'tooltip';
+    role: string;
     delay: number;
 }
 

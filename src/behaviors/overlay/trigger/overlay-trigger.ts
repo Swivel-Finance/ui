@@ -77,6 +77,7 @@ export class OverlayTriggerBehavior extends Behavior {
         this.attributeManager?.set('id', this.element?.id || this.id);
         this.attributeManager?.set('aria-haspopup', this.config.role);
         this.attributeManager?.set('aria-expanded', !!this.overlay && !this.overlay.hidden);
+        this.attributeManager?.set('aria-controls', this.overlay?.element?.id);
     }
 
     protected removeAttributes (): void {

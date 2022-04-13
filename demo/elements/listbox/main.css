@@ -1,0 +1,36 @@
+@import '../../main.css';
+/* when using components, we should always include the component base styles */
+@import '../../../src/elements/icon/icon.css';
+@import '../../../src/elements/listbox/listbox.css';
+@import '../../../src/elements/listitem/listitem.css';
+@import '../../../src/assets/css/elements/menu.css';
+
+.container > p,
+.container > ul {
+  line-height: calc(var(--font-size) * 1.5);
+}
+
+.container > ul {
+  list-style: initial;
+  margin-block-start: var(--line-height);
+  padding-inline-start: calc(var(--line-height) * 2);
+}
+
+demo-listbox {
+  display: block;
+  margin-block-start: var(--line-height);
+}
+
+ui-listitem > ui-icon:first-child {
+  margin-inline-end: var(--grid-size);
+}
+
+.button-menus {
+  padding: var(--line-height);
+  background-color: var(--theme-bg-hc);
+  border-radius: var(--border-radius);
+}
+
+.button-menus ui-listbox {
+  align-self: flex-start;
+}

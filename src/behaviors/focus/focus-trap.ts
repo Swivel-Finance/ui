@@ -1,79 +1,10 @@
 import { activeElement, setAttribute } from '../../utils/dom/index.js';
 import { TAB } from '../../utils/index.js';
+import { FocusTrapConfig, FOCUS_TRAP_CONFIG_DEFAULT } from './config.js';
 import { FocusMonitor } from './focus-monitor.js';
+import { getTabbables } from './tabbable.js';
 
 const SELECTOR_ERROR = (selector: string) => `FocusTrap could not find element selector '${ selector }'. Review your FocusTrapConfig.`;
-
-/**
- * A CSS selector for matching elements which are not disabled or removed from the tab order
- *
- * @private
- * @internal
- */
-const INTERACTIVE = ':not([hidden]):not([aria-hidden=true]):not([disabled]):not([tabindex^="-"])';
-
-/**
- * An array of CSS selectors to match generally tabbable elements
- *
- * @private
- * @internal
- */
-const ELEMENTS = [
-    'a[href]',
-    'area[href]',
-    'button',
-    'input',
-    'select',
-    'textarea',
-    'iframe',
-    '[contentEditable]',
-    '[tabindex]',
-];
-
-/**
- * An array of CSS selectors to match interactive, tabbable elements
- */
-export const TABBABLES = ELEMENTS.map(ELEMENT => `${ ELEMENT }${ INTERACTIVE }`);
-
-/**
- * The {@link FocusTrap} configuration interface
- */
-export interface FocusTrapConfig {
-    /**
-     * A css selector string that matches all children that should be considered tabbable.
-     */
-    tabbableSelector: string;
-    /**
-     * Whether to "wrap around" the focus when tabbing past the first or last tabbable element.
-     */
-    wrapFocus: boolean;
-    /**
-     * Whether to automatically move the focus to the initial focusable element after attaching the behavior.
-     */
-    autoFocus: boolean;
-    /**
-     * Whether to automatically restore the focus to the previously focused element when detaching the behavior.
-     */
-    restoreFocus: boolean;
-    /**
-     * A CSS selector string that matches the initial focusable element.
-     */
-    initialFocus?: string;
-    /**
-     * Allows to prevent scrolling into view when focus is initially set and wrapped around.
-     */
-    focusOptions?: FocusOptions;
-}
-
-/**
- * The default {@link FocusTrap} configuration
- */
-export const FOCUS_TRAP_CONFIG_DEFAULT: FocusTrapConfig = {
-    tabbableSelector: TABBABLES.join(','),
-    wrapFocus: true,
-    autoFocus: true,
-    restoreFocus: true,
-};
 
 /**
  * The FocusTrap behavior
@@ -86,7 +17,7 @@ export const FOCUS_TRAP_CONFIG_DEFAULT: FocusTrapConfig = {
  */
 export class FocusTrap extends FocusMonitor {
 
-    protected tabbables?: NodeListOf<HTMLElement>;
+    protected tabbables?: HTMLElement[];
 
     protected start?: HTMLElement;
 
@@ -127,8 +58,7 @@ export class FocusTrap extends FocusMonitor {
 
         if (!this.hasAttached) return false;
 
-        // don't restore focus if it was already removed from the focus trap
-        if (this.config.restoreFocus && this.focused) {
+        if (this.config.restoreFocus) {
 
             this.restoreFocus();
         }
@@ -173,22 +103,26 @@ export class FocusTrap extends FocusMonitor {
         this.focus(this.end ?? this.element);
     }
 
+    /**
+     * Update the tabbables inside the focus trap.
+     *
+     * @remarks
+     * This method should be called by components using a focus trap when changing the contents of the trap element.
+     * // TODO: We could consider using a MutationObserver to automate this, but that seems heavy-handed.
+     */
     update (): void {
 
-        if (!this.hasAttached) return;
+        if (!this.element) return;
 
-        this.tabbables = this.element?.querySelectorAll(this.config.tabbableSelector);
+        this.tabbables = getTabbables(this.element, this.config);
 
-        if (this.element && this.tabbables) {
+        this.start = this.tabbables.length
+            ? this.tabbables[0]
+            : this.element;
 
-            this.start = this.tabbables.length
-                ? this.tabbables.item(0)
-                : this.element;
-
-            this.end = this.tabbables.length
-                ? this.tabbables.item(this.tabbables.length - 1)
-                : this.element;
-        }
+        this.end = this.tabbables.length
+            ? this.tabbables[this.tabbables.length - 1]
+            : this.element;
     }
 
     protected addAttributes (): void {
@@ -209,44 +143,71 @@ export class FocusTrap extends FocusMonitor {
 
     protected storeFocus (element?: HTMLElement): void {
 
-        if (!this.previous) {
+        if (this.previous) return;
 
-            this.previous = element ?? activeElement();
-        }
+        this.previous = element ?? activeElement();
     }
 
     protected restoreFocus (): void {
 
-        if (this.previous) {
+        // don't restore focus if it was already removed from the focus trap
+        if (!this.previous || !this.focused) return;
 
-            this.focus(this.previous);
+        this.focus(this.previous);
 
-            this.previous = undefined;
-        }
+        this.previous = undefined;
     }
 
-    protected focus (element: HTMLElement): void {
+    protected focus (element?: HTMLElement | null): void {
 
-        element.focus(this.config.focusOptions);
+        // `document.body.focus()` has no effect, we neeed to blur the active element instead
+        (!element || element === document.body)
+            ? activeElement().blur()
+            : element.focus(this.config.focusOptions);
     }
 
     protected handleKeyDown (event: KeyboardEvent): void {
+
+        let forward = false;
+        let backward = false;
 
         switch (event.key) {
 
             case TAB:
 
-                if (event.shiftKey && event.target === this.start) {
+                forward = !event.shiftKey && event.target === this.end;
+                backward = event.shiftKey && event.target === this.start;
 
-                    event.preventDefault();
+                if (forward || backward) {
 
-                    if (this.config.wrapFocus) this.focusLast();
+                    if (!this.config.trapFocus) {
 
-                } else if (!event.shiftKey && event.target === this.end) {
+                        // if `trapFocus` is turned off, ensure the correct tab order when tabbing out of the focus trap
+                        // get all tabbables (ordered according to the natural tab sequence)
+                        const tabbables = getTabbables(document.body);
 
-                    event.preventDefault();
+                        // the next tabbable would be a tabbable sibling of the focus trap's `previous`
+                        const next = this.previous && tabbables[tabbables.indexOf(this.previous) + (forward ? 1 : -1)] || null;
 
-                    if (this.config.wrapFocus) this.focusFirst();
+                        // if the focus trap element is a sibling of the trap's `previous`, we don't need to
+                        // do anything and can let the browser handle the tab sequence naturally
+                        // if the focus trap element isn't a sibling of the trap's `previous`, the trap element
+                        // is somewhere else in the DOM (e.g. an overlay in the `body`) and we need to handle the
+                        // tab sequence
+                        if (!this.element?.contains(next)) {
+
+                            event.preventDefault();
+
+                            this.focus(next);
+                        }
+
+                    } else if (this.config.wrapFocus) {
+
+                        event.preventDefault();
+
+                        // if `wrapFocus` is turned on, wrap the focus to the first/last tabbable in the trap
+                        forward ? this.focusFirst() : this.focusLast();
+                    }
                 }
 
                 break;
@@ -258,5 +219,11 @@ export class FocusTrap extends FocusMonitor {
         super.handleFocusIn(event);
 
         this.storeFocus(event.relatedTarget as HTMLElement ?? document.body);
+
+        // TODO: We could consider using a MutationObserver to automate this, but that seems heavy-handed
+        // focus changes inside a focus trap can occur naturally (by pressing tab) or synthetically through
+        // another behavior (e.g. list behavior) changing tabindexes and moving the focus (roving tabindex)
+        // in the latter case we want to make sure to update the trap's tabbables (changed tabindex means changed tabbables)
+        this.update();
     }
 }

@@ -20,6 +20,10 @@ export interface ListConfig {
      * The list's item layout (controls which arrow keys navigate the list).
      */
     orientation: 'horizontal' | 'vertical' | undefined;
+    /**
+     * Whether to "wrap around" the navigation when navigating past the first or last list item.
+     */
+    wrap?: boolean;
 }
 
 export const LIST_CONFIG_DEFAULT: ListConfig = {
@@ -27,4 +31,21 @@ export const LIST_CONFIG_DEFAULT: ListConfig = {
     role: 'listbox',
     itemRole: 'option',
     orientation: 'vertical',
+    wrap: true,
+};
+
+export const LIST_CONFIG_MENU: ListConfig = {
+    classes: CLASS_MAP,
+    role: 'menu',
+    itemRole: 'menuitem',
+    orientation: 'vertical',
+    wrap: true,
+};
+
+export const LIST_CONFIG_MENU_RADIO: ListConfig = {
+    classes: CLASS_MAP,
+    role: 'menu',
+    itemRole: 'menuitemradio',
+    orientation: 'vertical',
+    wrap: true,
 };

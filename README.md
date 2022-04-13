@@ -170,3 +170,14 @@ This second step takes the local changes and pushes them to origin (including th
 > The separation of the release into 2 steps is done on purpose. The first step will create a release locally only. So if anything goes wrong, you have the ability to revert your changes and not have them published.
 
 > When publishing to npm, you need to be logged in with the Swivel npm account. You can do that by running `npm login` in the repository root. This will also generate a `.npmrc` file in the directory storing an authToken. **This token must be git-ignored.**
+
+## Elements
+
+- Dialog (upcoming...)
+- Icon
+- Input (Mixin)
+- Listbox
+- Listitem
+- Popup
+- Select (Combobox, Menu)
+- Tooltip

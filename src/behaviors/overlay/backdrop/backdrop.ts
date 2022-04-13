@@ -21,12 +21,12 @@ export class BackdropElement extends HTMLElement {
 
     async show (): Promise<void> {
 
-        await toggleVisibility(this, true, this.config.animated, this.config.classes, this.config.animationOptions);
+        await toggleVisibility(this, true, undefined, this.config.animated, this.config.classes, this.config.animationOptions);
     }
 
     async hide (): Promise<void> {
 
-        await toggleVisibility(this, false, this.config.animated, this.config.classes, this.config.animationOptions);
+        await toggleVisibility(this, false, undefined, this.config.animated, this.config.classes, this.config.animationOptions);
     }
 
     protected initialize (): void {
@@ -34,7 +34,6 @@ export class BackdropElement extends HTMLElement {
         if (this.initialized) return;
 
         this.setAttribute('hidden', '');
-        this.setAttribute('style', 'position:fixed;top:0;left:0;right:0;bottom:0;');
         this.classList.add(this.config.classes.invisible);
 
         this.initialized = true;

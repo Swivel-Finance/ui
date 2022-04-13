@@ -1,0 +1,22 @@
+.ui-active {
+  --color-fg: var(--color-fg-active);
+  --color-bg: var(--color-bg-active);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+.ui-selected {
+  --color-fg: var(--color-fg-selected);
+  --color-bg: var(--color-bg-selected);
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+}
+
+[disabled],
+[aria-disabled=true] {
+  --color-fg: var(--color-fg-disabled);
+  --color-bg: var(--color-bg);
+  color: var(--color-fg);
+  background-color: transparent;
+  cursor: not-allowed;
+}

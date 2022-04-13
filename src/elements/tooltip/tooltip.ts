@@ -4,7 +4,7 @@ import { OverlayBehavior, OVERLAY_CONFIG_TOOLTIP, OVERLAY_TRIGGER_CONFIG_TOOLTIP
 import { PositionBehavior } from '../../behaviors/position/index.js';
 import { POSITION_CONFIG_TOOLTIP } from '../constants/index.js';
 
-@customElement('sw-tooltip')
+@customElement('ui-tooltip')
 export class TooltipElement extends LitElement {
 
     protected triggerBehaviors = new Map<HTMLElement, TooltipTriggerBehavior>();

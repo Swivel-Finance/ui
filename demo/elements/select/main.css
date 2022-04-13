@@ -1,0 +1,45 @@
+@import '../../main.css';
+/* when using components based on the overlay behavior, we should always include the behavior base styles */
+@import '../../../src/behaviors/overlay/overlay.css';
+/* when using components, we should always include the component base styles */
+@import '../../../src/assets/css/elements/amount.css';
+@import '../../../src/assets/css/elements/menu.css';
+@import '../../../src/elements/icon/icon.css';
+@import '../../../src/elements/select/select.css';
+@import '../../../src/elements/listbox/listbox.css';
+@import '../../../src/elements/listitem/listitem.css';
+
+demo-select {
+  display: block;
+  margin-block-start: var(--line-height);
+}
+
+/* customized select styles */
+
+ui-select.market-select {
+  width: calc(var(--grid-size) * 25);
+}
+
+.market-select .name {
+  flex: 0 1 auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.market-select .amount,
+.market-select .amount > .value {
+  flex: 0 0 auto;
+}
+
+.market-select .ui-select-trigger-label,
+.market-select ui-listitem {
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--grid-size);
+}
+
+.ui-select-overlay.market-select.ui-invisible ui-listitem.ui-selected {
+  padding-right: calc(var(--grid-size) * 5);
+}

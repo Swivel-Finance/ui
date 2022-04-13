@@ -43,7 +43,53 @@ ul {
 code {
   display: inline-block;
   padding-inline: var(--grid-size-s);
-  color: var(--color-fg-lvl1-mc);
-  background-color: var(--color-bg-lvl1);
+  background-color: var(--theme-tint-lc);
+  border-radius: var(--border-radius-s);
+}
+
+pre {
+  margin-block-start: var(--line-height);
+  background-color: var(--theme-bd);
   border-radius: var(--border-radius);
+}
+
+.container {
+  margin-block-start: var(--line-height);
+  max-width: calc(var(--line-height) * 50);
+}
+
+.container > p,
+.container > ul {
+  line-height: calc(var(--font-size) * 1.5);
+}
+
+.container > ul {
+  list-style: initial;
+  margin-block-start: var(--line-height);
+  padding-inline-start: calc(var(--line-height) * 2);
+}
+
+.horizontal {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--line-height);
+  align-items: flex-start;
+}
+
+.vertical {
+  display: flex;
+  flex-flow: column;
+  gap: var(--line-height);
+}
+
+.vertical > p {
+  margin-block-start: 0;
+}
+
+.half > * {
+  flex-basis: 50%;
+}
+
+.third > * {
+  flex-basis: 33.333%;
 }

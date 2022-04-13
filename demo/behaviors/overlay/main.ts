@@ -177,14 +177,22 @@ const initPointer = () => {
 
         if (!positionBehavior.hasAttached) return;
 
-        position = { x: event.clientX, y: event.clientY };
+        position = {
+            x: event.clientX,
+            y: event.clientY,
+        };
 
         void positionBehavior.requestUpdate(position);
     });
 
-    const togglePointerTip = () => {
+    const togglePointerTip = (event: MouseEvent) => {
 
         void overlayBehavior.toggle();
+
+        position = {
+            x: event.clientX,
+            y: event.clientY,
+        };
 
         void positionBehavior.requestUpdate(position);
     };

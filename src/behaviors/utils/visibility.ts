@@ -8,6 +8,7 @@ interface VisibilityTarget extends HTMLElement {
 export const toggleVisibility = async (
     element: HTMLElement,
     visible: boolean,
+    mirror: HTMLElement | undefined = undefined,
     animated = true,
     classes: Partial<Record<ClassNames, string>> = {},
     animationOptions?: Partial<AnimationsDoneOptions>,
@@ -34,10 +35,12 @@ export const toggleVisibility = async (
     if (animated) {
 
         element.classList.add(visible ? classMap.animateIn : classMap.animateOut);
+        mirror?.classList.add(visible ? classMap.animateIn : classMap.animateOut);
 
         await animationsDone(element, animationOptions);
 
         element.classList.remove(visible ? classMap.animateIn : classMap.animateOut);
+        mirror?.classList.remove(visible ? classMap.animateIn : classMap.animateOut);
 
         // animations are awaited asynchronously, so there is a possibility that the element's visibility
         // was toggled in the meantime - if that's the case we stop execution here

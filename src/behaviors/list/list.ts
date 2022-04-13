@@ -72,6 +72,12 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         this.addAttributes();
         this.addListeners();
 
+        // ensure there's an active list item to start with
+        if (!this.active) {
+
+            this.setActive('first');
+        }
+
         return true;
     }
 
@@ -143,21 +149,23 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
 
         if (!this.element) return;
 
-        this.attributeManager?.set('role', this.config.role ?? this.element.getAttribute('role'));
+        this.attributeManager?.set('role', this.element.getAttribute('role') || this.config.role);
         this.attributeManager?.set('tabindex', this.element.getAttribute('tabindex') ?? -1);
         this.attributeManager?.set('id', this.element.id || this.id);
         this.attributeManager?.set('aria-orientation', this.config.orientation);
 
+        this.element.classList.add(this.config.classes[this.config.orientation || 'vertical']);
+
         // we won't restore these to keep the item ids between attached/detached states
         this.items.forEach(item => {
 
-            setAttribute(item, 'role', this.config.itemRole ?? item.getAttribute('role'));
+            setAttribute(item, 'role', item.getAttribute('role') || this.config.itemRole);
             setAttribute(item, 'id', item.id || ITEM_ID_GENERATOR.getNext());
 
             // handle list items marked as selected
             if (item.getAttribute(selectionAttribute(item)) === 'true') {
 
-                this.markInactive(item);
+                this.setActive(item);
                 this.setSelected(item);
 
             } else {
@@ -171,6 +179,8 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
     protected removeAttributes (): void {
 
         this.attributeManager?.restoreAll();
+
+        this.element?.classList.remove(this.config.classes[this.config.orientation || 'vertical']);
     }
 
     protected addListeners (): void {
@@ -375,18 +385,18 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
             case 'next':
 
                 from = i ?? current?.index ?? -1;
-                next = this.entry(++from);
+                next = this.entry((from = this.next(from)));
 
-                while (this.disabled(next) || this.hidden(next)) next = this.entry(++from);
+                while (this.disabled(next) || this.hidden(next)) next = this.entry((from = this.next(from)));
 
                 return next ?? current;
 
             case 'previous':
 
                 from = i ?? current?.index ?? 0;
-                previous = this.entry(--from);
+                previous = this.entry((from = this.previous(from)));
 
-                while (this.disabled(previous) || this.hidden(previous)) previous = this.entry(--from);
+                while (this.disabled(previous) || this.hidden(previous)) previous = this.entry((from = this.previous(from)));
 
                 return previous ?? current;
 
@@ -420,5 +430,31 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
     protected hidden (entry: ListEntry<T> | undefined): boolean {
 
         return entry?.item.hidden || entry?.item.getAttribute('aria-hidden') === 'true';
+    }
+
+    /**
+     * Calculate the next item index based on the {@link ListConfig.wrap} setting.
+     *
+     * @param current - the current list item index
+     * @returns - the next index or the first index if `current` is the last index
+     */
+    protected next (current: number): number {
+
+        return (this.config.wrap && current >= this.items.length - 1)
+            ? 0
+            : current + 1;
+    }
+
+    /**
+     * Calculate the previous item index based on the {@link ListConfig.wrap} setting.
+     *
+     * @param current - the current list item index
+     * @returns - the previous index or the last index if `current` is the first index
+     */
+    protected previous (current: number): number {
+
+        return (this.config.wrap && current <= 0)
+            ? this.items.length - 1
+            : current - 1;
     }
 }

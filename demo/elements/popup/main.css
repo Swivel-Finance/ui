@@ -1,0 +1,124 @@
+@import '../../main.css';
+/* when using components based on the overlay behavior, we should always include the behavior base styles */
+@import '../../../src/behaviors/overlay/overlay.css';
+/* when using components, we should always include the component base styles */
+@import '../../../src/assets/css/elements/amount.css';
+@import '../../../src/assets/css/elements/menu.css';
+@import '../../../src/elements/icon/icon.css';
+@import '../../../src/elements/popup/popup.css';
+
+demo-popup {
+  display: block;
+  margin-block-start: var(--line-height);
+}
+
+/* redeem popup */
+
+.redeem-overlay {
+  display: flex;
+  flex-direction: column;
+  gap: var(--line-height);
+}
+
+.redeem-overlay dl {
+  display: grid;
+  grid-template-columns: max-content max-content;
+  column-gap: var(--line-height);
+  row-gap: var(--grid-size);
+}
+
+.redeem-overlay div {
+  display: flex;
+  flex-flow: row nowrap;
+  gap: var(--grid-size);
+}
+
+/* info popup */
+
+.info-popup {
+  align-self: center;
+}
+
+/* nav popup */
+
+.nav-popup {
+  align-self: flex-end;
+}
+
+.nav-button {
+  padding: var(--grid-size);
+}
+
+.nav-button[aria-expanded=true] {
+  --color-fg: var(--color-fg-selected);
+  --color-bg: var(--color-bg-selected);
+}
+
+.nav-overlay {
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.nav-overlay.ui-invisible {
+  transform: none !important;
+}
+
+.nav-overlay a {
+  --item-height: calc(var(--grid-size) * 5);
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: start;
+  gap: var(--line-height);
+  height: var(--item-height);
+  padding: calc(var(--grid-size) * 1.5) calc(var(--grid-size) * 2);
+  text-decoration: none;
+  font-weight: var(--font-weight-bold);
+}
+
+.nav-overlay.ui-invisible a:not(:first-of-type) {
+  padding-top: 0;
+  padding-bottom: 0;
+  height: 0;
+  opacity: 0;
+  transform: scaleY(0);
+}
+
+.nav-overlay a:hover,
+.nav-overlay a:focus {
+  color: var(--color-fg-active);
+  background-color: var(--color-bg-active);
+}
+
+.nav-overlay a.ui-selected,
+.nav-overlay a[aria-selected=true] {
+  color: var(--color-fg-selected);
+  background-color: var(--color-bg-selected);
+}
+
+.nav-overlay a[aria-disabled=true] {
+  color: var(--color-fg-disabled);
+  background-color: transparent;
+}
+
+.nav-overlay a ui-icon {
+  width: calc(var(--grid-size) * 2.5);
+  height: calc(var(--grid-size) * 2.5);
+}
+
+/* nav popup animations */
+
+.nav-overlay.ui-animate-in,
+.nav-overlay.ui-animate-out {
+  transition-property: opacity, box-shadow;
+}
+
+.nav-overlay.ui-animate-in a,
+.nav-overlay.ui-animate-out a {
+  transition-property: opacity, transform, height, padding;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}

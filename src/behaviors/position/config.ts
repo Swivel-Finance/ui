@@ -1,12 +1,15 @@
+import { ClassNames, CLASS_MAP } from '../utils/index.js';
 import { AlignmentConfig, ALIGNMENT_CONFIG_DEFAULT, hasAlignmentPairChanged, hasOriginChanged, hasSizeChanged, Offset, Origin, ORIGIN, Size, VIEWPORT } from './utils/index.js';
 
 export interface PositionConfig extends Size<typeof ORIGIN | string | number | undefined> {
+    classes: Record<ClassNames, string>;
     origin: Origin;
     alignment: AlignmentConfig;
     safeZone?: Partial<Offset>;
 }
 
 export const POSITION_CONFIG_DEFAULT: PositionConfig = {
+    classes: CLASS_MAP,
     origin: VIEWPORT,
     alignment: { ...ALIGNMENT_CONFIG_DEFAULT },
     safeZone: {

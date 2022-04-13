@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel/ui/elements/select</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel/ui/elements/select</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <h2>Select</h2>
+
+    <p>The <code>ui-select</code> element creates a fully accessible select popup with a <code>button</code> trigger and
+      a <code>ui-listbox</code> overlay. The <code>ui-select</code> element extends the
+      <code><a href="../popup/">ui-popup</a></code> element and inherits all of its properties and configuration options.
+      The trigger is created by the <code>ui-select</code> while the <code><a href="../listbox/">ui-listbox</a></code>
+      has to be provided by the user:</p>
+
+    <pre><xmp>
+    <ui-select>
+      <ui-listbox data-part="overlay">
+        <ui-listitem data-value="January">January</ui-listitem>
+        <ui-listitem data-value="February">February</ui-listitem>
+        <ui-listitem data-value="March">March</ui-listitem>
+        <ui-listitem data-value="April">April</ui-listitem>
+      </ui-listbox>
+    </ui-select>
+    </xmp></pre>
+
+    <p>Similar to regular <code>input</code> elements, the <code>ui-select</code> element: </p>
+
+    <ul>
+      <li>
+        has a <code>value</code> property, which supports arbitrary types of values,
+      </li>
+      <li>
+        and dispatches a <code>ui-value-changed</code> event when its value is changed through user interaction
+      </li>
+    </ul>
+
+    <p>A value can be preselected by adding the <code>aria-selected</code> (or <code>aria-checked</code> for
+      <code>menuitemcheckbox</code>/<code>menuitemradio</code> items) attribute to the selected
+      <code>ui-listitem</code>. This will also set the initial <code>value</code> of the <code>ui-select</code> element.
+    </p>
+
+    <h2>Plain HTML Example</h2>
+
+    <p>This example shows a select using plain HTML and no data-binding or templating.</p>
+
+    <div class="container">
+
+      <ui-select placeholder="Select Month...">
+        <ui-listbox data-part="overlay">
+          <ui-listitem data-value="January">January</ui-listitem>
+          <ui-listitem data-value="February">February</ui-listitem>
+          <ui-listitem data-value="March" aria-disabled="true">March</ui-listitem>
+          <ui-listitem data-value="April">April</ui-listitem>
+        </ui-listbox>
+      </ui-select>
+
+    </div>
+
+    <h2>Component Example</h2>
+
+    <demo-select></demo-select>
+
+  </div>
+
+  <script src="/dist/demo/elements/select/main.js" type="module"></script>
+</body>
+
+</html>
