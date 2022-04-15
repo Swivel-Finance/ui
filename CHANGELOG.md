@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://github.com/Swivel-Finance/ui/compare/v0.0.6...v0.0.7) (2022-04-15)
+
+
+### Features
+
+* **elements/select:** enable custom select trigger ([1fab4a4](https://github.com/Swivel-Finance/ui/commit/1fab4a45922d02f58c0a9cd2bdc12134aa5149de))
+
 ### [0.0.6](https://github.com/Swivel-Finance/ui/compare/v0.0.5...v0.0.6) (2022-04-13)
 
 
