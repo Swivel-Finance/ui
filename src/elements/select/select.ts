@@ -22,7 +22,7 @@ const template = function (this: SelectElement) {
         <span class="ui-select-trigger-label">
             ${ this.triggerTemplate.apply(this) }
         </span>
-        <ui-icon name="angle-right-b"></ui-icon>
+        <ui-icon class="ui-select-trigger-toggle" name="chevron"></ui-icon>
     </button>
     `;
 };
@@ -33,6 +33,8 @@ export class SelectElement extends MixinInput(PopupElement) {
     protected _config = SELECT_CONFIG_DEFAULT;
 
     protected listbox!: ListBoxElement;
+
+    protected hasTrigger = false;
 
     @property({ attribute: false })
     set config (value: DeepPartial<SelectConfig>) {
@@ -87,6 +89,8 @@ export class SelectElement extends MixinInput(PopupElement) {
 
     connectedCallback (): void {
 
+        this.hasTrigger = !!this.querySelector('[data-part=trigger]');
+
         this.listbox = this.querySelector('ui-listbox') as ListBoxElement;
 
         if (!this.listbox) throw MISSING_LISTBOX();
@@ -105,6 +109,8 @@ export class SelectElement extends MixinInput(PopupElement) {
     }
 
     protected render (): unknown {
+
+        if (this.hasTrigger) return;
 
         return template.apply(this);
     }

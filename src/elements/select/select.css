@@ -28,11 +28,11 @@ ui-select .ui-select-trigger>.ui-select-trigger-label {
   text-overflow: ellipsis;
 }
 
-ui-select .ui-select-trigger>ui-icon {
+ui-select .ui-select-trigger>.ui-select-trigger-toggle {
   transform: rotate(90deg);
 }
 
-ui-select .ui-select-trigger[aria-expanded=true]>ui-icon {
+ui-select .ui-select-trigger[aria-expanded=true]>.ui-select-trigger-toggle {
   transform: rotate(-90deg);
 }
 
@@ -82,14 +82,14 @@ ui-select .ui-select-trigger.ui-animate-out[aria-expanded=true] {
     opacity 0s var(--transition-timing) var(--transition-duration);
 }
 
-ui-select .ui-select-trigger.ui-animate-in>ui-icon,
-ui-select .ui-select-trigger.ui-animate-out>ui-icon {
+ui-select .ui-select-trigger.ui-animate-in>.ui-select-trigger-toggle,
+ui-select .ui-select-trigger.ui-animate-out>.ui-select-trigger-toggle {
   transition-property: transform;
   transition-duration: var(--transition-duration);
   transition-timing-function: var(--transition-timing);
 }
 
-ui-select .ui-select-trigger.ui-animate-out[aria-expanded=true]>ui-icon {
+ui-select .ui-select-trigger.ui-animate-out[aria-expanded=true]>.ui-select-trigger-toggle {
   transform: rotate(90deg);
   transition-delay: var(--transition-duration);
 }

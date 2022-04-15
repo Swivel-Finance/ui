@@ -10,8 +10,7 @@ ui-tooltip {
   gap: var(--grid-size);
   position: absolute;
   z-index: 1000;
-  /* TODO: revert to 30 grid after 1st reward cycle */
-  max-width: calc(var(--grid-size) * 32);
+  max-width: min(calc(100vw - var(--line-height) * 2), calc(var(--grid-size) * 32)) !important;
   padding: var(--grid-size) var(--line-height);
   font-size: var(--font-size-s);
   font-weight: normal;
