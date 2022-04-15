@@ -60,22 +60,40 @@ const template = function (this: SelectDemoElement): TemplateResult {
 
     <h3>Customized Select</h3>
 
-    <div class="container vertical">
-        <p>A select with a custom <code>placeholder</code>, <code>triggerTemplate</code> and additional class names.</p>
-        <p>The <code>triggerTemplate</code> is used to display custom information for selected entries - in this case
-        the rate of the selected market. In combination with the additional class names, custom styles for this select
-        instance are added in the demo's <code>main.css</code>. These styles animate the rate template between closed
-        and opened state and add <code>text-overflow: ellipsis;</code> styles for the market name to gracefully handle
-        larger labels. Try selecting the last market.</p>
+    <div class="container horizontal half">
 
-        <ui-select class="market-select" .placeholder=${ 'Choose Market...' }
-            .overlayClasses=${ ['market-select'] }
-            .triggerClasses=${ ['market-select'] }
-            .triggerTemplate=${ customTriggerTemplate }>
-            <ui-listbox data-part="overlay">
-                ${ this.items.map(item => html`<ui-listitem .value=${ item }><span class="name">${ item.label }</span>${ amount(item.rate.toString(), '%') }</ui-listitem>`) }
-            </ui-listbox>
-        </ui-select>
+        <div class="vertical">
+            <p>A select with a custom <code>placeholder</code>, <code>triggerTemplate</code> and additional class names.</p>
+            <p>The <code>triggerTemplate</code> is used to display custom information for selected entries - in this case
+            the rate of the selected market. In combination with the additional class names, custom styles for this select
+            instance are added in the demo's <code>main.css</code>. These styles animate the rate template between closed
+            and opened state and add <code>text-overflow: ellipsis;</code> styles for the market name to gracefully handle
+            larger labels. Try selecting the last market.</p>
+
+            <ui-select class="market-select" .placeholder=${ 'Choose Market...' }
+                .overlayClasses=${ ['market-select'] }
+                .triggerClasses=${ ['market-select'] }
+                .triggerTemplate=${ customTriggerTemplate }>
+                <ui-listbox data-part="overlay">
+                    ${ this.items.map(item => html`<ui-listitem .value=${ item }><span class="name">${ item.label }</span>${ amount(item.rate.toString(), '%') }</ui-listitem>`) }
+                </ui-listbox>
+            </ui-select>
+        </div>
+
+        <div class="vertical">
+            <p>A select with a custom trigger element, using a static placeholder text and a custom icon.</p>
+
+            <ui-select .config=${ SELECT_CONFIG_MENU_RADIO }>
+                <button data-part="trigger">
+                    <span class="ui-select-trigger-label">Status</span>
+                    <ui-icon name="filter"></ui-icon>
+                </button>
+                <ui-listbox data-part="overlay">
+                    ${ ['OPEN', 'CLOSED', 'ALL'].map(status => html`<ui-listitem .value=${ status }>${ status }</ui-listitem>`) }
+                </ui-listbox>
+            </ui-select>
+        </div>
+
     </div>
     `;
 };
