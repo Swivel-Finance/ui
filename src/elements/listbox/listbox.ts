@@ -1,7 +1,8 @@
 import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { FocusChangeEvent, FocusMonitor } from '../../behaviors/focus/index.js';
-import { FocusListBehavior, ListBehavior, ListConfig, LIST_CONFIG_DEFAULT, SelectEvent } from '../../behaviors/list/index.js';
+import { FocusListBehavior, isSelected, ListBehavior, ListConfig, LIST_CONFIG_DEFAULT, SelectEvent } from '../../behaviors/list/index.js';
+import { animationtask, TaskReference } from '../../utils/async/index.js';
 import { EventManager } from '../../utils/events/index.js';
 import { MixinInput } from '../input/index.js';
 import { ListItemElement } from '../listitem/index.js';
@@ -12,6 +13,8 @@ export class ListBoxElement extends MixinInput(LitElement) {
     protected eventManager = new EventManager();
 
     protected mutationObserver = new MutationObserver(this.handleMutations.bind(this));
+
+    protected updateTask?: TaskReference<void>;
 
     protected focused = false;
 
@@ -104,7 +107,7 @@ export class ListBoxElement extends MixinInput(LitElement) {
         this.eventManager.listen(this, 'ui-select-item', event => this.handleSelection(event as SelectEvent));
         this.eventManager.listen(this, 'ui-focus-changed', event => this.handleFocusChange(event as FocusChangeEvent));
 
-        this.mutationObserver.observe(this, { attributes: false, childList: true });
+        this.mutationObserver.observe(this, { attributeFilter: ['aria-selected', 'aria-checked'], childList: true, subtree: true });
     }
 
     protected removeListeners (): void {
@@ -154,16 +157,27 @@ export class ListBoxElement extends MixinInput(LitElement) {
 
         const update = mutations.some(record => {
 
+            const element = record.target instanceof ListItemElement ? record.target : undefined;
+            const updated = record.type === 'attributes' && !!element
+                && (isSelected(element) && this.listBehavior?.selectedEntry?.item !== element
+                    || !isSelected(element) && this.listBehavior?.selectedEntry?.item === element);
+
             const added = Array.from(record.addedNodes);
             const removed = Array.from(record.removedNodes);
 
-            return added.some(node => node instanceof ListItemElement)
+            return updated
+                || added.some(node => node instanceof ListItemElement)
                 || removed.some(node => node instanceof ListItemElement);
         });
 
-        if (update) {
+        if (update && !this.updateTask) {
 
-            this.attachBehaviors();
+            this.updateTask = animationtask(() => {
+
+                this.updateTask = undefined;
+
+                this.attachBehaviors();
+            });
         }
     }
 

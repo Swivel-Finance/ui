@@ -59,6 +59,7 @@ button[disabled]:focus {
   cursor: not-allowed;
   outline: none;
   box-shadow: none;
+  background-color: var(--color-bg);
 }
 
 .button-small {
