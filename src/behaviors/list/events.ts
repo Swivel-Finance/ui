@@ -7,6 +7,12 @@ export interface ListItemEventDetail<T extends HTMLElement = HTMLElement, V exte
     change: boolean;
 }
 
+export interface ListEventDetail<T extends HTMLElement = HTMLElement, V extends ListItem = ListItem> extends ElementEventDetail<T> {
+    active?: ListEntry<V>;
+    selected?: ListEntry<V>;
+    change: boolean;
+}
+
 export class ActivateEvent<T extends HTMLElement = HTMLElement, V extends ListItem = ListItem> extends ElementEvent<T, ListItemEventDetail<T, V>> {
     type!: 'ui-activate-item';
 
@@ -25,6 +31,15 @@ export class SelectEvent<T extends HTMLElement = HTMLElement, V extends ListItem
     }
 }
 
+export class ListUpdateEvent<T extends HTMLElement = HTMLElement, V extends ListItem = ListItem> extends ElementEvent<T, ListEventDetail<T, V>> {
+    type!: 'ui-list-updated';
+
+    constructor (detail: ListEventDetail<T, V>, init?: EventInit) {
+
+        super('ui-list-updated', detail, init);
+    }
+}
+
 /**
  * Add the list item events to the global HTMLElementEventMap.
  */
@@ -32,5 +47,6 @@ declare global {
     interface HTMLElementEventMap {
         'ui-activate-item': ActivateEvent;
         'ui-select-item': SelectEvent;
+        'ui-list-updated': ListUpdateEvent;
     }
 }

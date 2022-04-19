@@ -1,8 +1,8 @@
 import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { FocusChangeEvent, FocusMonitor } from '../../behaviors/focus/index.js';
-import { FocusListBehavior, isSelected, ListBehavior, ListConfig, LIST_CONFIG_DEFAULT, SelectEvent } from '../../behaviors/list/index.js';
-import { animationtask, TaskReference } from '../../utils/async/index.js';
+import { FocusListBehavior, ListBehavior, ListConfig, ListUpdateEvent, LIST_CONFIG_DEFAULT, SelectEvent } from '../../behaviors/list/index.js';
+import { animationtask, cancelTask, TaskReference } from '../../utils/async/index.js';
 import { EventManager } from '../../utils/events/index.js';
 import { MixinInput } from '../input/index.js';
 import { ListItemElement } from '../listitem/index.js';
@@ -66,11 +66,7 @@ export class ListBoxElement extends MixinInput(LitElement) {
 
     protected attachBehaviors (): void {
 
-        // backup the list behavior state we want to restore if a list behavior is attached
-        const active = this.listBehavior?.activeEntry?.index;
-        const selected = this.listBehavior?.selectedEntry?.index;
-
-        // detach the current list behavior
+        // detach the current behaviors
         this.detachBehaviors();
 
         // re-attach the focus monitor
@@ -84,9 +80,6 @@ export class ListBoxElement extends MixinInput(LitElement) {
         // re-query the list items and re-attach the list behavior
         this.listBehavior.attach(this, this.getItems());
 
-        // restore the list behavior state
-        this.restoreState(active, selected);
-
         // update the listbox value
         this.value = this.getValue(this.listBehavior.selectedEntry?.item);
 
@@ -95,6 +88,8 @@ export class ListBoxElement extends MixinInput(LitElement) {
     }
 
     protected detachBehaviors (): void {
+
+        this.updateTask && cancelTask(this.updateTask);
 
         this.removeListeners();
 
@@ -105,9 +100,10 @@ export class ListBoxElement extends MixinInput(LitElement) {
     protected addListeners (): void {
 
         this.eventManager.listen(this, 'ui-select-item', event => this.handleSelection(event as SelectEvent));
+        this.eventManager.listen(this, 'ui-list-updated', event => this.handleUpdate(event as ListUpdateEvent));
         this.eventManager.listen(this, 'ui-focus-changed', event => this.handleFocusChange(event as FocusChangeEvent));
 
-        this.mutationObserver.observe(this, { attributeFilter: ['aria-selected', 'aria-checked'], childList: true, subtree: true });
+        this.mutationObserver.observe(this, { attributes: false, childList: true });
     }
 
     protected removeListeners (): void {
@@ -117,31 +113,9 @@ export class ListBoxElement extends MixinInput(LitElement) {
         this.eventManager.unlistenAll();
     }
 
-    /**
-     * Restores the state of the list box after a list item of config update.
-     *
-     * @param active - the previously active item index
-     * @param selected - the previously selected item index
-     */
-    protected restoreState (active?: number, selected?: number): void {
+    protected handleFocusChange (event: FocusChangeEvent): void {
 
-        if (!this.listBehavior) return;
-
-        // if the selected item was the active item, we want to restore that
-        const selectedIsActive = active === selected;
-
-        // only retsore the selected item, if none was set during the item update
-        if (!this.listBehavior.selectedEntry) {
-
-            this.listBehavior.setSelected(selected);
-        }
-
-        // update the selected and active indizes based on the restored selected state
-        selected = this.listBehavior.selectedEntry?.index;
-        active = selectedIsActive ? selected : active;
-
-        // activate the correct item, restoring focus if the list box was focused before the update
-        this.listBehavior.setActive(active ?? selected ?? 'first', this.focused);
+        this.focused = event.detail.hasFocus;
     }
 
     protected handleSelection (event: SelectEvent): void {
@@ -153,37 +127,57 @@ export class ListBoxElement extends MixinInput(LitElement) {
         this.dispatchValueChange();
     }
 
+    /**
+     * Handle list behavior updates
+     *
+     * @remarks
+     * The list behavior fires update events when a list item's selected state changes through
+     * outside intervention or when the list items are updated. Both of these things can happen
+     * during template re-rendering and require a state update. We don't dispatch ValueChange
+     * events in these cases, as changes are not made through user interactions.
+     */
+    protected handleUpdate (event: ListUpdateEvent): void {
+
+        if (event.detail.target !== this || !event.detail.change) return;
+
+        this.value = this.getValue(event.detail.selected?.item as ListItemElement);
+    }
+
+    /**
+     * Handle DOM mutations
+     *
+     * @remarks
+     * We only observe `ui-listitem` elements being added or removed, attribute changes
+     * to the list items are observed by the list behavior itself. The `ui-listbox`
+     * element is responsible for managing its children and update the list behavior
+     * when items change. If that results in a state change in the list behavior, we
+     * capture it in the `handleUpdate` method.
+     */
     protected handleMutations (mutations: MutationRecord[]): void {
 
-        const update = mutations.some(record => {
+        const focused = this.focused;
 
-            const element = record.target instanceof ListItemElement ? record.target : undefined;
-            const updated = record.type === 'attributes' && !!element
-                && (isSelected(element) && this.listBehavior?.selectedEntry?.item !== element
-                    || !isSelected(element) && this.listBehavior?.selectedEntry?.item === element);
+        const update = mutations.some(record => {
 
             const added = Array.from(record.addedNodes);
             const removed = Array.from(record.removedNodes);
 
-            return updated
-                || added.some(node => node instanceof ListItemElement)
+            return added.some(node => node instanceof ListItemElement)
                 || removed.some(node => node instanceof ListItemElement);
         });
 
         if (update && !this.updateTask) {
 
+            // batch mutation callbacks into an animation frame callback
             this.updateTask = animationtask(() => {
 
                 this.updateTask = undefined;
 
-                this.attachBehaviors();
+                this.listBehavior?.update(this.getItems());
+
+                this.listBehavior?.setActive(this.listBehavior.activeEntry, focused);
             });
         }
-    }
-
-    protected handleFocusChange (event: FocusChangeEvent): void {
-
-        this.focused = event.detail.hasFocus;
     }
 
     protected getItems (): NodeListOf<ListItemElement> {
