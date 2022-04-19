@@ -1,7 +1,8 @@
 import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { SelectEvent } from '../../behaviors/list/events.js';
-import { cancel } from '../../utils/events/cancel.js';
+import { ListUpdateEvent, SelectEvent } from '../../behaviors/list/index.js';
+import { microtask } from '../../utils/async/index.js';
+import { cancel } from '../../utils/events/index.js';
 import { DeepPartial } from '../../utils/types.js';
 import { MixinInput, ValueChangeEvent } from '../input/index.js';
 import { ListBoxElement } from '../listbox/index.js';
@@ -121,6 +122,7 @@ export class SelectElement extends MixinInput(PopupElement) {
 
         this.eventManager.listen(this.listbox, 'ui-select-item', event => this.handleSelection(event as SelectEvent));
         this.eventManager.listen(this.listbox, 'ui-value-changed', event => this.handleValueChange(event as ValueChangeEvent));
+        this.eventManager.listen(this.listbox, 'ui-list-updated', event => this.handleUpdate(event as ListUpdateEvent));
     }
 
     protected handleSelection (event: SelectEvent): void {
@@ -145,5 +147,22 @@ export class SelectElement extends MixinInput(PopupElement) {
 
         // and dispatch our own `ValueChange` event
         this.dispatchValueChange();
+    }
+
+    protected handleUpdate (event: ListUpdateEvent): void {
+
+        // only handle events from the select's listbox
+        if (event.detail.target !== this.listbox) return;
+
+        // update the select in a microtask to ensure the listbox is updated
+        microtask(() => {
+
+            // ensure the element is still connected
+            if (!this.isConnected) return;
+
+            // store the new value in the select (this should also request and update)
+            this.value = this.listbox.value;
+        });
+
     }
 }

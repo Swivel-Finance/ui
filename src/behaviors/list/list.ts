@@ -1,9 +1,10 @@
+import { animationtask, cancelTask, TaskReference } from '../../utils/async/index.js';
 import { AttributeManager, IDGenerator, setAttribute } from '../../utils/dom/index.js';
 import { cancel, EventManager } from '../../utils/events/index.js';
 import { ARROW_DOWN, ARROW_LEFT, ARROW_RIGHT, ARROW_UP, ENTER, SPACE } from '../../utils/index.js';
 import { Behavior } from '../behavior';
 import { ListConfig, LIST_CONFIG_DEFAULT } from './config.js';
-import { ActivateEvent, SelectEvent } from './events.js';
+import { ActivateEvent, ListUpdateEvent, SelectEvent } from './events.js';
 import { ListEntry, ListEntryLocator, ListEntryState, ListItem } from './types.js';
 import { isSelected, selectionAttribute } from './utils.js';
 
@@ -14,9 +15,13 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
 
     protected config: ListConfig;
 
+    protected updateTask?: TaskReference<void>;
+
     protected attributeManager?: AttributeManager;
 
     protected eventManager = new EventManager();
+
+    protected mutationObserver = new MutationObserver(this.handleMutations.bind(this));
 
     protected id = LIST_ID_GENERATOR.getNext();
 
@@ -52,8 +57,8 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         if (!super.attach(list)) return false;
 
         this.attributeManager = new AttributeManager(list);
-        this.items = Array.from(items);
 
+        this.update(items, true);
         this.addAttributes();
         this.addListeners();
 
@@ -70,6 +75,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
 
         if (!this.hasAttached) return false;
 
+        this.updateTask && cancelTask(this.updateTask);
         this.removeListeners();
         this.removeAttributes();
 
@@ -130,6 +136,65 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         this.scrollIntoView(entry?.item);
     }
 
+    requestUpdate (items?: NodeListOf<T> | T[], silent?: boolean): Promise<void> {
+
+        if (this.updateTask) return this.updateTask.done;
+
+        this.updateTask = animationtask(() => {
+
+            this.updateTask = undefined;
+
+            this.update(items, silent);
+        });
+
+        return this.updateTask.done;
+    }
+
+    update (items?: NodeListOf<T> | T[], silent?: boolean): void {
+
+        // store the state before the update
+        const active = this.active;
+        const selected = this.selected;
+        const selectedIsActive = active === selected;
+
+        if (items) {
+
+            // reset the state to ensure we don't have outdated items stored
+            this.selected = undefined;
+            this.active = undefined;
+
+            // update the items array
+            this.items = Array.from(items);
+        }
+
+        // update the items and read the state
+        this.items.forEach(item => {
+
+            setAttribute(item, 'role', item.getAttribute('role') || this.config.itemRole);
+            setAttribute(item, 'id', item.id || ITEM_ID_GENERATOR.getNext());
+
+            // handle list items marked as selected
+            if (isSelected(item, this.config.itemRole)) {
+
+                this.setSelected(item);
+
+            } else {
+
+                this.markInactive(item);
+                this.markUnselected(item);
+            }
+        });
+
+        // restore the previously selected item, if no selected item was set during the update
+        if (items && !this.selected) this.setSelected(selected?.index);
+
+        // restore the previously active item
+        this.setActive((selectedIsActive ? this.selected : active?.index) ?? 'first');
+
+        // dispatch an update event
+        if (!silent) this.notifyUpdate(!!items || this.selected !== selected || this.active !== active);
+    }
+
     protected addAttributes (): void {
 
         if (!this.element) return;
@@ -140,25 +205,6 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         this.attributeManager?.set('aria-orientation', this.config.orientation);
 
         this.element.classList.add(this.config.classes[this.config.orientation || 'vertical']);
-
-        // we won't restore these to keep the item ids between attached/detached states
-        this.items.forEach(item => {
-
-            setAttribute(item, 'role', item.getAttribute('role') || this.config.itemRole);
-            setAttribute(item, 'id', item.id || ITEM_ID_GENERATOR.getNext());
-
-            // handle list items marked as selected
-            if (isSelected(item, this.config.itemRole)) {
-
-                this.setActive(item);
-                this.setSelected(item);
-
-            } else {
-
-                this.markInactive(item);
-                this.markUnselected(item);
-            }
-        });
     }
 
     protected removeAttributes (): void {
@@ -175,9 +221,19 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         this.eventManager.listen(this.element, 'click', event => this.handleClick(event as MouseEvent));
         this.eventManager.listen(this.element, 'mousedown', event => this.handleMousedown(event as MouseEvent));
         this.eventManager.listen(this.element, 'keydown', event => this.handleKeydown(event as KeyboardEvent));
+
+        this.mutationObserver.observe(this.element, {
+            attributeFilter: [
+                'aria-selected',
+                'aria-checked',
+            ],
+            subtree: true,
+        });
     }
 
     protected removeListeners (): void {
+
+        this.mutationObserver.disconnect();
 
         this.eventManager.unlistenAll();
     }
@@ -287,6 +343,27 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
     }
 
     /**
+     * Check mutations of list items and update if selected state was changed.
+     */
+    protected handleMutations (mutations: MutationRecord[]): void {
+
+        const update = mutations.some(record => {
+
+            const item = this.items.includes(record.target as T)
+                ? record.target as T
+                : undefined;
+
+            const updated = !!item && record.type === 'attributes'
+                && (isSelected(item) && this.selectedEntry?.item !== item
+                    || !isSelected(item) && this.selectedEntry?.item === item);
+
+            return updated;
+        });
+
+        if (update) void this.requestUpdate();
+    }
+
+    /**
      * Dispatch an {@link ActivateEvent}
      *
      * @param previousEntry - the previous active list entry
@@ -306,17 +383,34 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
     /**
      * Dispatch a {@link SelectEvent}
      *
-     * @param previousEnty - the previous selected list entry
+     * @param previousEntry - the previous selected list entry
      */
-    protected notifySelection (previousEnty?: ListEntry<T>): void {
+    protected notifySelection (previousEntry?: ListEntry<T>): void {
 
         if (!this.element) return;
 
         this.dispatch(new SelectEvent({
             target: this.element,
-            previous: previousEnty,
+            previous: previousEntry,
             current: this.selected,
-            change: previousEnty?.index !== this.selected?.index,
+            change: previousEntry?.index !== this.selected?.index,
+        }));
+    }
+
+    /**
+     * Dispatch a {@link ListUpdateEvent}
+     *
+     * @param change - a boolean indicating any change to the list
+     */
+    protected notifyUpdate (change: boolean): void {
+
+        if (!this.element) return;
+
+        this.dispatch(new ListUpdateEvent({
+            target: this.element,
+            active: this.active,
+            selected: this.selected,
+            change,
         }));
     }
 
