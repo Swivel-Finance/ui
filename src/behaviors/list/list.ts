@@ -5,22 +5,7 @@ import { Behavior } from '../behavior';
 import { ListConfig, LIST_CONFIG_DEFAULT } from './config.js';
 import { ActivateEvent, SelectEvent } from './events.js';
 import { ListEntry, ListEntryLocator, ListEntryState, ListItem } from './types.js';
-
-const SELECTION_ATTRIBUTE_MAP = {
-    'checkbox': 'aria-checked',
-    'radio': 'aria-checked',
-    'menuitem': 'aria-selected',
-    'menuitemcheckbox': 'aria-checked',
-    'menuitemradio': 'aria-checked',
-    'option': 'aria-selected',
-    'tab': 'aria-selected',
-    'default': 'aria-selected',
-};
-
-const selectionAttribute = (item: HTMLElement | undefined): string => {
-
-    return SELECTION_ATTRIBUTE_MAP[item?.getAttribute('role') as keyof typeof SELECTION_ATTRIBUTE_MAP || 'default'];
-};
+import { isSelected, selectionAttribute } from './utils.js';
 
 const LIST_ID_GENERATOR = new IDGenerator('ui-list-');
 const ITEM_ID_GENERATOR = new IDGenerator('ui-list-item-');
@@ -163,7 +148,7 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
             setAttribute(item, 'id', item.id || ITEM_ID_GENERATOR.getNext());
 
             // handle list items marked as selected
-            if (item.getAttribute(selectionAttribute(item)) === 'true') {
+            if (isSelected(item, this.config.itemRole)) {
 
                 this.setActive(item);
                 this.setSelected(item);
@@ -212,14 +197,14 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected markSelected (item: T | undefined, interactive = false): void {
 
-        item?.setAttribute(selectionAttribute(item), 'true');
+        item?.setAttribute(selectionAttribute(item, this.config.itemRole), 'true');
         item?.classList.add(this.config.classes.selected);
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     protected markUnselected (item: T | undefined, interactive = false): void {
 
-        item?.setAttribute(selectionAttribute(item), 'false');
+        item?.setAttribute(selectionAttribute(item, this.config.itemRole), 'false');
         item?.classList.remove(this.config.classes.selected);
     }
 
