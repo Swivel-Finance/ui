@@ -1,7 +1,7 @@
 {
   "name": "@swivel-finance/ui",
   "description": "UI behaviors and custom elements for Swivel frontends.",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "type": "module",
   "main": "index.js",
   "module": "index.js",

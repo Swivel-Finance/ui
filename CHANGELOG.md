@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.9](https://github.com/Swivel-Finance/ui/compare/v0.0.8...v0.0.9) (2022-04-19)
+
+
+### Bug Fixes
+
+* **behaviors/list:** dispatch update event from list behavior when items change ([8812f53](https://github.com/Swivel-Finance/ui/commit/8812f53fc4fdec9f157ed098041f0903a115da43))
+
 ### [0.0.8](https://github.com/Swivel-Finance/ui/compare/v0.0.7...v0.0.8) (2022-04-19)
 
 
