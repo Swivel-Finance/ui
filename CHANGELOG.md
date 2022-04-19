@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://github.com/Swivel-Finance/ui/compare/v0.0.7...v0.0.8) (2022-04-19)
+
+
+### Bug Fixes
+
+* **elements/listbox:** update listbox when the selection attribute is changed from the outside/template ([011f1d6](https://github.com/Swivel-Finance/ui/commit/011f1d6a3a50ddd6eead04a81a7d0df8ae5b749b))
+
 ### [0.0.7](https://github.com/Swivel-Finance/ui/compare/v0.0.6...v0.0.7) (2022-04-15)
 
 
