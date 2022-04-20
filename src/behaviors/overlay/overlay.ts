@@ -235,10 +235,18 @@ export class OverlayBehavior extends Behavior {
 
         if (!this.element) return;
 
-        this.attributeManager?.set('id', this.element.id || this.id);
+        const id = this.element.id || this.id;
+        const role = this.element.getAttribute('role') || this.config.role;
+
+        this.attributeManager?.set('id', id);
+        this.attributeManager?.set('role', role);
         this.attributeManager?.set('hidden', this.hidden);
-        this.attributeManager?.set('role', this.element.getAttribute('role') || this.config.role);
-        this.attributeManager?.set('aria-modal', this.config.modal);
+
+        if (role === 'dialog' || role === 'alertdialog' || role === 'window') {
+
+            // only set `aria-modal` on supported roles
+            this.attributeManager?.set('aria-modal', this.config.modal);
+        }
     }
 
     protected removeAttributes (): void {
