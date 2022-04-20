@@ -2,8 +2,20 @@
 /* when using components based on the overlay behavior, we should always include the behavior base styles */
 @import '../../../src/behaviors/overlay/overlay.css';
 /* when using components, we should always include the component base styles */
+@import '../../../src/elements/icon/icon.css';
+@import '../../../src/elements/popup/popup.css';
 @import '../../../src/elements/tooltip/tooltip.css';
 
 .container {
   margin-block-start: var(--line-height);
+}
+
+label[for] {
+  font-weight: var(--font-weight-bold);
+}
+
+input[type=text] {
+  text-align: right;
+  padding: var(--line-height);
+  background-color: rgba(0, 0, 0, .25);
 }

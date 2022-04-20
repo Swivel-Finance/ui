@@ -14,7 +14,7 @@
 </head>
 
 <body>
-  <h1>@swivel/ui/elements/tooltip</h1>
+  <h1><a href="../../">@swivel/ui/</a><a href="../">elements/</a>tooltip</h1>
 
   <noscript>
     <h1>JavaScript disabled</h1>
@@ -23,15 +23,132 @@
 
   <div class="container">
 
-    <p>I have a <a href="#" aria-describedby="tooltip-1">tooltip</a>. It won't fit above centered, so the position behavior will move it.</p>
+    <h2>Tooltip</h2>
 
-    <p>I have the same <a href="#" aria-labelledby="tooltip-1">tooltip</a>. It will fit above, but not centered, so the position behavior will move it to the right.</p>
+    <p>The <code>ui-tooltip</code> element creates an accessible tooltip for <strong>non-interactive</strong> content.
+      It can contain markup, but should not contain any interactive elements, as tooltips cannot be focused by
+      assistive technologies. If you need an overlay with interactive content (e.g. links or buttons) consider using
+      a <code>ui-popup</code> element instead and refer to the <a href="../popup/">Info Popup</a> example.</p>
 
-    <p>In this last example I still have the same <a href="#" aria-labelledby="tooltip-1">tooltip</a>. This time it will fit above centered.</p>
+    <pre><xmp>
+    <button aria-describedby="tooltip">Redeem</button>
 
-    <ui-tooltip id="tooltip-1">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+    <ui-tooltip id="tooltip">
+      Redeem your earned interest.
     </ui-tooltip>
+    </xmp></pre>
+
+    <p>To connect a tooltip to another element, the <code>ui-tooltip</code> element should have an explicit
+      <code>id</code> attribute set. The element owning the tooltip can then refer to the tooltip by using this
+      <code>id</code> as value for the <code>aria-describedby</code> or <code>aria-labelledby</code> attribute. The
+      <code>ui-tooltip</code> element will automatically find all elements in the document with these attributes and
+      manage the <code>TooltipTriggerBehavior</code> creation for the matching elements.</p>
+
+    <div class="container vertical">
+      <h3>Simple Tooltip</h3>
+
+      <p>Tooltips are positioned by the <a href="../../behaviors/overlay/">PositionBehavior</a> and automatically
+        adjust their alignment and position if there is not enough available space to display in the configured
+        area.</p>
+
+      <div class="horizontal">
+        <button aria-describedby="tooltip-left">Redeem</button>
+        <button aria-describedby="tooltip-center" style="margin: 0 auto;">Redeem</button>
+      </div>
+
+      <ui-tooltip id="tooltip-left">
+        <p>This tooltip won't fit centered over its trigger. The <code>PositionBehavior</code> will align it to the
+          left of the tooltip trigger.</p>
+      </ui-tooltip>
+
+      <ui-tooltip id="tooltip-center">
+        <p>This tooltip will fit centered over its trigger. The <code>PositionBehavior</code> will leave it as is.</p>
+      </ui-tooltip>
+
+      <p>The position is updated on smartly when the screen is resized, when the viewport is scrolled, and even when
+        the content of the tooltip changes. Keyboard-focus any of the tooltip triggers and scroll this page to see
+        the tooltip position being updated in real-time. If you scroll down far enough, you can even observe the
+        tooltip flipping from a top-alignment to a bottom-alignment in order to not leave the visible screen area.</p>
+    </div>
+
+    <div class="container vertical">
+      <h3>Shared Tooltip</h3>
+
+      <p><code>ui-tooltip</code> elements can be shared between multiple trigger elements by simply referring to the
+        same <code>id</code> from multiple trigger elements. The <code>ui-tooltip</code> will automatically set the
+        active origin for positioning the tooltip at the appropriate trigger element.</p>
+      <p>All of the following elements use the same <code>ui-tooltip</code> instance.</p>
+
+      <div class="container horizontal third">
+
+        <div class="vertical">
+          <p>A tooltip can be attached to pretty much any element, for example:</p>
+          <a href="#" aria-describedby="tooltip-1">This link</a>
+        </div>
+
+        <div class="vertical">
+          <p>You can attach tooltips to icons as well:</p>
+          <ui-icon name="question" aria-labelledby="tooltip-1"></ui-icon>
+          <p>Notice how the icon becomes keyboard-focusable when a tooltip is attached to it.</p>
+        </div>
+
+        <div class="vertical">
+          <p>You could even attach a tooltip to an input:</p>
+          <label for="input">Amount</label>
+          <input id="input" type="text" placeholder="0.00" aria-describedby="tooltip-1">
+        </div>
+      </div>
+
+      <ui-tooltip id="tooltip-1">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </ui-tooltip>
+    </div>
+
+  </div>
+
+  <div class="container horizontal half">
+
+    <div class="vertical">
+      <h3>Non-focusable Trigger</h3>
+
+      <p>The <code>TooltipTriggerBehavior</code> will usually set the <code>tabindex</code> attribute of the tooltip
+        trigger element to <code>0</code> to enable keyboard focusability of the trigger and improve accessibility.
+        In some cases however, this can lead to issues, when the trigger element is not supposed to be interactive
+        and/or would disturb the focus order of the document.</p>
+      <p>In these cases a tooltip trigger can be made non-focuable by explicitly setting its <code>tabindex</code>
+        to <code>-1</code>.</p>
+
+      <ui-icon name="question" aria-describedby="tooltip-2" tabindex="-1" style="align-self: center;"></ui-icon>
+
+      <ui-tooltip id="tooltip-2">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </ui-tooltip>
+    </div>
+
+    <div class="vertical">
+      <h3>Trigger with Overlay</h3>
+
+      <p>In this example the trigger element has multiple overlays attached: A popup and a tooltip. Both overlays
+        are triggered under different conditions and the popup overlay manages the focus of its trigger element,
+        essentially blurring the trigger element once the popup overlay is shown.</p>
+      <p>The tooltip shows with a scheduled delay, and it ensures the trigger still meets the condition for showing
+        the tooltip (it hasn't lost focused / it is still hovered by the mouse pointer). If those conditions are not
+        met, the tooltip should not show, e.g. when the popup opens and moves the focus to its overlay, the trigger
+        element is no longer focused and the tooltip should not show.</p>
+
+      <ui-popup>
+        <button data-part="trigger" aria-describedby="tooltip-3">Redeem</button>
+        <div data-part="overlay">
+          <p>Redeem your interest.</p>
+          <button>Cancel</button>
+          <button class="primary">Confirm</button>
+        </div>
+      </ui-popup>
+
+      <ui-tooltip id="tooltip-3">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </ui-tooltip>
+    </div>
 
   </div>
 
