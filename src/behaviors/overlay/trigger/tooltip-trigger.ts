@@ -1,4 +1,6 @@
-import { CancelError, delay, TaskReference } from '../../../utils/async/index.js';
+import { cancelTask, delay, TaskReference } from '../../../utils/async/index.js';
+import { cancel } from '../../../utils/events/index.js';
+import { ESCAPE } from '../../../utils/index.js';
 import { OverlayTriggerConfig } from './config.js';
 import { OverlayTriggerBehavior } from './overlay-trigger.js';
 
@@ -9,7 +11,15 @@ export const OVERLAY_TRIGGER_CONFIG_TOOLTIP: OverlayTriggerConfig = {
 
 export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
 
-    protected willShow?: TaskReference;
+    /**
+     * We use a helper state to deal with async timing of showing/hiding
+     */
+    protected active = false;
+
+    /**
+     * We use a task to show the tooltip with a delay
+     */
+    protected updateTask?: TaskReference;
 
     constructor (config?: Partial<OverlayTriggerConfig>) {
 
@@ -18,11 +28,30 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
         this.config = { ...OVERLAY_TRIGGER_CONFIG_TOOLTIP, ...config };
     }
 
+    detach (...args: unknown[]): boolean {
+
+        // ensure to cancel any scheduled updateTask when detaching
+        this.updateTask && cancelTask(this.updateTask);
+
+        this.updateTask = undefined;
+
+        this.active = false;
+
+        return super.detach(...args);
+    }
+
+    update (): void {
+
+        // don't set `aria-expanded` attribute on the tooltip trigger
+    }
+
     protected show (): void {
 
-        this.willShow = delay(() => {
+        this.active = true;
 
-            if (this.hasAttached && this.overlay) {
+        this.updateTask = delay(() => {
+
+            if (this.hasAttached && this.overlay && this.active) {
 
                 const positionBehavior = this.overlay.config.positionBehavior;
 
@@ -36,33 +65,26 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
                 void this.overlay?.show();
             }
 
-            this.willShow = undefined;
+            this.updateTask = undefined;
 
         }, this.config.delay);
-
-        this.willShow.done.catch(error => {
-
-            if (!(error instanceof CancelError)) throw error;
-        });
     }
 
     protected hide (): void {
 
-        if (this.willShow) {
+        this.active = false;
 
-            this.willShow.cancel();
-            this.willShow = undefined;
+        this.updateTask && cancelTask(this.updateTask);
 
-        } else {
+        this.updateTask = undefined;
 
-            void this.overlay?.hide();
-        }
+        void this.overlay?.hide();
     }
 
     protected addAttributes (): void {
 
         this.attributeManager?.set('id', this.element?.id || this.id);
-        this.attributeManager?.set('tabindex', 0);
+        this.attributeManager?.set('tabindex', this.element?.getAttribute('tabindex') ?? 0);
         this.attributeManager?.set('aria-describedby', this.overlay?.element?.id ?? '');
     }
 
@@ -74,5 +96,23 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
         this.eventManager.listen(this.element, 'mouseleave', () => this.hide());
         this.eventManager.listen(this.element, 'focus', () => this.show());
         this.eventManager.listen(this.element, 'blur', () => this.hide());
+        this.eventManager.listen(this.element, 'keydown', event => this.handleKeyDown(event as KeyboardEvent));
+    }
+
+    protected handleKeyDown (event: KeyboardEvent): void {
+
+        if (!this.overlay || event.target !== this.element) return;
+
+        switch (event.key) {
+
+            case ESCAPE:
+
+                // don't handle ESCAPE if the overlay is hidden
+                if (this.overlay.hidden) break;
+
+                cancel(event);
+                this.hide();
+                break;
+        }
     }
 }
