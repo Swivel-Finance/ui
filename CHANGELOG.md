@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.10](https://github.com/Swivel-Finance/ui/compare/v0.0.9...v0.0.10) (2022-04-21)
+
+
+### Bug Fixes
+
+* **behaviors/overlay:** add `aria-modal` on supported roles only ([3454e7b](https://github.com/Swivel-Finance/ui/commit/3454e7b8cc1bed96d227bb2fa16334a72f19353b))
+* **tooltip-trigger:** improve show/hide behavior for triggers with multiple overlays ([79ffd54](https://github.com/Swivel-Finance/ui/commit/79ffd541ac463c2b918fe5f7fbf9b9b92476269c))
+
 ### [0.0.9](https://github.com/Swivel-Finance/ui/compare/v0.0.8...v0.0.9) (2022-04-19)
 
 
