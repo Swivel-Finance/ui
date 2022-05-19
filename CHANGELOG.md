@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.11](https://github.com/Swivel-Finance/ui/compare/v0.0.10...v0.0.11) (2022-05-19)
+
+
+### Bug Fixes
+
+* **focus-monitor:** make nested `FocusMonitor`s work correctly ([bed9200](https://github.com/Swivel-Finance/ui/commit/bed9200fd89966268ec62d17aaf0749ec8dd1984)), closes [#12](https://github.com/Swivel-Finance/ui/issues/12)
+
 ### [0.0.10](https://github.com/Swivel-Finance/ui/compare/v0.0.9...v0.0.10) (2022-04-21)
 
 
