@@ -44,6 +44,7 @@ export class FocusMonitor extends Behavior {
 
         this.eventManager.listen(element, 'focusin', event => this.handleFocusIn(event as FocusEvent));
         this.eventManager.listen(element, 'focusout', event => this.handleFocusOut(event as FocusEvent));
+        this.eventManager.listen(element, 'ui-focus-changed', event => this.handleFocusChange(event as FocusChangeEvent));
 
         return true;
     }
@@ -67,15 +68,11 @@ export class FocusMonitor extends Behavior {
 
             this.hasFocus = true;
 
-            // schedule to dispatch a focus-changed event in the next macro-task to make
+            // schedule to dispatch a FocusChangeEvent in the next macro-task to make
             // sure it is dispatched after the focus has moved
             // we also check that focus state hasn't changed until the macro-task
             task(() => this.focused && this.notifyFocusChange(event));
         }
-
-        // stop the original focusin event from bubbling up the DOM and ending up in a parent
-        // component's focus monitor
-        cancel(event);
     }
 
     protected handleFocusOut (event: FocusEvent): void {
@@ -84,15 +81,21 @@ export class FocusMonitor extends Behavior {
 
             this.hasFocus = false;
 
-            // schedule to dispatch a focus-changed event in the next macro-task to make
+            // schedule to dispatch a FocusChangeEvent in the next macro-task to make
             // sure it is dispatched after the focus has moved
             // we also check that focus state hasn't changed until the macro-task
             task(() => !this.focused && this.notifyFocusChange(event));
         }
+    }
 
-        // stop the original focusout event from bubbling up the DOM and ending up in a parent
-        // component's focus monitor
-        cancel(event);
+    protected handleFocusChange (event: FocusChangeEvent): void {
+
+        // swallow FocusChangeEvents from nested FocusMonitors: any code observing
+        // this FocusMonitor shouldn't get events from nested FocusMonitors
+        if (event.detail.target !== this.element) {
+
+            cancel(event);
+        }
     }
 
     protected notifyFocusChange (event: FocusEvent): void {
