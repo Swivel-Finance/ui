@@ -1,7 +1,7 @@
 import { html, LitElement, TemplateResult } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
-import { ListConfig, LIST_CONFIG_MENU, LIST_CONFIG_MENU_RADIO } from '../../../src/behaviors/list/index.js';
+import { ListConfig, ListEntryLocator, LIST_CONFIG_MENU, LIST_CONFIG_MENU_RADIO } from '../../../src/behaviors/list/index.js';
 import { ValueChangeEvent } from '../../../src/elements/input/events.js';
 import { ListBoxElement } from '../../../src/elements/listbox/index.js';
 import '../../../src/elements/icon/icon.js';
@@ -93,6 +93,75 @@ const template = function (this: ListboxDemoElement): TemplateResult {
         </div>
 
     </div>
+
+    <h3>Updating a Listbox</h3>
+
+    <div class="container horizontal half">
+
+        <div class="container vertical update-form">
+
+            <ui-listbox @ui-value-changed=${ () => this.requestUpdate() } ${ ref(this.updateable) }>
+                <ui-listitem .value=${ 'one' }>One</ui-listitem>
+                <ui-listitem .value=${ 'two' }>Two</ui-listitem>
+                <ui-listitem .value=${ 'three' }>Three</ui-listitem>
+                <ui-listitem .value=${ 'four' } aria-disabled="true">Four</ui-listitem>
+                <ui-listitem .value=${ 'five' }>Five</ui-listitem>
+            </ui-listbox>
+
+            <div class="vertical">
+
+                <label>Current value</label>
+
+                <pre>${ this.updateable.value?.value ?? 'undefined' }</pre>
+
+                <label for="item-locator">
+                    Select a list item by index (0, 1, ...) <br/>or locator (first, next, ...)
+                </label>
+
+                <input id="item-locator" type="text" placeholder="0, 1, ... or first, next, ..." ${ ref(this.input) }>
+
+                <div class="horizontal half">
+                    <button type="button" @click=${ () => this.setActive() }>setActive</button>
+                    <button type="button" @click=${ () => this.setSelected() }>setSelected</button>
+                    <button type="button" @click=${ () => this.reset() }>reset</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container vertical">
+            <p>
+                Setting the value of a <code>ui-listbox</code> is not totally straight forward, as the list box derives
+                its value from the currently selected <code>ui-listitem</code>. A list item can specify its value through
+                either a <code>value</code> property or a <code>data-value</code> attribute. Whenever the underlying
+                list behavior dispatches a selection event, the list box reads the property/attribute from the selected
+                list item and updates its value property.
+            </p>
+            <p>
+                Doing the same in reverse can be tricky, especially for <code>undefined</code> values (is the
+                <code>value</code> property in the list item simply not set or actually <code>undefined</code>) and
+                <code>object</code> values (which might require deep property checking for equality checks if the value
+                instances can't be guaranteed to be the same).
+            </p>
+            <p>
+                For this reason, the <code>ui-listbox</code> proxies some the underlying
+                <code><a href="../../behaviors/list">ListBehavior</a></code>'s API:
+            </p>
+            <ul>
+                <li>
+                    <code>setActive</code>: Set the active list item by item index, item reference (the actual dom element)
+                    or a "locator" string (like "previous", "next", "first", "last", "current").
+                </li>
+                <li>
+                    <code>setSelected</code>: Set the selected list item by item index, item reference (the actual dom element)
+                    or a "locator" string (like "previous", "next", "first", "last", "current").
+                </li>
+                <li>
+                    <code>reset</code>: Reset the active list item to the first item and clear any selection.
+                </li>
+            </ul>
+        </div>
+    </div>
+
     `;
 };
 
@@ -102,6 +171,10 @@ export class ListboxDemoElement extends LitElement {
     protected listbox = createRef<ListBoxElement>();
 
     protected menu = createRef<ListBoxElement>();
+
+    protected updateable = createRef<ListBoxElement>();
+
+    protected input = createRef<HTMLInputElement>();
 
     protected values = [
         {
@@ -158,5 +231,28 @@ export class ListboxDemoElement extends LitElement {
         }
 
         this.requestUpdate();
+    }
+
+    protected setActive (): void {
+
+        const value = this.input.value?.value ?? '';
+        const index = parseInt(value);
+        const item = isNaN(index) ? value as ListEntryLocator : index;
+
+        this.updateable.value?.setActive(item, true);
+    }
+
+    protected setSelected (): void {
+
+        const value = this.input.value?.value ?? '';
+        const index = parseInt(value);
+        const item = isNaN(index) ? value as ListEntryLocator : index;
+
+        this.updateable.value?.setSelected(item, true);
+    }
+
+    protected reset (): void {
+
+        this.updateable.value?.reset(true);
     }
 }

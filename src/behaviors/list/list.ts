@@ -125,6 +125,18 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         if (interactive) this.notifySelection(previous);
     }
 
+    reset (interactive = false): void {
+
+        const previous = this.selected;
+
+        this.markUnselected(this.selected?.item, interactive);
+        this.selected = undefined;
+
+        this.setActive('first', interactive);
+
+        if (interactive) this.notifySelection(previous);
+    }
+
     scrollTo (item: number | T | ListEntry<T> | ListEntryLocator | ListEntryState | undefined): void {
 
         const entry = (typeof item === 'string')

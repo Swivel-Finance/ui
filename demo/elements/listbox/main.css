@@ -16,6 +16,10 @@
   padding-inline-start: calc(var(--line-height) * 2);
 }
 
+.container > ul li:not(:first-child) {
+  margin-block-start: var(--grid-size);
+}
+
 demo-listbox {
   display: block;
   margin-block-start: var(--line-height);
@@ -33,4 +37,42 @@ ui-listitem > ui-icon:first-child {
 
 .button-menus ui-listbox {
   align-self: flex-start;
+}
+
+.update-form {
+  padding: var(--line-height);
+  background-color: var(--theme-bg-hc);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+}
+
+.update-form > .vertical {
+  padding: var(--line-height);
+  background-color: var(--theme-bg-l);
+  margin: 0 calc(var(--line-height) * -1) calc(var(--line-height) * -1);
+}
+
+.update-form label {
+  font-weight: var(--font-weight-bold);
+}
+
+.update-form pre {
+  margin: 0;
+  padding: var(--line-height);
+}
+
+.update-form ui-listbox {
+  background-color: var(--color-bg);
+  border: var(--border);
+  border-radius: var(--border-radius);
+}
+
+.update-form ui-listbox ui-listitem:first-child {
+  border-top-left-radius: var(--border-radius);
+  border-top-right-radius: var(--border-radius);
+}
+
+.update-form ui-listbox ui-listitem:last-child {
+  border-bottom-left-radius: var(--border-radius);
+  border-bottom-right-radius: var(--border-radius);
 }

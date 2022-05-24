@@ -1,7 +1,7 @@
 import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { FocusChangeEvent, FocusMonitor } from '../../behaviors/focus/index.js';
-import { FocusListBehavior, ListBehavior, ListConfig, ListUpdateEvent, LIST_CONFIG_DEFAULT, SelectEvent } from '../../behaviors/list/index.js';
+import { FocusListBehavior, ListBehavior, ListConfig, ListEntry, ListEntryLocator, ListUpdateEvent, LIST_CONFIG_DEFAULT, SelectEvent } from '../../behaviors/list/index.js';
 import { animationtask, cancelTask, TaskReference } from '../../utils/async/index.js';
 import { EventManager } from '../../utils/events/index.js';
 import { MixinInput } from '../input/index.js';
@@ -39,11 +39,30 @@ export class ListBoxElement extends MixinInput(LitElement) {
         return this.listConfig;
     }
 
+    /**
+     * Determines if the listbox uses a {@link ListBehavior} or {@link FocusListBehavior}.
+     */
     @property({
         attribute: 'no-focus',
         type: Boolean,
     })
     noFocus = false;
+
+    /**
+     * Proxy for the {@link ListBehavior}'s activeEntry getter.
+     */
+    get activeEntry (): ListEntry<ListItemElement> | undefined {
+
+        return this.listBehavior?.activeEntry;
+    }
+
+    /**
+     * Proxy for the {@link ListBehavior}'s selectedEntry getter.
+     */
+    get selectedEntry (): ListEntry<ListItemElement> | undefined {
+
+        return this.listBehavior?.selectedEntry;
+    }
 
     connectedCallback (): void {
 
@@ -57,6 +76,34 @@ export class ListBoxElement extends MixinInput(LitElement) {
         this.detachBehaviors();
 
         super.disconnectedCallback();
+    }
+
+    /**
+     * Proxy for the {@link ListBehavior}'s setActive method.
+     */
+    setActive (item: number | ListItemElement | ListEntry<ListItemElement> | ListEntryLocator | undefined, interactive = false): void {
+
+        this.listBehavior?.setActive(item, interactive);
+    }
+
+    /**
+     * Proxy for the {@link ListBehavior}'s setSelected method.
+     */
+    setSelected (item: number | ListItemElement | ListEntry<ListItemElement> | ListEntryLocator | undefined, interactive = false): void {
+
+        this.listBehavior?.setSelected(item, interactive);
+    }
+
+    /**
+     * Proxy for the {@link ListBehavior}'s reset method.
+     */
+    reset (interactive = false): void {
+
+        this.value = undefined;
+
+        this.listBehavior?.reset(interactive);
+
+        if (interactive) this.dispatchValueChange();
     }
 
     protected createRenderRoot (): Element | ShadowRoot {
