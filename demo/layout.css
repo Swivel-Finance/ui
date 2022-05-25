@@ -93,3 +93,7 @@ pre {
 .third > * {
   flex-basis: 33.333%;
 }
+
+.ui-dialog-header h2 {
+  font-size: var(--font-size-l);
+}

@@ -1,0 +1,130 @@
+ui-dialog:not(:defined) {
+  display: none;
+}
+
+.ui-dialog {
+  --dialog-transition-timing: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --dialog-transition-duration: .5s;
+  --dialog-transition-delay: 0s;
+  --color-bg: var(--theme-bg-l);
+  --color-fg: var(--theme-fg-hc);
+  --color-focus: var(--theme-active);
+  display: flex;
+  flex-direction: column;
+  gap: var(--line-height);
+  padding: var(--line-height);
+  max-height: calc(100vh - var(--line-height) * 2) !important;
+  max-width: min(calc(100vw - var(--line-height) * 2), calc(var(--line-height) * 30)) !important;
+  color: var(--color-fg);
+  background-color: var(--color-bg);
+  box-shadow: var(--shadow), var(--shadow-l);
+  border-radius: var(--border-radius);
+}
+
+.ui-dialog:focus-visible {
+  outline: none;
+  box-shadow: var(--shadow), var(--shadow-l), var(--border-shadow) var(--color-focus);
+}
+
+.ui-dialog-header {
+  flex: 0 0 auto;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--grid-size);
+}
+
+.ui-dialog-title {
+  flex: 1 1 auto;
+  font-weight: var(--font-weight-bold);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ui-dialog-header > button,
+.ui-dialog-header > button:focus,
+.ui-dialog-header > button:hover {
+  --color-bg: transparent;
+  --color-fg: var(--theme-fg-hc);
+  flex: 0 0 auto;
+  padding: var(--grid-size);
+}
+
+.ui-dialog-footer {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: end;
+  gap: var(--grid-size);
+}
+
+.ui-dialog-content {
+  padding: var(--grid-size) 0;
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+/* announcement dialogs */
+
+.ui-dialog.ui-announcement-dialog {
+  --color-focus: var(--theme-fg-hc);
+}
+
+.ui-dialog.ui-announcement-dialog.success {
+  --color-bg: var(--theme-announce-success);
+}
+
+.ui-dialog.ui-announcement-dialog.error {
+  --color-bg: var(--theme-announce-error);
+}
+
+.ui-dialog.ui-announcement-dialog.warning {
+  --color-bg: var(--theme-warning);
+}
+
+.ui-dialog.ui-announcement-dialog.info {
+  --color-bg: var(--theme-active);
+}
+
+.ui-dialog.ui-announcement-dialog button {
+  --color-focus: var(--theme-fg-hc);
+}
+
+.ui-dialog.ui-announcement-dialog button:not(.ui-dialog-header > button) {
+  --color-bg: transparent;
+  --color-fg: var(--theme-fg-hc);
+  --color-brd: rgba(255, 255, 255, .5);
+  --color-focus: var(--theme-fg-hc);
+  box-shadow: var(--border-shadow) var(--color-brd);
+  transition: box-shadow var(--transition-duration) var(--transition-timing);
+}
+
+.ui-dialog.ui-announcement-dialog button:not(.ui-dialog-header > button).primary {
+  --color-bg: var(--theme-fg-hc);
+  --color-fg: var(--theme-bg-hc);
+  --color-brd: var(--theme-fg-hc);
+}
+
+.ui-dialog.ui-announcement-dialog button:not(.ui-dialog-header > button):hover,
+.ui-dialog.ui-announcement-dialog button:not(.ui-dialog-header > button):focus {
+  --color-bg: var(--theme-fg-hc);
+  --color-fg: var(--theme-bg-hc);
+  box-shadow: var(--border-shadow) var(--color-focus), var(--shadow);
+}
+
+/* optional animations */
+
+.ui-dialog.ui-invisible {
+  transform: translateY(calc(-50vh - 50%));
+}
+
+.ui-dialog.ui-animate-in,
+.ui-dialog.ui-animate-out {
+  pointer-events: none;
+  transition-property: opacity, transform;
+  transition-duration: var(--dialog-transition-duration);
+  transition-timing-function: var(--dialog-transition-timing);
+}
