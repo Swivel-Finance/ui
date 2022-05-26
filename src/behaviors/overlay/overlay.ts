@@ -6,6 +6,7 @@ import { ESCAPE } from '../../utils/index.js';
 import { Behavior } from '../behavior.js';
 import { FocusChangeEvent } from '../focus/index.js';
 import { MarkerElement, MarkerRemovedEvent } from '../marker/index.js';
+import { Origin, Size } from '../position/index.js';
 import { toggleVisibility } from '../utils/index.js';
 import { OverlayBackdrop } from './backdrop/index.js';
 import { OverlayConfig, OVERLAY_CONFIG_DEFAULT } from './config.js';
@@ -224,11 +225,11 @@ export class OverlayBehavior extends Behavior {
             : await this.hide(interactive);
     }
 
-    async update (): Promise<void> {
+    async update (origin?: Origin, size?: Size): Promise<void> {
 
         if (this.hidden || !this.element) return;
 
-        await this.config.positionBehavior?.requestUpdate();
+        await this.config.positionBehavior?.requestUpdate(origin, size);
     }
 
     protected addAttributes (): void {

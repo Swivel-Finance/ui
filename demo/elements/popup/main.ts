@@ -56,6 +56,22 @@ const POPUP_CONFIG_NAV: DeepPartial<PopupConfig> = {
     },
 };
 
+/**
+ * A config for the proxy popup.
+ *
+ * @remarks
+ * This config will be based on the default popup.
+ */
+const POPUP_CONFIG_PROXY: DeepPartial<PopupConfig> = {
+    focus: {
+        initialFocus: 'input[type=text]',
+        trapFocus: true,
+    },
+    overlay: {
+        closeOnFocusLoss: false,
+    },
+};
+
 const template = function (this: PopupDemoElement): TemplateResult {
 
     return html`
@@ -125,6 +141,112 @@ const template = function (this: PopupDemoElement): TemplateResult {
                 keyboard interactions.</p>
         </div>
     </div>
+
+    <h3>Behavior Proxies</h3>
+
+    <div class="container horizontal half">
+
+        <div class="container vertical">
+
+            <div class="horizontal" style="justify-content: space-between;">
+
+                <ui-popup .config=${ POPUP_CONFIG_PROXY } ${ ref(this.proxyPopup) }>
+                    <button type="button" data-part="trigger">Popup</button>
+                    <div class="vertical" data-part="overlay">
+                        <p>Lorem, ipsum dolor sit amet <a href="#">consectetur</a> adipisicing elit.</p>
+                        <input type="text" placeholder="Lorem ipsum...">
+                        <p>Lorem, ipsum dolor sit amet consectetur adipisicing <a href="#">elit</a>.</p>
+                    </div>
+                </ui-popup>
+
+            </div>
+
+            <div class="horizontal" style="justify-content: end;">
+                <button id="origin-empty" type="button">Empty</button>
+            </div>
+
+            <div class="container vertical" style="margin-block-start: calc(var(--line-height) * 8);">
+
+                <p>Control the visibility of the popup from the outside:</p>
+
+                <div class="horizontal" style="font-family: var(--font-family-mono);">
+                    <button type="button" @click="${ () => this.proxyPopup.value?.show() }">show()</button>
+                    <button type="button" @click="${ () => this.proxyPopup.value?.hide() }">hide()</button>
+                    <button type="button" @click="${ () => this.proxyPopup.value?.toggle() }">toggle()</button>
+                </div>
+
+                <p>
+                    Update the postion of the popup from the outside, e.g. move it to a different element: <br/>
+                    (The popup has to be open for <code>updatePosition()</code> to work.)
+                </p>
+
+                <div class="horizontal" style="font-family: var(--font-family-mono);">
+                    <button type="button" @click="${ () => this.proxyPopup.value?.updatePosition(document.getElementById('origin-empty')!) }">
+                        updatePosition()
+                    </button>
+                </div>
+
+                <p>
+                    Update the focused element inside the popup: <br>
+                    (The popup has to be open to set the focus.)
+                </p>
+
+                <div class="horizontal" style="font-family: var(--font-family-mono);">
+                    <button type="button" @click="${ () => this.proxyPopup.value?.focusInitial() }">focusInitial()</button>
+                    <button type="button" @click="${ () => this.proxyPopup.value?.focusFirst() }">focusFirst()</button>
+                    <button type="button" @click="${ () => this.proxyPopup.value?.focusLast() }">focusLast()</button>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="container vertical">
+            <p>
+                The <code>ui-popup</code> element owns and orchestrates a set of behaviors to provide the functionality
+                you would expect from a popup. These behaviors include:
+            </p>
+            <ul>
+                <li><code><a href="../../behaviors/focus/">FocusMonitor/FocusTrap</a></code></li>
+                <li><code><a href="../../behaviors/overlay/">PositionBehavior</a></code></li>
+                <li><code><a href="../../behaviors/overlay/">OverlayTriggerBehavior</a></code></li>
+                <li><code><a href="../../behaviors/overlay/">OverlayBehavior</a></code></li>
+            </ul>
+            <p>
+                As the <code>ui-popup</code> element owns these behaviors, they are not exposed on the element itself.
+                However, some of the behavior APIs are proxied by <code>ui-popup</code>:
+            </p>
+            <ul>
+                <li>
+                    <code>show()</code>: show the popup
+                </li>
+                <li>
+                    <code>hide()</code>: hide the popup
+                </li>
+                <li>
+                    <code>toggle()</code>: toggle the popup
+                </li>
+                <li>
+                    <code>updatePosition()</code>: update the popup overlay's position
+                </li>
+            </ul>
+            <p>
+                Additionally, if the popup is using a <code>FocusTrap</code> the following proxy methods are available:
+            </p>
+            <ul>
+                <li>
+                    <code>focusInitial()</code>: focus the 'initial' element inside the popup overlay (see
+                    <code>FocusTrapConfig.initialFocus</code>)
+                </li>
+                <li>
+                    <code>focusFirst()</code>: focus the first focusable element inside the popup overlay
+                </li>
+                <li>
+                    <code>focusLast()</code>: focus the last focusable element inside the popup overlay
+                </li>
+            </ul>
+        </div>
+    </div>
     `;
 };
 
@@ -184,6 +306,8 @@ export class PopupDemoElement extends LitElement {
     ];
 
     protected listBehavior = new FocusListBehavior({ ...LIST_CONFIG_MENU });
+
+    protected proxyPopup = createRef<PopupElement>();
 
     protected render (): unknown {
 

@@ -2,7 +2,7 @@ import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { FocusMonitor, FocusTrap } from '../../behaviors/focus/index.js';
 import { OverlayBehavior, OverlayTriggerBehavior } from '../../behaviors/overlay/index.js';
-import { PositionBehavior } from '../../behaviors/position/index.js';
+import { Origin, PositionBehavior, Size } from '../../behaviors/position/index.js';
 import { IDGenerator } from '../../utils/dom/index.js';
 import { EventManager } from '../../utils/events/index.js';
 import { DeepPartial } from '../../utils/index.js';
@@ -83,6 +83,8 @@ export class PopupElement extends LitElement {
         super.disconnectedCallback();
     }
 
+    // proxy API
+
     async show (interactive = false): Promise<void> {
 
         await this.overlayBehavior?.show(interactive);
@@ -92,6 +94,33 @@ export class PopupElement extends LitElement {
 
         await this.overlayBehavior?.hide(interactive);
     }
+
+    async toggle (interactive = false): Promise<void> {
+
+        await this.overlayBehavior?.toggle(interactive);
+    }
+
+    async updatePosition (origin?: Origin, size?: Size): Promise<void> {
+
+        await this.overlayBehavior?.update(origin, size);
+    }
+
+    focusInitial (): void {
+
+        this.focusBehavior instanceof FocusTrap && this.focusBehavior.focusInitial();
+    }
+
+    focusFirst (): void {
+
+        this.focusBehavior instanceof FocusTrap && this.focusBehavior.focusFirst();
+    }
+
+    focusLast (): void {
+
+        this.focusBehavior instanceof FocusTrap && this.focusBehavior.focusLast();
+    }
+
+    // internal API
 
     protected firstUpdated (): void {
 
