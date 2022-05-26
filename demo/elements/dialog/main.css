@@ -9,6 +9,10 @@
 @import '../../../src/elements/select/select.css';
 @import '../../../src/elements/dialog/dialog.css';
 
+.container > ul li:not(:first-child) {
+  margin-block-start: var(--grid-size);
+}
+
 demo-dialog {
   display: block;
   margin-block-start: var(--line-height);
@@ -16,11 +20,11 @@ demo-dialog {
 
 /* hide uninitialized dialogs */
 
-demo-input-dialog:not(:defined) {
+feedback-dialog:not(:defined) {
   display: none;
 }
 
-demo-input-dialog .ui-dialog-content form {
+feedback-dialog .ui-dialog-content form {
   display: grid;
   grid-template-columns: auto 1fr;
   align-items: center;

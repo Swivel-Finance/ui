@@ -27,7 +27,7 @@ const options = [
     }
 ];
 
-const template = function (this: DemoInputDialog) {
+const template = function (this: FeedbackDialog) {
 
     return html`
     ${ dialogHeader(this, 'Feedback') }
@@ -50,8 +50,18 @@ const template = function (this: DemoInputDialog) {
     `;
 };
 
-@customElement('demo-input-dialog')
-export class DemoInputDialog extends DialogElement<FeedbackResult> {
+@customElement('feedback-dialog')
+export class FeedbackDialog extends DialogElement<FeedbackResult> {
+
+    constructor () {
+
+        super();
+
+        this.result = {
+            name: undefined,
+            rating: undefined,
+        } as unknown as FeedbackResult;
+    }
 
     protected render (): unknown {
 

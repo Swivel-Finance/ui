@@ -4,7 +4,7 @@ export class DialogService {
 
     protected dialogs = new Map<DialogElement, { remove: boolean; }>();
 
-    async show (dialog: DialogElement) {
+    async show (dialog: DialogElement): Promise<void> {
 
         if (!this.dialogs.has(dialog)) {
 
@@ -24,7 +24,7 @@ export class DialogService {
         await dialog.show();
     }
 
-    async hide (dialog: DialogElement) {
+    async hide (dialog: DialogElement): Promise<void> {
 
         await dialog.hide();
 
@@ -40,7 +40,7 @@ export class DialogService {
         }
     }
 
-    async prompt<V = unknown> (dialog: DialogElement): Promise<V> {
+    async prompt<T = unknown> (dialog: DialogElement<T>): Promise<T | undefined> {
 
         await this.show(dialog);
 
@@ -50,7 +50,7 @@ export class DialogService {
 
                 void this.hide(event.detail.target);
 
-                resolve(event.detail.result as V);
+                resolve(event.detail.result);
 
             }, { once: true });
         });
