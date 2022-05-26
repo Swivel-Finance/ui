@@ -49,6 +49,9 @@ code {
 
 pre {
   margin-block-start: var(--line-height);
+  padding-inline-end: var(--line-height);
+  overflow: hidden;
+  overflow-x: auto;
   background-color: var(--theme-bd);
   border-radius: var(--border-radius);
 }
@@ -92,4 +95,8 @@ pre {
 
 .third > * {
   flex-basis: 33.333%;
+}
+
+.ui-dialog-header h2 {
+  font-size: var(--font-size-l);
 }

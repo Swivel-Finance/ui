@@ -24,6 +24,3 @@ node_modules/
 coverage/
 dist/
 temp/
-
-src/elements/dialog
-demo/elements/dialog

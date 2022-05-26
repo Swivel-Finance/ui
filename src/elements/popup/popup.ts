@@ -72,6 +72,16 @@ export class PopupElement extends LitElement {
         super.connectedCallback();
 
         this.id = this.id || ID_GENERATOR.getNext();
+
+        // this is interesting: when a LitElement gets disconnected and reconnected again,
+        // it won't reset its `hasUpdated` state and the `firstUpdated` callback won't trigger
+        // if we need to delay some handlers until after `firstUpdated` and remove those on
+        // `disconnectedCallback`, those handlers won't be bound after a reconnect, so we
+        // need to manually check for this here:
+        if (this.hasUpdated) {
+
+            this.firstUpdated();
+        }
     }
 
     disconnectedCallback (): void {

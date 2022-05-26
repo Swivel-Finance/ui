@@ -1,0 +1,33 @@
+@import '../../main.css';
+/* when using components based on the overlay behavior, we should always include the behavior base styles */
+@import '../../../src/behaviors/overlay/overlay.css';
+@import '../../../src/behaviors/overlay/backdrop/backdrop.css';
+/* when using components, we should always include the component base styles */
+@import '../../../src/elements/icon/icon.css';
+@import '../../../src/elements/listitem/listitem.css';
+@import '../../../src/elements/listbox/listbox.css';
+@import '../../../src/elements/select/select.css';
+@import '../../../src/elements/dialog/dialog.css';
+
+.container > ul li:not(:first-child) {
+  margin-block-start: var(--grid-size);
+}
+
+demo-dialog {
+  display: block;
+  margin-block-start: var(--line-height);
+}
+
+/* hide uninitialized dialogs */
+
+feedback-dialog:not(:defined) {
+  display: none;
+}
+
+feedback-dialog .ui-dialog-content form {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: center;
+  gap: var(--grid-size);
+  column-gap: var(--grid-size-l);
+}

@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel-ui/ui/dialog</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel-ui/ui/dialog</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <h2>Dialog</h2>
+
+    <p>
+      The <code>ui-dialog</code> element creates a fully accessible dialog UI. By default it will create a backdrop,
+      move the focus into the dialog when opened and trap the focus within the dialog. You can fill a
+      <code>ui-dialog</code> with any content you like, but there do exist templates, as well as default styles, for
+      a couple of elements: <br/><br/>
+      <em>(The templates can be imported from <code>@swivel-finance/ui/elements/dialog/index.js</code>)</em>
+    </p>
+
+    <ul>
+      <li>
+        <code>dialogHeader</code>: creates a <code>header</code> element with the <code>ui-dialog-header</code> class name
+      </li>
+      <li>
+        <code>dialogContent</code>: creates a <code>div</code> element with the <code>ui-dialog-content</code> class name
+      </li>
+      <li>
+        <code>dialogFooter</code>: creates a <code>footer</code> element with the <code>ui-dialog-footer</code> class name
+      </li>
+    </ul>
+
+    <p>
+      When a <code>ui-dialog</code> is closed, it emits a <code>DialogResultEvent</code> which can be used to pass
+      data from a dialog back to the invoking code. The event has the <code>type: 'ui-dialog-result'</code>
+      and, being a <code>CustomEvent</code>, has a <code>detail</code> property of the following shape:
+    </p>
+
+    <pre><xmp>
+    {
+      target: DialogElement<T>;
+      result?: T;
+    }
+    </xmp></pre>
+
+    <p>
+      If a <code>ui-dialog</code> is <b>dismissed</b> (using the close button in the dialog header), <b>cancelled</b>
+      (using a cancel button) or closed by pressing <code>ESCAPE</code>, loosing focus or clicking the backdrop, the
+      <code>result</code> property of the event will be set to undefined.
+    </p>
+
+    <p>
+      If a <code>ui-dialog</code> is <b>confirmed</b> (by pressing a confirm button) then the <code>result</code>
+      property of the event will be set to the <code>ui-dialog</code>'s <code>result</code> property. More on this below.
+    </p>
+
+    <p>
+      To connect a <code>ui-dialog</code> with a button or other clickable element, give the trigger an <code>id</code>
+      attribute and reference it via the <code>ui-dialog</code>'s <code>trigger</code> attribute/property:
+    </p>
+
+    <pre><xmp>
+    <button type="button" id="my-dialog-button">Show Dialog</button>
+
+    <ui-dialog id="my-dialog" trigger="my-button-button">
+
+      <header class="ui-dialog-header">
+        <h2 class="ui-dialog-title" id="my-dialog-title">Lorem</h2>
+        <button type="button" aria-label="close dialog">
+          <ui-icon name="times"></ui-icon>
+        </button>
+      </header>
+
+      <div class="ui-dialog-content">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit.
+      </div>
+
+      <footer class="ui-dialog-footer">
+        <button type="button">Cancel</button>
+        <button type="button" class="primary">OK</button>
+      </footer>
+
+    </ui-dialog>
+    </xmp></pre>
+
+    <p>
+      Alternatively, you can give your <code>ui-dialog</code> element an <code>id</code> attribute and reference it
+      via the button's <code>aria-controls</code> attribute:
+    </p>
+
+    <pre><xmp>
+    <button type="button" aria-controls="my-dialog">Show Dialog</button>
+
+    <ui-dialog id="my-dialog">
+      ...
+    </ui-dialog>
+    </xmp></pre>
+
+    <h2>Component Example</h2>
+
+    <demo-dialog></demo-dialog>
+
+  </div>
+
+  <script src="/dist/demo/elements/dialog/main.js" type="module"></script>
+</body>
+
+</html>

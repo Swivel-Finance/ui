@@ -1,4 +1,4 @@
-import { html } from 'lit';
+import { html, nothing } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { ListUpdateEvent, SelectEvent } from '../../behaviors/list/index.js';
 import { microtask } from '../../utils/async/index.js';
@@ -14,18 +14,22 @@ const MISSING_LISTBOX = () => new Error('Missing element: A <ui-select> element 
 
 const template = function (this: SelectElement) {
 
+    const customTrigger = !!this.querySelector('[data-part=trigger]:not(.ui-select-trigger-builtin)');
+
     const role = (this.config.overlay.role === 'listbox')
         ? 'combobox'
         : 'button';
 
-    return html`
-    <button type="button" role=${ role } data-part="trigger">
-        <span class="ui-select-trigger-label">
-            ${ this.triggerTemplate.apply(this) }
-        </span>
-        <ui-icon class="ui-select-trigger-toggle" name="chevron"></ui-icon>
-    </button>
-    `;
+    return !customTrigger
+        ? html`
+        <button type="button" role=${ role } data-part="trigger" class="ui-select-trigger-builtin">
+            <span class="ui-select-trigger-label">
+                ${ this.triggerTemplate.apply(this) }
+            </span>
+            <ui-icon class="ui-select-trigger-toggle" name="chevron"></ui-icon>
+        </button>
+        `
+        : nothing;
 };
 
 @customElement('ui-select')
@@ -34,8 +38,6 @@ export class SelectElement extends MixinInput(PopupElement) {
     protected _config = SELECT_CONFIG_DEFAULT;
 
     protected listbox!: ListBoxElement;
-
-    protected hasTrigger = false;
 
     @property({ attribute: false })
     set config (value: DeepPartial<SelectConfig>) {
@@ -90,8 +92,6 @@ export class SelectElement extends MixinInput(PopupElement) {
 
     connectedCallback (): void {
 
-        this.hasTrigger = !!this.querySelector('[data-part=trigger]');
-
         this.listbox = this.querySelector('ui-listbox') as ListBoxElement;
 
         if (!this.listbox) throw MISSING_LISTBOX();
@@ -110,8 +110,6 @@ export class SelectElement extends MixinInput(PopupElement) {
     }
 
     protected render (): unknown {
-
-        if (this.hasTrigger) return;
 
         return template.apply(this);
     }
