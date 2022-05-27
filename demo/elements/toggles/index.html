@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel/ui/elements/toggles</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel/ui/elements/toggles</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <h2>Toggles: Toggle & Checkbox</h2>
+
+    <p>
+      The <code>ui-toggle</code> and <code>ui-checkbox</code> elements create fully accessible and stylable
+      toggle elements, that behave similar to native <code>&lt;input type="checkbox"&gt;</code> elements.
+      They can be used inside of <code>form</code> elements and contribute their value to the form's
+      <code>FormData</code> object, just as regular checkboxes would. In addition, they can have <code>label</code>
+      elements referencing them and clicking on the labels will toggle the custom elements and screen readers
+      will announce the labels, just as they would for regular checkboxes.
+    </p>
+
+    <pre><xmp>
+  // ui-toggle
+
+  <label for="feature-toggle">Enable Feature</label>
+
+  <ui-toggle id="feature-toggle"></ui-toggle>
+
+  // ui-checkbox
+
+  <label for="feature-checkbox">Feature Enabled</label>
+
+  <ui-checkbox id="feature-checkbox" aria-checked="true"></ui-checkbox>
+    </xmp></pre>
+
+    <h2>Plain HTML Example</h2>
+
+    <div class="container horizontal half">
+
+      <div>
+        <h3>Toggle</h3>
+        <p>
+          A toggle has 2 distinct states: checked and unchecked.
+        </p>
+
+        <div class="container horizontal">
+
+          <label for="feature-toggle">Enable Feature</label>
+
+          <ui-toggle id="feature-toggle"></ui-toggle>
+        </div>
+
+      </div>
+
+      <div>
+        <h3>Checkbox</h3>
+        <p>
+          A checkbox has one additional state: checked, unchecked and indeterminate.
+          The latter one is mostly used when a checkbox controls multiple other checkboxes.
+        </p>
+
+        <div class="container horizontal">
+
+          <label for="feature-checkbox">Feature Enabled</label>
+
+          <ui-checkbox id="feature-checkbox" aria-checked="true"></ui-checkbox>
+        </div>
+
+      </div>
+
+    </div>
+
+    <h2>Component Examples</h2>
+
+    <demo-toggles></demo-toggles>
+  </div>
+
+  <script src="/dist/demo/elements/toggles/main.js" type="module"></script>
+</body>
+
+</html>
