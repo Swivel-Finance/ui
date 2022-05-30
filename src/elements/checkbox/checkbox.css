@@ -96,11 +96,15 @@ ui-checkbox[aria-checked=mixed] .ui-checkbox-thumb {
   background-color: var(--fg);
 }
 
-ui-checkbox[aria-checked=true] .ui-checkbox-thumb ui-icon.checked {
+ui-checkbox[aria-checked=false] .ui-checkbox-thumb .ui-checkbox-unchecked {
   opacity: 1;
 }
 
-ui-checkbox[aria-checked=mixed] .ui-checkbox-thumb ui-icon.mixed {
+ui-checkbox[aria-checked=true] .ui-checkbox-thumb .ui-checkbox-checked {
+  opacity: 1;
+}
+
+ui-checkbox[aria-checked=mixed] .ui-checkbox-thumb .ui-checkbox-mixed {
   opacity: 1;
 }
 

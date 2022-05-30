@@ -1,4 +1,4 @@
-import { ComplexAttributeConverter, html, LitElement } from 'lit';
+import { ComplexAttributeConverter, html, LitElement, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { setAttribute } from '../../utils/dom/index.js';
@@ -19,6 +19,14 @@ const ariaChecked: ComplexAttributeConverter<boolean | 'mixed'> = {
         ? value
         : value ? 'true' : 'false',
 };
+
+export type ToggleTemplate = <T extends ToggleElement>(toggle: T) => TemplateResult | undefined;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const thumbTemplate = (toggle: ToggleElement): TemplateResult => html`<span class="ui-toggle-thumb"></span>`;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const trackTemplate = (toggle: ToggleElement): TemplateResult => html`<span class="ui-toggle-track"></span>`;
 
 /**
  * ToggleElement template
@@ -43,8 +51,8 @@ const template = function (this: ToggleElement) {
         @focus=${ (event: FocusEvent) => this.handleFocus(event) }
         @input=${ (event: Event) => this.handleChange(event) }
         @change=${ (event: Event) => this.handleChange(event) }>
-    <span class="ui-toggle-track"></span>
-    <span class="ui-toggle-thumb"></span>
+    ${ this.trackTemplate(this) }
+    ${ this.thumbTemplate(this) }
     `;
 };
 
@@ -200,6 +208,16 @@ export class ToggleElement<T = unknown> extends LitElement {
         return this.disabled ? -1 : this._tabindex;
     }
 
+    @property({
+        attribute: false,
+    })
+    thumbTemplate: ToggleTemplate = thumbTemplate;
+
+    @property({
+        attribute: false,
+    })
+    trackTemplate: ToggleTemplate = trackTemplate;
+
     connectedCallback (): void {
 
         super.connectedCallback();
@@ -216,11 +234,17 @@ export class ToggleElement<T = unknown> extends LitElement {
 
     toggle (interactive = false): void {
 
-        this.checked = !this.checked;
-
         if (interactive) {
 
+            // we want to forward the click to the owned checkbox to ensure it
+            // dispatches its change event to any parent form
+            this.inputRef.value?.click();
+
             this.dispatchToggleChange();
+
+        } else {
+
+            this.checked = !this.checked;
         }
     }
 

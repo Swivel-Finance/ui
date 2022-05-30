@@ -11,3 +11,23 @@ demo-toggles {
   display: block;
   margin-block-start: var(--line-height);
 }
+
+.locked-checkbox[aria-checked=false] .locked-checkbox-thumb {
+  background-color: var(--fg);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-size);
+  padding: var(--line-height);
+  background-color: var(--theme-bg-l);
+  border-radius: var(--border-radius);
+}
+
+.form-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--grid-size);
+}
