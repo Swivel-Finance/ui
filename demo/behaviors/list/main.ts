@@ -1,7 +1,7 @@
 import { FocusListBehavior, ListBehavior } from '../../../src/behaviors/list/index.js';
 import { setAttribute } from '../../../src/utils/dom/index.js';
 import { cancel } from '../../../src/utils/events/index.js';
-import { ARROW_DOWN, ARROW_UP, ENTER } from '../../../src/utils/index.js';
+import { ARROW_DOWN, ARROW_UP, BACKSPACE, ENTER } from '../../../src/utils/index.js';
 
 const search = document.querySelector('.filter input[type=text]') as HTMLInputElement;
 const list = document.querySelector('.filter ul') as HTMLUListElement;
@@ -84,7 +84,7 @@ list.addEventListener('ui-activate-item', event => {
  */
 
 const menu = document.querySelector('.menu ul') as HTMLUListElement;
-const menuItems = menu.querySelectorAll<HTMLLIElement>('li');
+let menuItems = menu.querySelectorAll<HTMLLIElement>('li');
 
 const focusListBehavior = new FocusListBehavior({
     role: 'menu',
@@ -93,3 +93,31 @@ const focusListBehavior = new FocusListBehavior({
 
 focusListBehavior.attach(menu, menuItems);
 focusListBehavior.setActive('first');
+
+/**
+ * Remove an item from the list
+ *
+ * @remarks
+ * When removing an item from the list, we have to requery the items and pass them
+ * to the list behaviors `update()` method. The list behavior will try to restore
+ * its previous state based on the previously active/selected indices. When removing
+ * the last item in the list, the previous item will become active/selected.
+ *
+ * When removing an item that has focus, the list behavior cannot infer why and when
+ * the item lost focus - as such it won't attempt to restore focus. This is up to
+ * the consumer who removed a focused item.
+ */
+const remove = (item: HTMLLIElement): void => {
+
+    item.remove();
+
+    menuItems = menu.querySelectorAll<HTMLLIElement>('li');
+
+    focusListBehavior.update(menuItems);
+
+    focusListBehavior.activeEntry?.item.focus();
+};
+
+menuItems.forEach(item => item.addEventListener('keydown', (event: KeyboardEvent) => {
+    if (event.key === BACKSPACE) remove(item);
+}));

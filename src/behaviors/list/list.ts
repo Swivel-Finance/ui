@@ -198,10 +198,25 @@ export class ListBehavior<T extends ListItem = ListItem> extends Behavior {
         });
 
         // restore the previously selected item, if no selected item was set during the update
-        if (items && !this.selected) this.setSelected(selected?.index);
+        if (items && !this.selected && selected) {
+
+            const selectedIndex = (selected.index < this.items.length)
+                ? selected.index
+                : 'previous';
+
+            this.setSelected(selectedIndex);
+        }
 
         // restore the previously active item
-        this.setActive((selectedIsActive ? this.selected : active?.index) ?? 'first');
+        const activeIndex = selectedIsActive
+            ? this.selected?.index
+            : active
+                ? (active.index < this.items.length)
+                    ? active.index
+                    : 'previous'
+                : 'first';
+
+        this.setActive(activeIndex);
 
         // dispatch an update event
         if (!silent) this.notifyUpdate(!!items || this.selected !== selected || this.active !== active);
