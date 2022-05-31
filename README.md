@@ -173,11 +173,13 @@ This second step takes the local changes and pushes them to origin (including th
 
 ## Elements
 
-- Dialog (upcoming...)
+- Checkbox
+- Dialog
 - Icon
 - Input (Mixin)
 - Listbox
 - Listitem
 - Popup
 - Select (Combobox, Menu)
+- Toggle
 - Tooltip
