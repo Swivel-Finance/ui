@@ -72,6 +72,10 @@ pre {
   padding-inline-start: calc(var(--line-height) * 2);
 }
 
+.container > ul li:not(:first-child) {
+  margin-block-start: var(--grid-size);
+}
+
 .horizontal {
   display: flex;
   flex-flow: row nowrap;

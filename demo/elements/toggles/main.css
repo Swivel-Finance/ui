@@ -1,0 +1,33 @@
+@import '../../main.css';
+/* when using components based on the overlay behavior, we should always include the behavior base styles */
+@import '../../../src/behaviors/overlay/overlay.css';
+/* when using components, we should always include the component base styles */
+@import '../../../src/elements/icon/icon.css';
+@import '../../../src/elements/tooltip/tooltip.css';
+@import '../../../src/elements/toggle/toggle.css';
+@import '../../../src/elements/checkbox/checkbox.css';
+
+demo-toggles {
+  display: block;
+  margin-block-start: var(--line-height);
+}
+
+.locked-checkbox[aria-checked=false] .locked-checkbox-thumb {
+  background-color: var(--fg);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--grid-size);
+  padding: var(--line-height);
+  background-color: var(--theme-bg-l);
+  border-radius: var(--border-radius);
+}
+
+.form-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--grid-size);
+}
