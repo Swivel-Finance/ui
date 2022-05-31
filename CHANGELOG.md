@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.12](https://github.com/Swivel-Finance/ui/compare/v0.0.11...v0.0.12) (2022-05-31)
+
+
+### Features
+
+* **dialog:** add dialog element and service ([41bd689](https://github.com/Swivel-Finance/ui/commit/41bd689d28c9a1c296c89f97a9102d8528ac9371)), closes [#18](https://github.com/Swivel-Finance/ui/issues/18)
+* **listbox:** add list-behavior proxy ([951b791](https://github.com/Swivel-Finance/ui/commit/951b79134ccd00d46f2bb2668f24d57c18e5bcab)), closes [#14](https://github.com/Swivel-Finance/ui/issues/14)
+* **popup:** add behavior proxies ([5dc8312](https://github.com/Swivel-Finance/ui/commit/5dc8312dd25950e3ee9cb387343b3af417137a2c)), closes [#16](https://github.com/Swivel-Finance/ui/issues/16)
+* **toggles:** add custom template option ([1c19945](https://github.com/Swivel-Finance/ui/commit/1c19945aeb1d0f590a87a63dfbbbca5e97cc155e)), closes [#20](https://github.com/Swivel-Finance/ui/issues/20)
+* **toggles:** add toggle and checkbox implementations ([0c911d6](https://github.com/Swivel-Finance/ui/commit/0c911d661bf0a588036631298a7501703e32c172)), closes [#20](https://github.com/Swivel-Finance/ui/issues/20)
+
+
+### Bug Fixes
+
+* **behaviors/list:** restore active/selected state when item gets removed ([8b407bd](https://github.com/Swivel-Finance/ui/commit/8b407bdbc81ea9d533c165a471090d03ab5e82ae)), closes [#22](https://github.com/Swivel-Finance/ui/issues/22)
+* **dialog:** improve DialogService typings ([a4f69e7](https://github.com/Swivel-Finance/ui/commit/a4f69e789949adc97a4e5e74454053f076b27b69)), closes [#18](https://github.com/Swivel-Finance/ui/issues/18)
+* **select:** ensure selects work inside dialogs ([1eca700](https://github.com/Swivel-Finance/ui/commit/1eca700b7a75d2c8a92822ba6dbca3d130de3541)), closes [#18](https://github.com/Swivel-Finance/ui/issues/18)
+
 ### [0.0.11](https://github.com/Swivel-Finance/ui/compare/v0.0.10...v0.0.11) (2022-05-19)
 
 
