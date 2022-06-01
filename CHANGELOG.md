@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.13](https://github.com/Swivel-Finance/ui/compare/v0.0.12...v0.0.13) (2022-06-01)
+
+
+### Bug Fixes
+
+* **behaviors/list:** allow focus list to manually scoll items into view ([6e99e4b](https://github.com/Swivel-Finance/ui/commit/6e99e4bc1055e566322b760d008e61a975329154)), closes [#23](https://github.com/Swivel-Finance/ui/issues/23)
+* **elements/toggle:** fix toggle styles ([89b5aee](https://github.com/Swivel-Finance/ui/commit/89b5aeee1f6d5a749c735009f31d44e4b428d27a))
+* **elements/toggle:** toggle doesn't update tabindex ([0e9b999](https://github.com/Swivel-Finance/ui/commit/0e9b999b657ba522f41de296d71fb8d0fd4466ef)), closes [#24](https://github.com/Swivel-Finance/ui/issues/24)
+
 ### [0.0.12](https://github.com/Swivel-Finance/ui/compare/v0.0.11...v0.0.12) (2022-05-31)
 
 
