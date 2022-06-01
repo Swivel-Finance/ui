@@ -37,12 +37,6 @@ export class FocusListBehavior<T extends ListItem = ListItem> extends ListBehavi
         if (interactive) this.setFocus('selected');
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    protected scrollIntoView (item: T | undefined): void {
-
-        // we don't need to manually scroll if focus is set
-    }
-
     protected handleFocus (event: FocusEvent): void {
 
         // don't handle focus events when `focusing` is true
