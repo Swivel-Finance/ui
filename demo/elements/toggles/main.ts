@@ -41,9 +41,13 @@ const template = function (this: TogglesDemoElement): TemplateResult {
 
             <div class="container horizontal">
                 <label for="disabled-toggle">Disabled</label>
-                <ui-toggle id="disabled-toggle" aria-disabled="true"></ui-toggle>
+                <ui-toggle id="disabled-toggle" aria-disabled="${ this.disabled }"></ui-toggle>
             </div>
 
+            <div class="container horizontal">
+                <label for="change-disabled">Disable Last Toggle</label>
+                <input id="change-disabled" type="checkbox" .checked=${ this.disabled } @click=${ () => this.disabled = !this.disabled }>
+            </div>
         </div>
 
         <div class="vertical">
@@ -212,6 +216,9 @@ export class TogglesDemoElement extends LitElement {
 
     @state()
     protected formData: [string, string][] = [];
+
+    @state()
+    protected disabled = true;
 
     firstUpdated (): void {
 
