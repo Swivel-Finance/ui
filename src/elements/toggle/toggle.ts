@@ -49,7 +49,6 @@ const template = function (this: ToggleElement) {
         .checked=${ this.checked }
         .disabled=${ this.disabled }
         @focus=${ (event: FocusEvent) => this.handleFocus(event) }
-        @input=${ (event: Event) => this.handleChange(event) }
         @change=${ (event: Event) => this.handleChange(event) }>
     ${ this.trackTemplate(this) }
     ${ this.thumbTemplate(this) }
@@ -218,8 +217,6 @@ export class ToggleElement<T = unknown> extends LitElement {
             // dispatches its change event to any parent form
             this.inputRef.value?.click();
 
-            this.dispatchToggleChange();
-
         } else {
 
             this.checked = !this.checked;
@@ -328,12 +325,22 @@ export class ToggleElement<T = unknown> extends LitElement {
 
         if (this.disabled) return;
 
+        if (event.target === this.inputRef.value) return;
+
+        // if the click event originated from the toggle's own template elements
+        // we cancel it, as it could travel up the DOM to an enclosing parent label
+        // which will re-dispatch the click on the owned checkbox again, preventing
+        // a state change of the toggle
+        cancel(event);
+
         this.toggle(true);
     }
 
     protected handleKeyDown (event: KeyboardEvent): void {
 
         if (this.disabled) return;
+
+        if (event.target === this.inputRef.value) return;
 
         switch (event.key) {
 
@@ -361,6 +368,8 @@ export class ToggleElement<T = unknown> extends LitElement {
         if (target && this.inputRef.value === target) {
 
             this.checked = target.checked;
+
+            this.dispatchToggleChange();
         }
     }
 

@@ -75,6 +75,13 @@ const template = function (this: TogglesDemoElement): TemplateResult {
                 <ui-checkbox id="disabled-checkbox" aria-disabled="true"></ui-checkbox>
             </div>
 
+            <div class="container horizontal">
+                <label>
+                    This checkbox is nested in its label
+                    <ui-checkbox id="nested-checkbox"></ui-checkbox>
+                </label>
+            </div>
+
         </div>
 
     </div>

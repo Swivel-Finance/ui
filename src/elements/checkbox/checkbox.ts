@@ -27,7 +27,6 @@ const template = function (this: CheckboxElement) {
         .disabled=${ this.disabled }
         .indeterminate=${ this.indeterminate }
         @focus=${ (event: FocusEvent) => this.handleFocus(event) }
-        @input=${ (event: Event) => this.handleChange(event) }
         @change=${ (event: Event) => this.handleChange(event) }>
     ${ this.trackTemplate(this) }
     ${ this.thumbTemplate(this) }
