@@ -1,4 +1,4 @@
-import { ComplexAttributeConverter, html, LitElement, TemplateResult } from 'lit';
+import { ComplexAttributeConverter, html, LitElement, PropertyValues, TemplateResult } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { createRef, ref } from 'lit/directives/ref.js';
 import { setAttribute } from '../../utils/dom/index.js';
@@ -64,8 +64,6 @@ export class ToggleElement<T = unknown> extends LitElement {
 
     protected _id = '';
 
-    protected _tabindex = 0;
-
     protected _checked = false;
 
     protected _indeterminate = false;
@@ -73,6 +71,8 @@ export class ToggleElement<T = unknown> extends LitElement {
     protected eventManager = new EventManager();
 
     protected inputRef = createRef<HTMLInputElement>();
+
+    protected tabindex = 0;
 
     /**
      * The toggle's id
@@ -187,28 +187,6 @@ export class ToggleElement<T = unknown> extends LitElement {
     disabled = false;
 
     @property({
-        attribute: true,
-        reflect: false,
-        type: Number,
-    })
-    set tabindex (value: number) {
-
-        if (this._tabindex === value) return;
-
-        const previous = this._tabindex;
-
-        this._tabindex = value;
-
-        this.requestUpdate('tabindex', previous);
-    }
-
-    get tabindex (): number {
-
-        // if the toggle is disabled, always return -1
-        return this.disabled ? -1 : this._tabindex;
-    }
-
-    @property({
         attribute: false,
     })
     thumbTemplate: ToggleTemplate = thumbTemplate;
@@ -250,25 +228,16 @@ export class ToggleElement<T = unknown> extends LitElement {
 
     /**
      * @remarks
-     * The `aria-checked` and `tabindex` attributes depend on the values of some
-     * getters, as they are derived from multiple underlying properties. So we
-     * have to manually relfect them on every update.
+     * The `aria-checked` and `tabindex` attributes are derived from multiple underlying properties.
+     * We have to manually reflect them on every update.
      */
-    protected updated (): void {
+    protected updated (changes: PropertyValues<this>): void {
 
-        setAttribute(this, 'aria-checked', this.indeterminate ? 'mixed' : this.checked);
+        this.updateTabindex(changes);
 
-        setAttribute(this, 'tabindex', this.tabindex);
+        this.updateChecked();
 
-        // as the clickable label is referencing the owned input element, we need to ensure
-        // screen readers still announce the label text if the toggle is focused
-        if (!this.hasAttribute('aria-labelledby') && !this.hasAttribute('aria-label') && this.id) {
-
-            const label = document.querySelector<HTMLLabelElement>(`label[for=${ this.id }]`);
-            const text = label?.innerText;
-
-            if (text) setAttribute(this, 'aria-label', label?.innerText);
-        }
+        this.updateLabel();
     }
 
     protected createRenderRoot (): Element | ShadowRoot {
@@ -290,6 +259,68 @@ export class ToggleElement<T = unknown> extends LitElement {
     protected removeListeners (): void {
 
         this.eventManager.unlistenAll();
+    }
+
+    protected updateChecked (): void {
+
+        setAttribute(this, 'aria-checked', this.indeterminate ? 'mixed' : this.checked);
+    }
+
+    /**
+     * Update the toggle's tabindex.
+     *
+     * @remarks
+     * We want to exclude disabled toggles from the tab-sequence, so we have to set their tabindex
+     * to `-1` when they are disabled. However, we want to be able to restore the user-defined
+     * tabindex, when the toggle becomes enabled again, and we want a default tabindex of 0, when
+     * no tabindex is specified.
+     * We can't use a reflecting property, as disabling the toggle would override our user-defined
+     * tabindex with -1 and we'd loose our backup. So instead, whenever the toggle updates, we
+     * manually set its tabindex attribute based on its disabled state. Every time a toggle
+     * transitions from enabled to disabled, we backup the previous tabindex value, so we can
+     * restore it later.
+     */
+    protected updateTabindex (changes: PropertyValues<this>): void {
+
+        // check if the disabled property was changed
+        if (changes.has('disabled')) {
+
+            // if disabled was undefined before the update (initial update) or false (subsequent updates)
+            // we back up the user-defined tabindex value (or keep the default if none was set)
+            if (!changes.get('disabled')) {
+
+                const tabindex = parseInt(this.getAttribute('tabindex') ?? '');
+
+                this.tabindex = !isNaN(tabindex) ? tabindex : this.tabindex;
+            }
+        }
+
+        // reflect the tabindex based on the disabled property
+        setAttribute(this, 'tabindex', this.disabled ? -1 : this.tabindex);
+    }
+
+    /**
+     * Update the toggle's label.
+     *
+     * @remarks
+     * A toggle's clickable label is referencing its owned input element (a toggle is not a native form element
+     * and as such can't natively be referenced by a label), so we need to ensure screen readers still announce
+     * the label text if the toggle is focused.
+     */
+    protected updateLabel (): void {
+
+        // check if the toggle is already labelled by the user or a previous update
+        const isLabelled = this.hasAttribute('aria-labelledby') || this.hasAttribute('aria-label');
+
+        // if it isn't and the toggle's input has an id, find its label
+        if (!isLabelled && this.id) {
+
+            const label = document.querySelector<HTMLLabelElement>(`label[for=${ this.id }]`);
+            const text = label?.innerText;
+
+            // if we have a label text, set it as `aria-label`
+            if (text) setAttribute(this, 'aria-label', text);
+        }
     }
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
