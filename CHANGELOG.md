@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.14](https://github.com/Swivel-Finance/ui/compare/v0.0.13...v0.0.14) (2022-06-01)
+
+
+### Bug Fixes
+
+* **checkbox:** update checkbox styles ([8e9079e](https://github.com/Swivel-Finance/ui/commit/8e9079e947b1b03a4216bdb74cdf42507fd8a190))
+
 ### [0.0.13](https://github.com/Swivel-Finance/ui/compare/v0.0.12...v0.0.13) (2022-06-01)
 
 
