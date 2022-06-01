@@ -10,8 +10,8 @@
   --track-height: var(--grid-size-l);
   --thumb-width: var(--grid-size);
   --thumb-height: var(--grid-size);
-  --thumb-off: calc(var(--border-width) * 2);
-  --thumb-on: calc(var(--width) - var(--thumb-width) - var(--border-width) * 2);
+  --thumb-off: calc((var(--track-height) - var(--thumb-height)) / 2);
+  --thumb-on: calc(var(--width) - var(--thumb-width) - var(--thumb-off));
 }
 
 ui-toggle {
@@ -52,12 +52,11 @@ ui-toggle > input {
   position: absolute;
   top: calc(var(--height) / 2 - var(--track-height) / 2);
   left: calc(var(--width) / 2 - var(--track-width) / 2);
-  background-color: rgba(0,0,0,0.25);
+  background-color: var(--bg);
   border: var(--border-width) solid var(--fg);
   border-radius: calc(var(--track-height) / 2);
   transition-property: background-color, border-color;
   transition-duration: var(--transition-duration);
-  transition-delay: calc(var(--transition-duration) / 4);
   transition-timing-function: var(--transition-timing);
 }
 
