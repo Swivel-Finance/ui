@@ -181,7 +181,7 @@ const template = function (this: PopupDemoElement): TemplateResult {
                 </p>
 
                 <div class="horizontal" style="font-family: var(--font-family-mono);">
-                    <button type="button" @click="${ () => this.proxyPopup.value?.updatePosition(document.getElementById('origin-empty')!) }">
+                    <button type="button" @click="${ () => this.proxyPopup.value?.updatePosition(document.getElementById('origin-empty') as HTMLElement) }">
                         updatePosition()
                     </button>
                 </div>
