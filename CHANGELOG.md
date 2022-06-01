@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.15](https://github.com/Swivel-Finance/ui/compare/v0.0.14...v0.0.15) (2022-06-01)
+
+
+### Bug Fixes
+
+* **elements/toggle:** toggles nested inside labels don't change state ([7d6cd47](https://github.com/Swivel-Finance/ui/commit/7d6cd47550e7f7bf32ce33c8cf52fad7aa655815)), closes [#27](https://github.com/Swivel-Finance/ui/issues/27)
+
 ### [0.0.14](https://github.com/Swivel-Finance/ui/compare/v0.0.13...v0.0.14) (2022-06-01)
 
 
