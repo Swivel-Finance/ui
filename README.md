@@ -173,6 +173,8 @@ This second step takes the local changes and pushes them to origin (including th
 
 ## Elements
 
+- Accordion
+- Collapsible
 - Checkbox
 - Dialog
 - Icon

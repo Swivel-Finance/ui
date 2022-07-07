@@ -1,0 +1,82 @@
+@import '../../main.css';
+/* when using components, we should always include the component base styles */
+@import '../../../src/elements/icon/icon.css';
+@import '../../../src/elements/toggle/toggle.css';
+@import '../../../src/elements/collapsible/collapsible.css';
+@import '../../../src/elements/collapsible/accordion.css';
+
+textarea {
+  --color-brd: #ffffff22;
+  box-shadow: 0 0 0 var(--border-width) var(--color-brd);
+}
+
+demo-collapsible {
+  display: block;
+  margin-block-start: var(--line-height);
+}
+
+ui-collapsible {
+  --color-brd: #ffffff22;
+  box-shadow: 0 var(--border-width) 0 0 var(--color-brd);
+}
+
+ui-collapsible [data-part="header"] button {
+  padding: var(--grid-size) var(--grid-size-l);
+}
+
+ui-collapsible [data-part="region"] {
+  line-height: 1.5;
+  padding: var(--grid-size-l);
+  box-shadow: inset 0 var(--border-width) 0 0 var(--color-brd);
+}
+
+ui-collapsible [data-part="trigger"] {
+  flex: 1 1 auto;
+  justify-content: start;
+  padding: var(--grid-size) var(--grid-size-l);
+}
+
+/* collapsible with icon */
+
+.collapsible-icon [data-part="header"] {
+  padding: var(--grid-size-s) var(--grid-size-l);
+}
+
+.collapsible-icon [data-part="trigger"] {
+  flex: 0 0 auto;
+  justify-content: center;
+  position: relative;
+  height: var(--grid-size-l);
+  box-sizing: content-box;
+}
+
+.collapsible-icon [data-part="trigger"] ui-icon {
+  position: absolute;
+}
+
+.collapsible-icon [data-part="trigger"] ui-icon.collapsed {
+  opacity: 1;
+  transform: rotate(0deg);
+  transform-origin: center;
+}
+.collapsible-icon [data-part="trigger"] ui-icon.expanded {
+  opacity: 0;
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
+.collapsible-icon [data-part="trigger"][aria-expanded=true] ui-icon.collapsed {
+  opacity: 0;
+  transform: rotate(90deg);
+}
+.collapsible-icon [data-part="trigger"][aria-expanded=true] ui-icon.expanded {
+  opacity: 1;
+  transform: rotate(0deg);
+}
+
+.collapsible-icon [data-part="trigger"].ui-animate-in ui-icon,
+.collapsible-icon [data-part="trigger"].ui-animate-out ui-icon {
+  transition-property: transform, opacity;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}

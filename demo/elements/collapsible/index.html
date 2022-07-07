@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel-ui/ui/collapsible</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel-ui/ui/collapsible</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <h2>Collapsible</h2>
+
+    <p>The <code>ui-collapsible</code> element creates a collapsible content section with an associated heading.
+      It can be in either of two states: <code>expanded</code> - meaning its content section is expanded and visible -
+      or <code>collapsed</code> - meaning its content section is collapsed and not visible.
+    </p>
+
+    <p>The <code>ui-collapsible</code> element exposes the following <strong>properties</strong>:</p>
+
+    <ul>
+      <li>
+        <code>expanded</code>: allows to set the initial state of the <code>ui-collapsible</code> element and to query
+        the state at any given time
+      </li>
+      <li>
+        <code>animated</code>: allows to turn on/off animations for the <code>ui-collapsible</code> element
+      </li>
+    </ul>
+
+    <p>The <code>ui-collapsible</code> element dispatches the following <strong>events</strong>:</p>
+
+    <ul>
+      <li>
+        <code>ui-open-changed</code>: dispatched when the collapisble changes state from <code>expanded</code> to
+        <code>collapsed</code> or vice versa<br>
+        This event is an instance of the <code>OpenChangeEvent</code> (the same event dispatched from overlay behaviors)
+        and has the following <code>event.detail</code>: <code>{ open: boolean; target: CollapsibleElement; }</code><br>
+        This event is fired <strong>as soon as the component has updated</strong> and reflected its state to the DOM
+        (it does not wait for the animation to finish)
+      </li>
+    </ul>
+
+    <p>The <code>ui-collapsible</code> element exposes the following <strong>methods</strong>:</p>
+
+    <ul>
+      <li>
+        <code>toggle(expanded?: boolean)</code>: toggles the collapsible<br>
+        This method return a <code>Promise&lt;void&gt;</code> which resolves <strong>when the animation is finished</strong>
+      </li>
+    </ul>
+
+    <pre><xmp>
+    <ui-collapsible>
+      <h3 data-part="header">
+        <button class="ghost" data-part="trigger">Lorem ipsum</button>
+      </h3>
+      <p data-part="region">
+        Lorem, ipsum dolor sit amet consectetur adipisicing elit...
+      </p>
+    </ui-collapsible>
+    </xmp></pre>
+
+    <p>A <code>ui-collapsible</code> <strong>must</strong> always contain:</p>
+
+    <ul>
+      <li>
+        a trigger element marked with the attribute <code>data-part="trigger"</code> and
+      </li>
+      <li>
+        a region element marked with the attribute <code>data-part="region"</code>
+      </li>
+    </ul>
+
+    <p>A trigger element can be a button, but this is not required. Be aware though, that the
+      <code>ui-collapsible</code> element will add a <code>role="button"</code> and <code>tabindex="0"</code>
+      attribute to the trigger element to ensure its accessibility.
+    </p>
+
+    <p>Using a header element as the trigger element will disable the intrinsic header role of the <code>h[n]</code>
+      element and is therefore not recommended. As seen in the example above, to include a header and preserve its
+      accessible role, the trigger element should be a child of the actual header element. The header element can in
+      this case be annotated with the attribute <code>data-part="header"</code> which will only add a few additional
+      styles and is optional.
+    </p>
+
+    <p>A region element can be any block level element that contains the content of the collapsible section.
+      If the content is a single paragraph, the paragraph can be marked as the region element directly. If the
+      content contains multiple paragraphs or any mix of elements, wrap the content in a <code>div</code> and
+      annotate it with the <code>data-part="region"</code> attribute.
+    </p>
+
+    <h2>Plain HTML Examples</h2>
+
+    <div class="container horizontal half">
+
+      <div class="container vertical">
+        <h3>Collapsible Section with Button</h3>
+        <p>A collapsible section with an <code>h3</code> header containing a button. The region is a simple paragraph.
+          The content of the button is customizable by the user and can include icons or other forms of visual state
+          representation.
+        </p>
+      </div>
+
+      <div class="container vertical">
+
+        <ui-collapsible class="collapsible-button">
+          <h3 data-part="header">
+            <button class="ghost" data-part="trigger">Lorem ipsum</button>
+          </h3>
+          <p data-part="region">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus dignissimos voluptates suscipit eaque
+            inventore id sint accusamus pariatur architecto, dolor voluptatem repudiandae dicta quaerat aut porro
+            omnis soluta nostrum molestiae.
+          </p>
+        </ui-collapsible>
+
+      </div>
+
+    </div>
+
+    <div class="container horizontal half">
+
+      <div class="container vertical">
+        <h3>Collapsible Section with Icon</h3>
+        <p>A collapsible section with an <code>h3</code> header containing the header text and a separate button element
+          which contains two icons to visualize the <code>ui-collapsible</code>'s state. The collapsible section is set
+          to be expanded by default.
+        </p>
+        <p>The button has an accessible label and the icon animations are defined in the demo's <code>main.css</code>.
+        </p>
+        <p>The region element is a <code>div</code> containing 2 paragraphs. The wrapper is necessary as the collapsible
+          region needs a single region root element (for manipulating visibility, calculating the region's height, as
+          well as animating the transitions between expanded and collapsed state).
+        </p>
+      </div>
+
+      <div class="container vertical">
+
+        <ui-collapsible expanded="false" class="collapsible-icon">
+          <h3 data-part="header">
+            Lorem ipsum
+            <button class="ghost" data-part="trigger" aria-label="toggle section">
+              <ui-icon class="collapsed" name="plus"></ui-icon>
+              <ui-icon class="expanded" name="minus"></ui-icon>
+            </button>
+          </h3>
+          <div data-part="region">
+            <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus dignissimos voluptates suscipit eaque
+              inventore id sint accusamus pariatur architecto, dolor voluptatem repudiandae dicta quaerat aut porro
+              omnis soluta nostrum molestiae.</p>
+            <p>Nesciunt excepturi ad asperiores sed! Ipsum fugiat totam quae assumenda error eligendi exercitationem,
+              suscipit cum nulla inventore consequatur reprehenderit, repellat minus laboriosam autem corrupti harum ex
+              quia laborum similique dignissimos.</p>
+          </div>
+        </ui-collapsible>
+
+      </div>
+
+    </div>
+
+    <br>
+    <h2>Component Examples</h2>
+
+    <demo-collapsible></demo-collapsible>
+
+  </div>
+
+  <script src="/dist/demo/elements/collapsible/main.js" type="module"></script>
+</body>
+
+</html>
