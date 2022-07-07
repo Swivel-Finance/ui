@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.16](https://github.com/Swivel-Finance/ui/compare/v0.0.15...v0.0.16) (2022-07-07)
+
+
+### Features
+
+* **elements/collapsible:** add collapsible section and accordion element ([7847070](https://github.com/Swivel-Finance/ui/commit/7847070160aef174100dbe2fa88166dceb1d1a6f)), closes [#2](https://github.com/Swivel-Finance/ui/issues/2)
+
 ### [0.0.15](https://github.com/Swivel-Finance/ui/compare/v0.0.14...v0.0.15) (2022-06-01)
 
 
