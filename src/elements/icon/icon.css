@@ -3,7 +3,7 @@ ui-icon {
   display: inline-block;
   width: var(--line-height);
   height: var(--line-height);
-  vertical-align: bottom;
+  vertical-align: top;
 }
 
 ui-icon svg {

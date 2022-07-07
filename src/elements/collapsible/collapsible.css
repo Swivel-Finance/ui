@@ -1,0 +1,61 @@
+ui-collapsible {
+  display: flex;
+  flex-direction: column;
+}
+
+ui-collapsible [data-part=header] {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+ui-collapsible [data-part=trigger] {
+  cursor: pointer;
+}
+
+ui-collapsible:not(:defined) [data-part=region] {
+  height: 0;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+ui-collapsible [data-part=region] {
+  flex: 1 1 auto;
+  overflow: hidden;
+  min-height: 0;
+  max-height: auto;
+  margin: 0;
+}
+
+ui-collapsible [data-part=region].ui-check-layout {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+}
+
+ui-collapsible [data-part=region].ui-invisible {
+  max-height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+  opacity: 0;
+}
+
+ui-collapsible [data-part=region].ui-visible {
+  max-height: var(--height);
+  opacity: 1;
+}
+
+ui-collapsible [data-part=region].ui-visible:not(.ui-animate-in) {
+  overflow: auto;
+}
+
+ui-collapsible [data-part=region].ui-animate-in,
+ui-collapsible [data-part=region].ui-animate-out {
+  transform-origin: top center;
+  transition-property: max-height, padding-top, padding-bottom, opacity;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}

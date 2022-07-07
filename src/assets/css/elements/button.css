@@ -67,3 +67,8 @@ button[disabled]:focus {
   font-size: var(--font-size-s);
   border-radius: var(--border-radius-s);
 }
+
+button.ghost {
+  --color-fg: var(--theme-fg);
+  --color-bg: transparent;
+}
