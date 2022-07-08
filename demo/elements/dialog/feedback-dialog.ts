@@ -1,3 +1,4 @@
+/* eslint-disable import/no-duplicates */
 import { html } from 'lit';
 import { customElement } from 'lit/decorators.js';
 import { dialogContent, DialogElement, dialogFooter, dialogHeader } from '../../../src/elements/dialog/index.js';
@@ -14,17 +15,17 @@ export interface FeedbackResult {
 
 const options = [
     {
-        label: `It's great!`,
+        label: 'It\'s great!',
         value: 1,
     },
     {
-        label: `It's alright.`,
+        label: 'It\'s alright.',
         value: 2,
     },
     {
-        label: `It kinda sucks...`,
+        label: 'It kinda sucks...',
         value: 3,
-    }
+    },
 ];
 
 const template = function (this: FeedbackDialog) {

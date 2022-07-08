@@ -135,9 +135,9 @@ export class DialogElement<T = unknown> extends LitElement {
         const cancel = this.querySelectorAll<HTMLElement>('[data-command=cancel]');
         const confirm = this.querySelectorAll<HTMLElement>('[data-command=confirm]');
 
-        dismiss.forEach(element => this.eventManager.listen(element, 'click', () => this.dismiss(true)));
-        cancel.forEach(element => this.eventManager.listen(element, 'click', () => this.cancel(true)));
-        confirm.forEach(element => this.eventManager.listen(element, 'click', () => this.confirm(true)));
+        dismiss.forEach(element => this.eventManager.listen(element, 'click', () => void this.dismiss(true)));
+        cancel.forEach(element => this.eventManager.listen(element, 'click', () => void this.cancel(true)));
+        confirm.forEach(element => this.eventManager.listen(element, 'click', () => void this.confirm(true)));
     }
 
     protected addListeners (): void {

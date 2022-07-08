@@ -1,3 +1,5 @@
+/* eslint-disable import/no-duplicates */
+/* eslint-disable @typescript-eslint/indent */
 import { html, LitElement, nothing } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { createRef } from 'lit/directives/ref.js';
@@ -116,7 +118,7 @@ const template = function (this: DialogDemoElement) {
 
                 <button type="button" aria-controls="embedded-dialog">Show Dialog</button>
 
-                <ui-dialog id="embedded-dialog" .result=${ true } @ui-dialog-result=${ this.handleConfirmation }>
+                <ui-dialog id="embedded-dialog" .result=${ true } @ui-dialog-result=${ (event: DialogResultEvent<boolean>) => this.handleConfirmation(event) }>
                     ${ dialogHeader('embedded-dialog', 'Alert') }
                     ${ dialogContent(html`
                         <p>Something important happened</p>
@@ -138,8 +140,8 @@ const template = function (this: DialogDemoElement) {
                         type: this.embeddedDialogResult.type,
                         detail: {
                             ...this.embeddedDialogResult.detail,
-                            target: `[${this.embeddedDialogResult.detail.target.nodeName}]`,
-                        }
+                            target: `[${ this.embeddedDialogResult.detail.target.nodeName }]`,
+                        },
                     }, undefined, 4)
                     : nothing
                 }</pre>
@@ -218,8 +220,8 @@ const template = function (this: DialogDemoElement) {
                         type: this.feedbackDialogResult.type,
                         detail: {
                             ...this.feedbackDialogResult.detail,
-                            target: `[${this.feedbackDialogResult.detail.target.nodeName}]`,
-                        }
+                            target: `[${ this.feedbackDialogResult.detail.target.nodeName }]`,
+                        },
                     }, undefined, 4)
                     : nothing
                 }</pre>
@@ -337,27 +339,27 @@ const template = function (this: DialogDemoElement) {
                 <ul>
                     <li>
                         <code>modal</code>
-                        <input type="checkbox" .checked=${ this.modal } @change=${ (event: Event) => this.modal = !this.modal }>
+                        <input type="checkbox" .checked=${ this.modal } @change=${ () => this.modal = !this.modal }>
                     </li>
                     <li>
                         <code>animated</code>
-                        <input type="checkbox" .checked=${ this.animated } @change=${ (event: Event) => this.animated = !this.animated }>
+                        <input type="checkbox" .checked=${ this.animated } @change=${ () => this.animated = !this.animated }>
                     </li>
                     <li>
                         <code>backdrop</code>
-                        <input type="checkbox" .checked=${ this.backdrop } @change=${ (event: Event) => this.backdrop = !this.backdrop }>
+                        <input type="checkbox" .checked=${ this.backdrop } @change=${ () => this.backdrop = !this.backdrop }>
                     </li>
                     <li>
                         <code>closeOnEscape</code>
-                        <input type="checkbox" .checked=${ this.closeOnEscape } @change=${ (event: Event) => this.closeOnEscape = !this.closeOnEscape }>
+                        <input type="checkbox" .checked=${ this.closeOnEscape } @change=${ () => this.closeOnEscape = !this.closeOnEscape }>
                     </li>
                     <li>
                         <code>closeOnFocusLoss</code>
-                        <input type="checkbox" .checked=${ this.closeOnFocusLoss } @change=${ (event: Event) => this.closeOnFocusLoss = !this.closeOnFocusLoss }>
+                        <input type="checkbox" .checked=${ this.closeOnFocusLoss } @change=${ () => this.closeOnFocusLoss = !this.closeOnFocusLoss }>
                     </li>
                     <li>
                         <code>closeOnBackdropClick</code>
-                        <input type="checkbox" .checked=${ this.closeOnBackdropClick } @change=${ (event: Event) => this.closeOnBackdropClick = !this.closeOnBackdropClick }>
+                        <input type="checkbox" .checked=${ this.closeOnBackdropClick } @change=${ () => this.closeOnBackdropClick = !this.closeOnBackdropClick }>
                     </li>
                 </ul>
             </div>
