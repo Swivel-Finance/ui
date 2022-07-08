@@ -17,7 +17,7 @@
   "homepage": "https://github.com/Swivel-Finance/ui#readme",
   "scripts": {
     "start": "npm-run-all clean build --parallel \"build:watch -- --preserveWatchOutput\" css:watch serve",
-    "clean": "shx rm -rf ./dist ./coverage",
+    "clean": "shx rm -rf ./coverage ./dist ./out",
     "commit": "cz",
     "prebuild": "npm run clean",
     "build": "tsc",
@@ -25,6 +25,8 @@
     "css": "postcss ./src/**/*.css --base ./src --dir ./dist/src",
     "css:prod": "postcss ./src/**/*.css --base ./src --use postcss-import cssnano --no-map --dir ./dist/src",
     "css:watch": "npm run css -- --watch",
+    "bundle": "rollup -c",
+    "postbundle": "postcss ./demo/**/main.css --base ./demo --use postcss-import --no-map --dir ./out",
     "lint": "eslint src/ demo/",
     "lint:fix": "npm run lint -- --fix",
     "test": "web-test-runner \"./dist/test/**/*.spec.js\"",
@@ -40,12 +42,16 @@
     "pub": "npm publish ./dist/src --access public",
     "prepub": "shx cp ./package.json ./README.md ./dist/src",
     "postpub": "shx rm ./dist/src/package.json ./dist/src/README.md",
-    "pack": "npm run prepub && npm pack ./dist/src && npm run postpub"
+    "pack": "npm run prepub && npm pack ./dist/src && npm run postpub",
+    "vercel": "npm-run-all build bundle"
   },
   "devDependencies": {
     "@open-wc/testing": "^3.1.1",
+    "@rollup/plugin-node-resolve": "^13.3.0",
     "@swivel-finance/eslint-config": "^0.1.0",
     "@web/dev-server": "^0.1.30",
+    "@web/rollup-plugin-copy": "^0.3.0",
+    "@web/rollup-plugin-html": "^1.10.3",
     "@web/test-runner": "^0.13.27",
     "cssnano": "^5.1.1",
     "cz-conventional-changelog": "^3.3.0",
@@ -56,6 +62,7 @@
     "postcss": "^8.4.8",
     "postcss-cli": "^9.1.0",
     "postcss-import": "^14.0.2",
+    "rollup": "^2.75.7",
     "shx": "^0.3.4",
     "standard-version": "^9.3.2",
     "typescript": "^4.5.5"
