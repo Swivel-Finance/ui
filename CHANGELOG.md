@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.17](https://github.com/Swivel-Finance/ui/compare/v0.0.16...v0.0.17) (2022-09-05)
+
+
+### Bug Fixes
+
+* **collapsible:** ensure height is calculated correctly ([d91da9d](https://github.com/Swivel-Finance/ui/commit/d91da9d29a82ea3a54a6b4829075da309e6f503e)), closes [#31](https://github.com/Swivel-Finance/ui/issues/31)
+
 ### [0.0.16](https://github.com/Swivel-Finance/ui/compare/v0.0.15...v0.0.16) (2022-07-07)
 
 
