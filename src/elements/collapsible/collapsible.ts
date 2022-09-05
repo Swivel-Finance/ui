@@ -1,4 +1,4 @@
-import { LitElement, PropertyValueMap, PropertyValues } from 'lit';
+import { LitElement, PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import { CLASS_MAP, toggleVisibility } from '../../behaviors/index.js';
 import { OpenChangeEvent } from '../../behaviors/overlay/events.js';
