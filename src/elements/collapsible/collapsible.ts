@@ -95,6 +95,11 @@ export class CollapsibleElement extends LitElement {
         await this.updateVisibility();
     }
 
+    protected firstUpdated (): void {
+
+        this.updateHeight();
+    }
+
     protected updated (_changedProperties: PropertyValues<this>): void {
 
         if (_changedProperties.has('expanded')) {
@@ -141,8 +146,6 @@ export class CollapsibleElement extends LitElement {
         this.regionElement?.setAttribute('aria-labelledby', triggerId);
 
         if (this.regionElement) {
-
-            this.updateHeight();
 
             this.regionElement.hidden = !this.expanded;
             this.regionElement.classList.add(this.expanded ? CLASS_MAP.visible : CLASS_MAP.invisible);
