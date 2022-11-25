@@ -1,0 +1,9 @@
+@import '../../main.css';
+/* when using components, we should always include the component base styles */
+@import '../../../src/elements/panel-container/panel-container.css';
+
+.highlight {
+  padding: var(--line-height);
+  background-color: var(--theme-bg-l);
+  border-radius: var(--border-radius);
+}
