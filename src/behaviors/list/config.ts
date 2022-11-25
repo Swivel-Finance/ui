@@ -49,3 +49,11 @@ export const LIST_CONFIG_MENU_RADIO: ListConfig = {
     orientation: 'vertical',
     wrap: true,
 };
+
+export const LIST_CONFIG_TABS: ListConfig = {
+    classes: CLASS_MAP,
+    role: 'tablist',
+    itemRole: 'tab',
+    orientation: 'horizontal',
+    wrap: false,
+};

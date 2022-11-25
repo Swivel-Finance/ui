@@ -1,6 +1,14 @@
 import { isNullish } from '../checks.js';
 
 /**
+ * Check if an element is disabled
+ */
+export const isDisabled = (element: HTMLElement): boolean => {
+
+    return element.hasAttribute('disabled') || element.getAttribute('aria-disabled') === 'true';
+};
+
+/**
  * Get the currently active element
  *
  * @remarks

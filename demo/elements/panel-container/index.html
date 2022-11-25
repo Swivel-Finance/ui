@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel/ui/elements/panel-container</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel/ui/elements/panel-container</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <h2>PanelContainer</h2>
+
+    <p>The <code>ui-panel-container</code> element creates a generic customizable template element that allows users to
+      switch between different content panels using a set of predefined triggers.</p>
+
+    <p class="highlight">In most cases you will probably want to use the <a href="#tabs">Tabs</a> or <a href="#wizard">Wizard</a>
+      elements instead of the generic <code>PanelContainer</code>. However, the <code>PanelContainer</code> element is
+      the base class used by both, the Tabs and Wizard elements.</p>
+
+    <pre><xmp>
+    <ui-panel-container>
+      <div data-part="triggers">
+        <span data-part="trigger">Panel 1</span>
+        <span data-part="trigger">Panel 2</span>
+        <span data-part="trigger">Panel 3</span>
+        <span data-part="trigger" aria-disabled="true">Panel 4</span>
+      </div>
+      <div data-part="panels">
+        <div data-part="panel">Content 1</div>
+        <div data-part="panel">Content 2</div>
+        <div data-part="panel">Content 3</div>
+        <div data-part="panel">Content 4</div>
+      </div>
+    </ui-panel-container>
+    </xmp></pre>
+
+    <p>The <code>ui-panel-container</code> element: </p>
+
+    <ul>
+      <li>
+        has a <code>current</code> property, which sets the currently displayed panel by its index,
+      </li>
+      <li>
+        has a <code>animated</code> property, which will turn animations on or off,
+      </li>
+      <li>
+        and dispatches a <code>ui-panel-changed</code> event when its current panel is changed through user interaction
+      </li>
+    </ul>
+
+    <h3>Plain HTML Example</h3>
+
+    <p>This example shows a panel container using plain HTML and no data-binding or templating. The trigger elements can
+      be an arbitrary element and appropriate <code>click</code> and <code>keydown</code> handlers will be added
+      automatically. The order of the triggers correlates with the order of the panels which are controlled by each
+      trigger.
+    </p>
+
+    <div class="container horizontal half">
+
+      <ui-panel-container>
+        <div data-part="triggers">
+          <span data-part="trigger">Panel 1</span>
+          <span data-part="trigger">Panel 2</span>
+          <span data-part="trigger">Panel 3</span>
+          <span data-part="trigger" aria-disabled="true">Panel 4</span>
+        </div>
+        <div data-part="panels">
+          <div data-part="panel">
+            <h3>Content 1</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolore consectetur nihil nam dolorem eius
+              eligendi, amet ipsa veniam provident temporibus quam laborum impedit nemo at suscipit et iure quia.</p>
+          </div>
+          <div data-part="panel">
+            <h3>Content 2</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolore consectetur nihil nam dolorem eius
+              eligendi, amet ipsa veniam provident temporibus quam laborum impedit nemo at suscipit et iure quia.</p>
+          </div>
+          <div data-part="panel">
+            <h3>Content 3</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolore consectetur nihil nam dolorem eius
+              eligendi, amet ipsa veniam provident temporibus quam laborum impedit nemo at suscipit et iure quia.</p>
+          </div>
+          <div data-part="panel">
+            <h3>Content 4</h3>
+            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio dolore consectetur nihil nam dolorem eius
+              eligendi, amet ipsa veniam provident temporibus quam laborum impedit nemo at suscipit et iure quia.</p>
+          </div>
+        </div>
+      </ui-panel-container>
+
+      <dl class="vertical">
+        <dt><code>PanelChangeEvent</code></dt>
+        <dd><pre id="container-event-output"></pre></dd>
+      </dl>
+
+    </div>
+
+    <h2><a name="wizard"></a>Wizard</h2>
+
+    <div class="container vertical">
+
+      <p>The <code>ui-wizard</code> element extends the <code>ui-panel-container</code> element and therefore provides
+        the same inputs and events.</p>
+
+      <p>The main difference of the <code>ui-wizard</code> is, that it will add additional aria attributes to the panel
+        and trigger elements inside of the wizard to mark them as navigation links which are tied to a step in a
+        process.</p>
+
+      <p>When using the <code>ui-wizard</code> in an app, make sure to include both the:</p>
+      <ul>
+        <li><code>@swivel-fnace/ui/elements/panel-container/panel-container.css</code> and </li>
+        <li><code>@swivel-fnace/ui/elements/wizard/wizard.css</code></li>
+      </ul>
+      <p>styles, as the <code>ui-panel-container</code> base styles setup the basic panel layout as well as animations.</p>
+
+      <h3>Usage</h3>
+      <pre><xmp>
+    <ui-wizard>
+
+      <nav class="step-navigation" aria-label="Transaction Steps">
+        <ul class="step-list" data-part="triggers">
+          <li class="step-link"><a data-part="trigger" href="#">Select a Position</a></li>
+          <li class="step-link"><a data-part="trigger" href="#" aria-disabled="true">Transaction Preview</a></li>
+          <li class="step-link"><a data-part="trigger" href="#" aria-disabled="true">Transaction Result</a></li>
+        </ul>
+      </nav>
+
+      <div class="step-container" data-part="panels">
+
+        <div class="step-panel" data-part="panel">
+          <h3>Select a position</h3>
+        </div>
+
+        <div class="step-panel" data-part="panel">
+          <h3>Transaction Preview</h3>
+        </div>
+
+        <div class="step-panel" data-part="panel">
+          <h3>Transaction Result</h3>
+        </div>
+
+      </div>
+
+    </ui-wizard>
+      </xmp></pre>
+
+      <h3>Example</h3>
+
+      <demo-wizard></demo-wizard>
+
+    </div>
+
+    <h2><a name="tabs"></a>Tabs</h2>
+
+    <div class="container vertical">
+
+      <p>The <code>ui-tabs</code> element extends the <code>ui-panel-container</code> element and therefore provides
+        the same inputs and events. In addition, the <code>ui-tabs</code> element:</p>
+
+      <ul>
+        <li>
+          has a <code>orientation</code> property, which sets the navigation direction and layout for the tablist;<br>
+          allowed values are <code>horizontal</code> (default) and <code>vertical</code>
+        </li>
+      </ul>
+
+      <p>The <code>ui-tabs</code> element adds additional keyboard navigation behavior to the tablist, to allow users
+      to navigate between tabs by using the arrow keys on their keyboard.</p>
+
+      <p>When using the <code>ui-tabs</code> in an app, make sure to include both the:</p>
+      <ul>
+        <li><code>@swivel-fnace/ui/elements/panel-container/panel-container.css</code> and </li>
+        <li><code>@swivel-fnace/ui/elements/tabs/tabs.css</code></li>
+      </ul>
+      <p>styles, as the <code>ui-panel-container</code> base styles setup the basic panel layout as well as animations.</p>
+
+      <h3>Usage</h3>
+      <pre><xmp>
+    <ui-tabs>
+
+      <div class="tab-list" data-part="triggers">
+        <button class="tab" data-part="trigger">Tab One</button>
+        <button class="tab" data-part="trigger">Tab Two</button>
+      </div>
+
+      <div class="tab-container" data-part="panels">
+
+        <div class="tab-panel" data-part="panel">
+          <h3>Tab One</h3>
+        </div>
+
+        <div class="tab-panel" data-part="panel">
+          <h3>Tab Two</h3>
+        </div>
+
+      </div>
+
+    </ui-tabs>
+      </xmp></pre>
+
+      <h3>Example</h3>
+
+      <demo-tabs></demo-tabs>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    const container = document.querySelector('ui-panel-container');
+
+    container.addEventListener('ui-panel-changed', event => {
+
+      const target = event.detail.target;
+
+      const output = {
+        type: event.type,
+        detail: {
+          ...event.detail,
+          target: `${ target.localName }${ target.id ? `#${ target.id }` : '' }`
+        },
+      };
+
+      document.getElementById('container-event-output').innerHTML = JSON.stringify(output, undefined, 2);
+    });
+
+  </script>
+  <script src="/dist/demo/elements/panel-container/main.js" type="module"></script>
+</body>
+
+</html>

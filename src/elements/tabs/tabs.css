@@ -1,0 +1,73 @@
+:where(ui-tabs):has([role=tablist].ui-vertical) {
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+}
+
+:where(ui-tabs) [role=tablist].ui-vertical {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+:where(ui-tabs [role=tablist].ui-vertical) [role=tab]  {
+  justify-content: start;
+}
+
+:where(ui-tabs) [data-part=panels] {
+  flex: 1 1 100%;
+}
+
+/* animation direction */
+
+:where(ui-tabs):has([role=tablist].ui-vertical) [data-part=panel].ui-invisible {
+  transform: translateY(var(--offest));
+}
+
+:where(ui-tabs):has([role=tablist].ui-vertical) [data-part=panel].ui-animate-out {
+  transform: translateY(calc(var(--offest) * -1));
+}
+
+:where(ui-tabs):has([role=tablist].ui-vertical) [data-part=panel].ui-invisible.ui-backward {
+  transform: translateY(calc(var(--offest) * -1));
+}
+
+:where(ui-tabs):has([role=tablist].ui-vertical) [data-part=panel].ui-animate-out.ui-backward {
+  transform: translateY(var(--offest));
+}
+
+/* tab specific styles when using classes */
+
+.tab-list {
+  gap: var(--border-width);
+}
+
+.tab-list:is(:focus, :focus-visible) {
+  box-shadow: none;
+}
+
+.tab {
+  --color-fg: var(--theme-fg-lc);
+  --color-bg: transparent;
+  color: var(--color-fg);
+  background: var(--color-bg);
+  box-shadow: none;
+  transition-property: color, background-color;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
+}
+
+.tab:is(:focus, :hover) {
+  --color-fg: var(--theme-fg);
+  --color-bg: transparent;
+  box-shadow: none;
+}
+
+.tab[aria-selected=true] {
+  --color-fg: var(--theme-fg-hc);
+  --color-bg: var(--theme-bg-l);
+}
+
+.tab:is([disabled], [disabled]:hover, [aria-disabled=true], [aria-disabled=true]:hover, [aria-disabled=true]:focus) {
+  --color-fg: var(--theme-fg-dsbl);
+  --color-bg: transparent;
+}
