@@ -24,6 +24,7 @@ const PAGES = [
     'elements/collapsible/',
     'elements/dialog/',
     'elements/listbox/',
+    'elements/panel-container/',
     'elements/popup/',
     'elements/select/',
     'elements/toggles/',
