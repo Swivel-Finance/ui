@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.18](https://github.com/Swivel-Finance/ui/compare/v0.0.17...v0.0.18) (2022-11-25)
+
+
+### Features
+
+* add panel-container element ([7e5beaf](https://github.com/Swivel-Finance/ui/commit/7e5beaf80060330e985e489cebe36c42786242c5))
+* add tabs element ([feed0f4](https://github.com/Swivel-Finance/ui/commit/feed0f46aa6fe32e3ef12f70cbea7234c93b6a9c))
+* add wizard element ([82ae1ce](https://github.com/Swivel-Finance/ui/commit/82ae1ce60155380b6d2b480b64ed1352b70c065d))
+
+
+### Bug Fixes
+
+* **collapsible:** make `updateHeight` method public ([04d4661](https://github.com/Swivel-Finance/ui/commit/04d4661bf2a2b8cb10d1b16dbf495f88e4fe1b49))
+
 ### [0.0.17](https://github.com/Swivel-Finance/ui/compare/v0.0.16...v0.0.17) (2022-09-05)
 
 
