@@ -95,6 +95,55 @@ export class CollapsibleElement extends LitElement {
         await this.updateVisibility();
     }
 
+    /**
+     * Recalculates the required height of the region element.
+     *
+     * @remarks
+     * We calculate the height that the collapsible region would occupy by default
+     * and set the result as a css custom property on the element. We can use the
+     * css custom property in our styles to animate between collapsed and expanded
+     * state.
+     *
+     * We have to take care of the region being hidden - in which case the
+     * `scrollHeight` will return 0. In addition, we animate the region's padding
+     * for the `ui-invisible` class. We need to take this into account when
+     * recalculating a region's height in the collapsed state.
+     */
+    updateHeight (): void {
+
+        if (!this.regionElement) return;
+
+        // backup the hidden attribute
+        const hidden = this.regionElement.hidden;
+        // backup the visibility class
+        const visibility = this.regionElement.classList.contains(CLASS_MAP.invisible) && CLASS_MAP.invisible;
+
+        if (hidden) {
+
+            // setup the region for measuring
+            // add the check layout class to ensure the region stays visually hidden
+            this.regionElement.classList.add(CLASS_MAP.checkLayout);
+            // remove the visibility class to correct the paddings
+            if (visibility) this.regionElement.classList.remove(visibility);
+            // remove the hidden attribute to ensure we can calculate a height
+            this.regionElement.hidden = false;
+        }
+
+        const height = this.regionElement.scrollHeight;
+
+        if (hidden) {
+
+            // restore the hidden attribute
+            this.regionElement.hidden = true;
+            // restore the visibility class
+            if (visibility) this.regionElement.classList.add(visibility);
+            // remove the check layout class
+            this.regionElement.classList.remove(CLASS_MAP.checkLayout);
+        }
+
+        this.setAttribute('style', `--height:${ height }px;`);
+    }
+
     protected firstUpdated (): void {
 
         this.updateHeight();
@@ -165,55 +214,6 @@ export class CollapsibleElement extends LitElement {
         if (!this.triggerElement || !this.regionElement) return;
 
         await toggleVisibility(this.regionElement, this.expanded, this.triggerElement, this.animated);
-    }
-
-    /**
-     * Recalculates the required height of the region element.
-     *
-     * @remarks
-     * We calculate the height that the collapsible region would occupy by default
-     * and set the result as a css custom property on the element. We can use the
-     * css custom property in our styles to animate between collapsed and expanded
-     * state.
-     *
-     * We have to take care of the region being hidden - in which case the
-     * `scrollHeight` will return 0. In addition, we animate the region's padding
-     * for the `ui-invisible` class. We need to take this into account when
-     * recalculating a region's height in the collapsed state.
-     */
-    protected updateHeight (): void {
-
-        if (!this.regionElement) return;
-
-        // backup the hidden attribute
-        const hidden = this.regionElement.hidden;
-        // backup the visibility class
-        const visibility = this.regionElement.classList.contains(CLASS_MAP.invisible) && CLASS_MAP.invisible;
-
-        if (hidden) {
-
-            // setup the region for measuring
-            // add the check layout class to ensure the region stays visually hidden
-            this.regionElement.classList.add(CLASS_MAP.checkLayout);
-            // remove the visibility class to correct the paddings
-            if (visibility) this.regionElement.classList.remove(visibility);
-            // remove the hidden attribute to ensure we can calculate a height
-            this.regionElement.hidden = false;
-        }
-
-        const height = this.regionElement.scrollHeight;
-
-        if (hidden) {
-
-            // restore the hidden attribute
-            this.regionElement.hidden = true;
-            // restore the visibility class
-            if (visibility) this.regionElement.classList.add(visibility);
-            // remove the check layout class
-            this.regionElement.classList.remove(CLASS_MAP.checkLayout);
-        }
-
-        this.setAttribute('style', `--height:${ height }px;`);
     }
 
     protected handleClick (event: MouseEvent): void {
