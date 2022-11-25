@@ -28,7 +28,7 @@
     <p>The <code>ui-panel-container</code> element creates a generic customizable template element that allows users to
       switch between different content panels using a set of predefined triggers.</p>
 
-    <p class="highlight">In most cases you will probably want to use the <a href="">Tabs</a> or <a href="">Wizard</a>
+    <p class="highlight">In most cases you will probably want to use the <a href="">Tabs</a> or <a href="#wizard">Wizard</a>
       elements instead of the generic <code>PanelContainer</code>. However, the <code>PanelContainer</code> element is
       the base class used by both, the Tabs and Wizard elements.</p>
 
@@ -108,6 +108,61 @@
         <dt><code>PanelChangeEvent</code></dt>
         <dd><pre id="container-event-output"></pre></dd>
       </dl>
+
+    </div>
+
+    <h2><a name="wizard"></a>Wizard</h2>
+
+    <div class="container vertical">
+
+      <p>The <code>ui-wizard</code> element extends the <code>ui-panel-container</code> element and therefore provides
+        the same inputs and events.</p>
+
+      <p>The main difference of the <code>ui-wizard</code> is, that it will add additional aria attributes to the panel
+        and trigger elements inside of the wizard to mark them as navigation links which are tied to a step in a
+        process.</p>
+
+      <p>When using the <code>ui-wizard</code> in an app, make sure to include both the:</p>
+      <ul>
+        <li><code>@swivel-fnace/ui/elements/panel-container/panel-container.css</code> and </li>
+        <li><code>@swivel-fnace/ui/elements/wizard/wizard.css</code></li>
+      </ul>
+      <p>styles, as the <code>ui-panel-container</code> base styles setup the basic panel layout as well as animations.</p>
+
+      <h3>Usage</h3>
+      <pre><xmp>
+    <ui-wizard>
+
+      <nav class="step-navigation" aria-label="Transaction Steps">
+        <ul class="step-list" data-part="triggers">
+          <li class="step-link"><a data-part="trigger" href="#">Select a Position</a></li>
+          <li class="step-link"><a data-part="trigger" href="#" aria-disabled="true">Transaction Preview</a></li>
+          <li class="step-link"><a data-part="trigger" href="#" aria-disabled="true">Transaction Result</a></li>
+        </ul>
+      </nav>
+
+      <div class="step-container" data-part="panels">
+
+        <div class="step-panel" data-part="panel">
+          <h3>Select a position</h3>
+        </div>
+
+        <div class="step-panel" data-part="panel">
+          <h3>Transaction Preview</h3>
+        </div>
+
+        <div class="step-panel" data-part="panel">
+          <h3>Transaction Result</h3>
+        </div>
+
+      </div>
+
+    </ui-wizard>
+      </xmp></pre>
+
+      <h3>Example</h3>
+
+      <demo-wizard></demo-wizard>
 
     </div>
 

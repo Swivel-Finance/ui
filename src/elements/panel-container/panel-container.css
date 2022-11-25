@@ -1,4 +1,4 @@
-ui-panel-container {
+ui-panel-container, ui-wizard {
   --offest: 100%;
   flex: 1 0 auto;
   display: flex;
@@ -8,14 +8,14 @@ ui-panel-container {
   width: 100%;
 }
 
-:where(ui-panel-container) [data-part=triggers] {
+:where(ui-panel-container, ui-wizard) [data-part=triggers] {
   flex: 1 0 auto;
   display: flex;
   align-items: center;
   gap: var(--grid-size-l);
 }
 
-:where(ui-panel-container) [data-part=trigger] {
+:where(ui-panel-container, ui-wizard) [data-part=trigger] {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
@@ -23,13 +23,13 @@ ui-panel-container {
   gap: var(--grid-size);
 }
 
-:where(ui-panel-container) [data-part=trigger]:not([disabled], [aria-disabled=true]) {
+:where(ui-panel-container, ui-wizard) [data-part=trigger]:not([disabled], [aria-disabled=true]) {
   cursor: pointer;
 }
 
 /* panel container */
 
-:where(ui-panel-container) [data-part=panels] {
+:where(ui-panel-container, ui-wizard) [data-part=panels] {
   flex: 1 0 100%;
   display: grid;
   grid-template-columns: 1fr;
@@ -37,22 +37,22 @@ ui-panel-container {
   overflow: hidden;
 }
 
-:where(ui-panel-container) [data-part=panel] {
+:where(ui-panel-container, ui-wizard) [data-part=panel] {
   width: 100%;
   height: 100%;
   grid-column: 1 / 2;
   grid-row: 1 / 2;
 }
 
-:where(ui-panel-container) [data-part=panel][hidden] {
+:where(ui-panel-container, ui-wizard) [data-part=panel][hidden] {
   display: none;
 }
 
-:where(ui-panel-container) [data-part=panel].ui-invisible {
+:where(ui-panel-container, ui-wizard) [data-part=panel].ui-invisible {
   opacity: 0;
 }
 
-:where(ui-panel-container) [data-part=panel]:is(.ui-animate-in, .ui-animate-out) {
+:where(ui-panel-container, ui-wizard) [data-part=panel]:is(.ui-animate-in, .ui-animate-out) {
   transition-property: opacity, transform;
   transition-duration: var(--transition-duration);
   transition-timing-function: var(--transition-timing);
@@ -60,28 +60,28 @@ ui-panel-container {
 
 /* animation direction */
 
-:where(ui-panel-container) [data-part=panel].ui-invisible {
+:where(ui-panel-container, ui-wizard) [data-part=panel].ui-invisible {
   transform: translateX(var(--offest));
 }
 
-:where(ui-panel-container) [data-part=panel].ui-animate-out {
+:where(ui-panel-container, ui-wizard) [data-part=panel].ui-animate-out {
   transform: translateX(calc(var(--offest) * -1));
 }
 
-:where(ui-panel-container) [data-part=panel].ui-invisible.ui-backward {
+:where(ui-panel-container, ui-wizard) [data-part=panel].ui-invisible.ui-backward {
   transform: translateX(calc(var(--offest) * -1));
 }
 
-:where(ui-panel-container) [data-part=panel].ui-animate-out.ui-backward {
+:where(ui-panel-container, ui-wizard) [data-part=panel].ui-animate-out.ui-backward {
   transform: translateX(var(--offest));
 }
 
 /* animation layering */
 
-:where(ui-panel-container) [data-part=panel].ui-animate-out {
+:where(ui-panel-container, ui-wizard) [data-part=panel].ui-animate-out {
   z-index: -1;
 }
 
-:where(ui-panel-container) [data-part=panel].ui-animate-in {
+:where(ui-panel-container, ui-wizard) [data-part=panel].ui-animate-in {
   z-index: 1;
 }

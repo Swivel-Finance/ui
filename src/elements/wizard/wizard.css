@@ -1,0 +1,72 @@
+/* wizard steps */
+
+.step-navigation {
+  flex: 1 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-list {
+  flex: 1 1 auto;
+  display: flex;
+  flex-flow: row wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--grid-size);
+  counter-reset: list-item;
+}
+
+.step-link {
+  --color-fg: var(--theme-fg);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  counter-increment: list-item;
+  gap: var(--grid-size);
+}
+
+.step-link:not(:first-child)::before {
+  content: '';
+  display: inline-block;
+  width: var(--grid-size);
+  height: var(--border-width);
+  background-color: var(--color-fg);
+  border-radius: var(--border-width);
+}
+
+.step-link:has(a:hover, a:focus-visible) {
+  --color-fg: var(--theme-active);
+}
+
+.step-link:has(a[aria-disabled=true]) {
+  --color-fg: var(--theme-fg-dsbl);
+}
+
+.step-link:has(a[aria-current=step]) {
+  --color-fg: var(--theme-active);
+}
+
+.step-link a {
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  gap: var(--grid-size);
+  color: var(--color-fg) !important;
+  text-decoration: none;
+}
+
+.step-link a::before {
+  content: counter(list-item);
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: var(--line-height);
+  text-align: center;
+  color: var(--theme-bg);
+  font-size: var(--font-size-s);
+  background-color: var(--color-fg);
+  border-radius: 50%;
+}
