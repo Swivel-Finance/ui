@@ -1,9 +1,9 @@
 import { PropertyValues } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { FocusListBehavior, ListConfig, LIST_CONFIG_TABS, SelectEvent } from '../../behaviors/list';
-import { IDGenerator } from '../../utils/dom';
-import { cancel } from '../../utils/events';
-import { PanelContainerElement } from '../panel-container';
+import { FocusListBehavior, ListConfig, LIST_CONFIG_TABS, SelectEvent } from '../../behaviors/list/index.js';
+import { IDGenerator } from '../../utils/dom/index.js';
+import { cancel } from '../../utils/events/index.js';
+import { PanelContainerElement } from '../panel-container/index.js';
 
 const TRIGGER_ID_GENERATOR = new IDGenerator('ui-tabs-trigger-');
 const PANEL_ID_GENERATOR = new IDGenerator('ui-tabs-panel-');

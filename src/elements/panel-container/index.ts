@@ -1,3 +1,3 @@
-export * from './events';
-export * from './types';
-export * from './panel-container';
+export * from './events.js';
+export * from './types.js';
+export * from './panel-container.js';

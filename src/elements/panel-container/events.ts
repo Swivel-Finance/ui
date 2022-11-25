@@ -1,5 +1,5 @@
-import { ElementEvent, ElementEventDetail } from '../../utils/events';
-import { PanelDirection } from './types';
+import { ElementEvent, ElementEventDetail } from '../../utils/events/index.js';
+import { PanelDirection } from './types.js';
 
 export interface PanelNavigationEventDetail<T extends HTMLElement = HTMLElement> extends ElementEventDetail<T> {
     panel: number | PanelDirection;
