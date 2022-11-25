@@ -34,6 +34,9 @@
   height: var(--border-width);
   background-color: var(--color-fg);
   border-radius: var(--border-width);
+  transition-property: background-color;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
 }
 
 .step-link:has(a:hover, a:focus-visible) {
@@ -55,6 +58,9 @@
   gap: var(--grid-size);
   color: var(--color-fg) !important;
   text-decoration: none;
+  transition-property: color, background-color;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
 }
 
 .step-link a::before {
@@ -69,4 +75,7 @@
   font-size: var(--font-size-s);
   background-color: var(--color-fg);
   border-radius: 50%;
+  transition-property: color, background-color;
+  transition-duration: var(--transition-duration);
+  transition-timing-function: var(--transition-timing);
 }

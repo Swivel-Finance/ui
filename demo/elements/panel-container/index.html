@@ -28,7 +28,7 @@
     <p>The <code>ui-panel-container</code> element creates a generic customizable template element that allows users to
       switch between different content panels using a set of predefined triggers.</p>
 
-    <p class="highlight">In most cases you will probably want to use the <a href="">Tabs</a> or <a href="#wizard">Wizard</a>
+    <p class="highlight">In most cases you will probably want to use the <a href="#tabs">Tabs</a> or <a href="#wizard">Wizard</a>
       elements instead of the generic <code>PanelContainer</code>. However, the <code>PanelContainer</code> element is
       the base class used by both, the Tabs and Wizard elements.</p>
 
@@ -63,7 +63,7 @@
       </li>
     </ul>
 
-    <h2>Plain HTML Example</h2>
+    <h3>Plain HTML Example</h3>
 
     <p>This example shows a panel container using plain HTML and no data-binding or templating. The trigger elements can
       be an arbitrary element and appropriate <code>click</code> and <code>keydown</code> handlers will be added
@@ -163,6 +163,60 @@
       <h3>Example</h3>
 
       <demo-wizard></demo-wizard>
+
+    </div>
+
+    <h2><a name="tabs"></a>Tabs</h2>
+
+    <div class="container vertical">
+
+      <p>The <code>ui-tabs</code> element extends the <code>ui-panel-container</code> element and therefore provides
+        the same inputs and events. In addition, the <code>ui-tabs</code> element:</p>
+
+      <ul>
+        <li>
+          has a <code>orientation</code> property, which sets the navigation direction and layout for the tablist;<br>
+          allowed values are <code>horizontal</code> (default) and <code>vertical</code>
+        </li>
+      </ul>
+
+      <p>The <code>ui-tabs</code> element adds additional keyboard navigation behavior to the tablist, to allow users
+      to navigate between tabs by using the arrow keys on their keyboard.</p>
+
+      <p>When using the <code>ui-tabs</code> in an app, make sure to include both the:</p>
+      <ul>
+        <li><code>@swivel-fnace/ui/elements/panel-container/panel-container.css</code> and </li>
+        <li><code>@swivel-fnace/ui/elements/tabs/tabs.css</code></li>
+      </ul>
+      <p>styles, as the <code>ui-panel-container</code> base styles setup the basic panel layout as well as animations.</p>
+
+      <h3>Usage</h3>
+      <pre><xmp>
+    <ui-tabs>
+
+      <div class="tab-list" data-part="triggers">
+        <button class="tab" data-part="trigger">Tab One</button>
+        <button class="tab" data-part="trigger">Tab Two</button>
+      </div>
+
+      <div class="tab-container" data-part="panels">
+
+        <div class="tab-panel" data-part="panel">
+          <h3>Tab One</h3>
+        </div>
+
+        <div class="tab-panel" data-part="panel">
+          <h3>Tab Two</h3>
+        </div>
+
+      </div>
+
+    </ui-tabs>
+      </xmp></pre>
+
+      <h3>Example</h3>
+
+      <demo-tabs></demo-tabs>
 
     </div>
 

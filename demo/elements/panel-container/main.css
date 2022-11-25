@@ -1,6 +1,7 @@
 @import '../../main.css';
 /* when using components, we should always include the component base styles */
 @import '../../../src/elements/panel-container/panel-container.css';
+@import '../../../src/elements/tabs/tabs.css';
 @import '../../../src/elements/wizard/wizard.css';
 
 .highlight {
