@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>@swivel/ui/elements/time</title>
+  <meta name="description" content="description">
+  <meta name="keywords" content="">
+  <meta name="author" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#3367D6">
+
+  <link rel="stylesheet" href="main.css">
+</head>
+
+<body>
+  <h1>@swivel/ui/elements/time</h1>
+
+  <noscript>
+    <h1>JavaScript disabled</h1>
+    <p>You need to enable JavaScript in order to run this web application.</p>
+  </noscript>
+
+  <div class="container">
+
+    <h2>TimeAgo</h2>
+
+    <p>The <code>ui-time-ago</code> element creates a relative formatted display of the time ellapsed since the provided
+      date. It automatically updates in adjusted intervals to ensure the time display is kept up-to-date.</p>
+
+    <pre><xmp>
+    <ui-time-ago .date=${ new Date() }></ui-time-ago>
+    </xmp></pre>
+
+    <p><b>Inputs:</b></p>
+    <ul>
+      <li><code>date</code>: sets the reference time <br>
+        accepts <code>Date</code>, <code>number</code> (JavaScript timestamp in ms) or <code>string</code> (Unix timestamp in s) values<br>
+         <i>Note: When setting a string value as <code>date</code>, it is assumed to be a Unix timestamp</i></li>
+    </ul>
+
+    <h3>Example</h3>
+
+    <demo-time-ago></demo-time-ago>
+
+  </div>
+
+  <script src="/dist/demo/elements/time/main.js" type="module"></script>
+</body>
+
+</html>
