@@ -1,6 +1,6 @@
 import { customElement } from 'lit/decorators.js';
-import { IDGenerator } from '../../utils/dom';
-import { PanelContainerElement } from '../panel-container';
+import { IDGenerator } from '../../utils/dom/index.js';
+import { PanelContainerElement } from '../panel-container/index.js';
 
 const TRIGGER_ID_GENERATOR = new IDGenerator('ui-wizard-trigger-');
 const PANEL_ID_GENERATOR = new IDGenerator('ui-wizard-panel-');

@@ -1,6 +1,6 @@
 import { html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { ListConfig } from '../../../src/behaviors/list/config.js';
+import { ListConfig } from '../../../src/behaviors/list/index.js';
 import { PanelChangeEvent, PanelDirection, PanelNavigationEvent } from '../../../src/elements/panel-container/index.js';
 import { dispatch } from '../../../src/utils/events/index.js';
 import '../../../src/elements/panel-container/panel-container.js';

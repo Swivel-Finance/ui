@@ -1,12 +1,12 @@
 import { LitElement } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { CLASS_MAP, toggleVisibility } from '../../behaviors';
-import { ENTER, SPACE } from '../../utils';
-import { animationtask, cancelTask, TaskReference } from '../../utils/async';
-import { AnimationsDoneOptions, IDGenerator, isDisabled } from '../../utils/dom';
-import { cancel, EventManager } from '../../utils/events';
-import { PanelChangeEvent, PanelNavigationEvent } from './events';
-import { PanelDirection } from './types';
+import { CLASS_MAP, toggleVisibility } from '../../behaviors/index.js';
+import { animationtask, cancelTask, TaskReference } from '../../utils/async/index.js';
+import { AnimationsDoneOptions, IDGenerator, isDisabled } from '../../utils/dom/index.js';
+import { cancel, EventManager } from '../../utils/events/index.js';
+import { ENTER, SPACE } from '../../utils/index.js';
+import { PanelChangeEvent, PanelNavigationEvent } from './events.js';
+import { PanelDirection } from './types.js';
 
 /*
  * ID generators for the trigger and panel elements
