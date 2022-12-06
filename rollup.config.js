@@ -27,6 +27,7 @@ const PAGES = [
     'elements/panel-container/',
     'elements/popup/',
     'elements/select/',
+    'elements/time/',
     'elements/toggles/',
     'elements/tooltip/',
 ];
