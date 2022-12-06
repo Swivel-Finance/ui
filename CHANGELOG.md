@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.19](https://github.com/Swivel-Finance/ui/compare/v0.0.18...v0.0.19) (2022-12-06)
+
+
+### Features
+
+* time-ago element ([fac6f82](https://github.com/Swivel-Finance/ui/commit/fac6f82cef28798c02a93d45bf0d44a615436468)), closes [#33z1kt0](https://github.com/Swivel-Finance/ui/issues/33z1kt0)
+
 ### [0.0.18](https://github.com/Swivel-Finance/ui/compare/v0.0.17...v0.0.18) (2022-11-25)
 
 
