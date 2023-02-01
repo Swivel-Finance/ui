@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.20](https://github.com/Swivel-Finance/ui/compare/v0.0.19...v0.0.20) (2023-02-01)
+
+
+### Features
+
+* add expanded/collapsed classes to collapsible ([da61eb7](https://github.com/Swivel-Finance/ui/commit/da61eb7fb3a06158485614f58e703c5148faebb3))
+
 ### [0.0.19](https://github.com/Swivel-Finance/ui/compare/v0.0.18...v0.0.19) (2022-12-06)
 
 
