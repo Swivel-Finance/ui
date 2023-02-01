@@ -9,6 +9,8 @@ export const CLASS_MAP = {
     animateOut: 'ui-animate-out',
     forward: 'ui-forward',
     backward: 'ui-backward',
+    expanded: 'ui-expanded',
+    collapsed: 'ui-collapsed',
     horizontal: 'ui-horizontal',
     vertical: 'ui-vertical',
     overlay: 'ui-overlay',

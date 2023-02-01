@@ -155,6 +155,10 @@ export class CollapsibleElement extends LitElement {
 
             this.triggerElement?.setAttribute('aria-expanded', String(this.expanded));
         }
+
+        // add a class indicating the state to the root element
+        this.classList.add(this.expanded ? CLASS_MAP.expanded : CLASS_MAP.collapsed);
+        this.classList.remove(this.expanded ? CLASS_MAP.collapsed : CLASS_MAP.expanded);
     }
 
     protected createRenderRoot (): Element | ShadowRoot {
