@@ -48,7 +48,12 @@ export class PositionBehavior extends Behavior {
 
         this._config = value;
 
-        if (this.hasAttached) this.initialize();
+        if (this.hasAttached) {
+
+            this.initialize();
+
+            void this.requestUpdate();
+        }
     }
 
     constructor (config?: Partial<PositionConfig>) {
