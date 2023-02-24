@@ -17,7 +17,12 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
     protected active = false;
 
     /**
-     * We use a task to show the tooltip with a delay
+     * We keep track of the tooltip overlay's hover state
+     */
+    protected overlayHovered = false;
+
+    /**
+     * We use a task to show and hide the tooltip with a delay
      */
     protected updateTask?: TaskReference;
 
@@ -49,6 +54,8 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
 
         this.active = true;
 
+        this.updateTask && cancelTask(this.updateTask);
+
         this.updateTask = delay(() => {
 
             if (this.hasAttached && this.overlay && this.active) {
@@ -59,7 +66,7 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
 
                     // tooltips can have multiple triggers, so we set the position behavior's origin
                     // to this trigger's element (position behavior configs can be live-updated)
-                    positionBehavior.config.origin = this.element;
+                    positionBehavior.config = { ...positionBehavior.config, origin: this.element };
                 }
 
                 void this.overlay?.show();
@@ -76,9 +83,16 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
 
         this.updateTask && cancelTask(this.updateTask);
 
-        this.updateTask = undefined;
+        this.updateTask = delay(() => {
 
-        void this.overlay?.hide();
+            if (!this.active) {
+
+                void this.overlay?.hide();
+            }
+
+            this.updateTask = undefined;
+
+        }, this.config.delay);
     }
 
     protected addAttributes (): void {
@@ -92,11 +106,42 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
 
         if (!this.element || !this.overlay?.element) return;
 
-        this.eventManager.listen(this.element, 'mouseenter', () => this.show());
-        this.eventManager.listen(this.element, 'mouseleave', () => this.hide());
-        this.eventManager.listen(this.element, 'focus', () => this.show());
-        this.eventManager.listen(this.element, 'blur', () => this.hide());
+        this.eventManager.listen(this.element, 'mouseenter', event => this.handleMouseEnter(event as MouseEvent));
+        this.eventManager.listen(this.element, 'mouseleave', event => this.handleMouseLeave(event as MouseEvent));
+        this.eventManager.listen(this.element, 'focus', event => this.handleFocus(event as FocusEvent));
+        this.eventManager.listen(this.element, 'blur', event => this.handleBlur(event as FocusEvent));
         this.eventManager.listen(this.element, 'keydown', event => this.handleKeyDown(event as KeyboardEvent));
+
+        this.eventManager.listen(this.overlay.element, 'mouseenter', event => this.handleOverlayMouseEnter(event as MouseEvent));
+        this.eventManager.listen(this.overlay.element, 'mouseleave', event => this.handleOverlayMouseLeave(event as MouseEvent));
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected handleMouseEnter (event: MouseEvent): void {
+
+        this.show();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected handleMouseLeave (event: MouseEvent): void {
+
+        if (this.overlayHovered) return;
+
+        this.hide();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected handleFocus (event: FocusEvent): void {
+
+        this.show();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected handleBlur (event: FocusEvent): void {
+
+        if (this.overlayHovered) return;
+
+        this.hide();
     }
 
     protected handleKeyDown (event: KeyboardEvent): void {
@@ -114,5 +159,29 @@ export class TooltipTriggerBehavior extends OverlayTriggerBehavior {
                 this.hide();
                 break;
         }
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected handleOverlayMouseEnter (event: MouseEvent): void {
+
+        // tooltip overlays can be shared between multiple trigger instances
+        // ensure the overlay's current origin is this trigger, otherwise ignore
+        if (this.overlay?.config.positionBehavior?.config.origin !== this.element) return;
+
+        this.overlayHovered = true;
+
+        this.show();
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    protected handleOverlayMouseLeave (event: MouseEvent): void {
+
+        // tooltip overlays can be shared between multiple trigger instances
+        // ensure the overlay's current origin is this trigger, otherwise ignore
+        if (this.overlay?.config.positionBehavior?.config.origin !== this.element) return;
+
+        this.overlayHovered = false;
+
+        this.hide();
     }
 }
