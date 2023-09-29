@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.23](https://github.com/Swivel-Finance/ui/compare/v0.0.22...v0.0.23) (2023-09-29)
+
+
+### Bug Fixes
+
+* overlay detachment when using animations ([4a61e5f](https://github.com/Swivel-Finance/ui/commit/4a61e5f50a72f2a2435cd2e37f600e359e669d2e))
+
 ### [0.0.22](https://github.com/Swivel-Finance/ui/compare/v0.0.21...v0.0.22) (2023-09-29)
 
 
