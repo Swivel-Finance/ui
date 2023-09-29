@@ -188,7 +188,9 @@ export class OverlayBehavior extends Behavior {
 
     async hide (interactive = false, detaching = false): Promise<void> {
 
-        if (this.hidden || !this.element) return;
+        // don't return early when detaching - a focus loss could have triggered an animated hide
+        // which we want to 'speed up' by hiding the overlay synchronously
+        if (!detaching && (this.hidden || !this.element)) return;
 
         this._hidden = true;
 
@@ -201,7 +203,9 @@ export class OverlayBehavior extends Behavior {
 
         this.config.focusBehavior?.detach();
 
-        const isVisible = toggleVisibility(element, false, this.trigger?.element, this.config.animated && !detaching, this.config.classes, this.config.animationOptions);
+        const isVisible = element
+            ? toggleVisibility(element, false, this.trigger?.element, this.config.animated && !detaching, this.config.classes, this.config.animationOptions)
+            : Promise.resolve();
 
         // skip awaiting animations when detaching - in this case we hide the overlay synchronously
         if (this.config.animated && !detaching) {
@@ -218,7 +222,7 @@ export class OverlayBehavior extends Behavior {
 
         this.dispatch(new OpenChangeEvent({
             open: false,
-            target: element,
+            target: element as HTMLElement,
         }));
     }
 
