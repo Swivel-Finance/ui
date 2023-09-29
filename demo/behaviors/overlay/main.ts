@@ -85,8 +85,8 @@ const initOverlay = () => {
 
 const detachOverlay = () => {
 
-    triggerBehavior.detach();
     overlayBehavior.detach();
+    triggerBehavior.detach();
 };
 
 const initDetachDialog = () => {

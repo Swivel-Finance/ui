@@ -27,11 +27,11 @@ export class TooltipElement extends LitElement {
 
         if (this.overlayBehavior.moving) return;
 
+        this.overlayBehavior.detach();
+
         this.triggerBehaviors.forEach(behavior => behavior.detach());
 
         this.triggerBehaviors.clear();
-
-        this.overlayBehavior.detach();
     }
 
     /**

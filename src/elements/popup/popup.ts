@@ -214,7 +214,7 @@ export class PopupElement extends LitElement {
 
     protected detachBehaviors (): void {
 
-        this.triggerBehavior?.detach();
         this.overlayBehavior?.detach();
+        this.triggerBehavior?.detach();
     }
 }

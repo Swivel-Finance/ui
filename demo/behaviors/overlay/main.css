@@ -78,6 +78,10 @@ ui-backdrop.ui-visible {
   max-height: calc(100vh - var(--line-height) * 2);
 }
 
+.overlay[hidden] {
+  display: none;
+}
+
 .overlay.ui-invisible {
   /* the !important is there when used with the centered-position-strategy */
   transform: translateY(-50vw) !important;
