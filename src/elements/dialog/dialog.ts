@@ -182,8 +182,8 @@ export class DialogElement<T = unknown> extends LitElement {
 
     protected detachBehaviors (): void {
 
-        this.triggerBehavior?.detach();
         this.overlayBehavior?.detach();
+        this.triggerBehavior?.detach();
     }
 
     protected dispatchResult (result?: T): void {

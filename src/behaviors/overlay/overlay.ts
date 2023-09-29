@@ -203,10 +203,14 @@ export class OverlayBehavior extends Behavior {
 
         const isVisible = toggleVisibility(element, false, this.trigger?.element, this.config.animated && !detaching, this.config.classes, this.config.animationOptions);
 
-        await isVisible;
+        // skip awaiting animations when detaching - in this case we hide the overlay synchronously
+        if (this.config.animated && !detaching) {
 
-        // if overlay was shown in the meantime, finish here
-        if (!this.hidden) return;
+            await isVisible;
+
+            // if overlay was shown in the meantime, finish here
+            if (!this.hidden) return;
+        }
 
         this.config.positionBehavior?.detach();
 
