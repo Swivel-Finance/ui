@@ -11,6 +11,7 @@
     "url": "git+https://github.com/Swivel-Finance/ui.git"
   },
   "author": "Alexander Wende",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/Swivel-Finance/ui/issues"
   },
